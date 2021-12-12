@@ -1,0 +1,16 @@
+# Environment variables
+.env
+.env.dev
+.env.test
+
+# Test
+*.out
+
+# Dev build
+build/
+temp/
+cli/
+
+# misc
+.idea
+Todo.txt
