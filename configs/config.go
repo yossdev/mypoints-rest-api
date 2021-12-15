@@ -14,6 +14,8 @@ var (
 )
 
 type appConfigStruct struct {
+	// Server settings
+	ServerPort string
 	// PostgreSql
 	PostgreSqlHost     string
 	PostgreSqlPort     string
@@ -54,6 +56,8 @@ func load() appConfigStruct {
 	jwtRefreshDuration, _ := time.ParseDuration(jwtRefreshExp)
 
 	return appConfigStruct{
+		// Server settings
+		ServerPort: viper.GetString("SERVER_PORT"),
 		// PostgreSql
 		PostgreSqlHost:     viper.GetString("POSTGRESQL_HOST"),
 		PostgreSqlPort:     viper.GetString("POSTGRESQL_PORT"),

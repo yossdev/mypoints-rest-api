@@ -26,12 +26,13 @@ import (
 // @name Authorization
 // @BasePath /api/v1
 func main() {
+	port := configs.Get().ServerPort
 	config := configs.FiberConfig()
 	app := fiber.New(config)
 
 	SwaggerRoute(app)
 
-	log.Fatal(app.Listen(":8080"))
+	log.Fatal(app.Listen(port))
 }
 
 func SwaggerRoute(a *fiber.App) {
