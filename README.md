@@ -27,7 +27,8 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## Other technology
 
-- jwt
+- air - Hot Reload
+- jwt - Authorization
 - bcrypt
 - validator v10
 - [viper](https://github.com/spf13/viper) - env reader

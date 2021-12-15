@@ -1,7 +1,7 @@
 # Environment variables
 .env
-.env.dev
-.env.test
+.env.example
+.env.production
 
 # Test
 *.out
@@ -9,6 +9,7 @@
 # Dev build
 build/
 temp/
+tmp/
 cli/
 
 # misc

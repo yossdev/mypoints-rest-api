@@ -1,11 +1,10 @@
 # Files
-.dockerignore
 .env.example
-.env.test
+.dockerignore
 .gitignore
-Docker-compose.yaml
 Dockerfile
 Makefile
+LICENSE
 **/*.md
 **/*_test.go
 
@@ -17,4 +16,5 @@ Makefile
 .github/
 build/
 temp/
+tmp/
 cli/
