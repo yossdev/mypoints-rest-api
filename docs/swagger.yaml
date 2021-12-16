@@ -2,8 +2,8 @@ basePath: /api/v1
 host: localhost:8080
 info:
   contact:
-    email: mypoints@swagger.io
-    name: API Support
+    email: zenhanprogram@gmail.com
+    name: MyPoints Team Support
   description: This is an auto-generated API Docs.
   license:
     name: Apache 2.0

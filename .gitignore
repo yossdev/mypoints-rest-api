@@ -11,7 +11,9 @@ build/
 temp/
 tmp/
 cli/
+cert/
 
 # misc
+gen/
 .idea
 Todo.txt

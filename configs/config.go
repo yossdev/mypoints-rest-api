@@ -36,7 +36,7 @@ type appConfigStruct struct {
 
 func init() {
 	doOnce.Do(func() {
-		viper.SetConfigFile(".env") // dev env TODO change for production
+		viper.SetConfigFile(".env")
 		viper.AutomaticEnv()
 
 		err := viper.ReadInConfig()
