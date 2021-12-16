@@ -12,9 +12,15 @@ LICENSE
 *.out
 
 # Folders
+.idea
 .git/
 .github/
 build/
 temp/
 tmp/
 cli/
+cert/
+gen/
+
+# misc
+Todo.txt

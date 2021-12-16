@@ -19,8 +19,8 @@ var doc = `{
         "title": "{{.Title}}",
         "termsOfService": "https://swagger.io/terms/",
         "contact": {
-            "name": "API Support",
-            "email": "mypoints@swagger.io"
+            "name": "MyPoints Team Support",
+            "email": "zenhanprogram@gmail.com"
         },
         "license": {
             "name": "Apache 2.0",

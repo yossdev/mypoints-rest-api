@@ -1,12 +1,12 @@
 package main
 
 import (
-	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/yossdev/mypoints-rest-api/configs"
-	"log"
-
 	_ "github.com/yossdev/mypoints-rest-api/docs" // load API Docs files (Swagger)
+	"github.com/yossdev/mypoints-rest-api/internal/routes"
+	_s "github.com/yossdev/mypoints-rest-api/internal/utils/start-server"
+	"github.com/yossdev/mypoints-rest-api/internal/web"
 )
 
 // @title MyPoints API
@@ -14,8 +14,8 @@ import (
 // @description This is an auto-generated API Docs.
 // @termsOfService https://swagger.io/terms/
 
-// @contact.name API Support
-// @contact.email mypoints@swagger.io
+// @contact.name MyPoints Team Support
+// @contact.email zenhanprogram@gmail.com
 
 // @license.name Apache 2.0
 // @license.url https://www.apache.org/licenses/LICENSE-2.0.html
@@ -26,20 +26,19 @@ import (
 // @name Authorization
 // @BasePath /api/v1
 func main() {
-	port := configs.Get().ServerPort
 	config := configs.FiberConfig()
 	app := fiber.New(config)
 
-	SwaggerRoute(app)
+	routeStruct := routes.RouterStruct{
+		RouterStruct: web.RouterStruct{
+			Web: app,
+			//PostgresqlDB: mysqlDB,
+			//MongoDB:      mongoDB,
+		},
+	}
+	router := routes.NewHttpRoute(routeStruct)
+	router.GetRoutes()
 
-	log.Fatal(app.Listen(port))
-}
-
-func SwaggerRoute(a *fiber.App) {
-	// Create routes group.
-	api := a.Group("api")
-	v1 := api.Group("/v1")
-
-	// Swagger Docs
-	v1.Get("/swagger/*", swagger.Handler)
+	_s.StartServer(app)
+	//_s.StartServerWithGracefulShutdown(app)
 }
