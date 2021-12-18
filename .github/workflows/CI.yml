@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/mypoints.pem
-          chmod 400 ~/.ssh/gorepair.pem
+          chmod 400 ~/.ssh/mypoints.pem
           cat >>~/.ssh/config<<END
           Host development
             HostName $SSH_HOST
