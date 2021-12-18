@@ -1,4 +1,6 @@
 # mypoints-rest-api
+[![CI](https://github.com/yossdev/mypoints-rest-api/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/yossdev/mypoints-rest-api/actions/workflows/CI.yml)
+
 Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## PTT Project
