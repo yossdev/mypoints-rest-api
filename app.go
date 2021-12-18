@@ -32,7 +32,7 @@ func main() {
 	routeStruct := routes.RouterStruct{
 		RouterStruct: web.RouterStruct{
 			Web: app,
-			//PostgresqlDB: mysqlDB,
+			//PostgresqlDB: PostgresqlDB,
 			//MongoDB:      mongoDB,
 		},
 	}
