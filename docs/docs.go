@@ -73,10 +73,10 @@ var doc = `{
                 "access_token": {
                     "type": "string"
                 },
-                "id": {
+                "refresh_token": {
                     "type": "string"
                 },
-                "refresh_token": {
+                "sub": {
                     "type": "string"
                 }
             }

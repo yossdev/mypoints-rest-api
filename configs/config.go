@@ -1,6 +1,7 @@
 package configs
 
 import (
+	"encoding/base64"
 	"fmt"
 	"sync"
 	"time"
@@ -28,6 +29,8 @@ type appConfigStruct struct {
 	MongodbCollection string
 	MongodbUsername   string
 	MongodbPassword   string
+	// key
+	PublicKey string
 	// jwt
 	JwtSecretKey      string
 	JwtTokenExpired   time.Duration // in second
@@ -55,6 +58,9 @@ func load() appConfigStruct {
 	jwtTokenDuration, _ := time.ParseDuration(jwtTokenExp)
 	jwtRefreshDuration, _ := time.ParseDuration(jwtRefreshExp)
 
+	decodedByte, _ := base64.StdEncoding.DecodeString(viper.GetString("PUBLIC_KEY"))
+	decodedString := string(decodedByte)
+
 	return appConfigStruct{
 		// Server settings
 		ServerPort: viper.GetString("SERVER_PORT"),
@@ -70,6 +76,8 @@ func load() appConfigStruct {
 		MongodbCollection: viper.GetString("MONGODB_COLLECTION"),
 		MongodbUsername:   viper.GetString("MONGODB_USERNAME"),
 		MongodbPassword:   viper.GetString("MONGODB_PASSWORD"),
+		// key
+		PublicKey: decodedString,
 		// Jwt
 		JwtSecretKey:      viper.GetString("JWT_SECRET_KEY"),
 		JwtTokenExpired:   jwtTokenDuration,   // in second

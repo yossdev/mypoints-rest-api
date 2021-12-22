@@ -18,18 +18,18 @@ func NewAgentService(p entities.PsqlRepository) entities.Service {
 	}
 }
 
-func (s *agentService) SignIn(payload *entities.Domain) (interface{}, error) {
+func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 	agent, err := s.agentPsqlRepository.SignInWithEmail(payload.Email)
 	if err != nil {
-		return nil, err
+		return auth.Token{}, err
 	}
 
 	if err := helpers.ValidateHash(agent.Password, payload.Password); err != nil {
-		return nil, err
+		return auth.Token{}, err
 	}
 
 	token := auth.Sign(agent.ID, jwt.MapClaims{
-		"id": agent.ID,
+		"sub": agent.ID,
 	})
 
 	return token, nil

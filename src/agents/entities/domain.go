@@ -2,6 +2,7 @@ package entities
 
 import (
 	"github.com/google/uuid"
+	"github.com/yossdev/mypoints-rest-api/internal/utils/auth"
 	"time"
 )
 
@@ -18,7 +19,7 @@ type Domain struct {
 }
 
 type Service interface {
-	SignIn(payload *Domain) (interface{}, error) // return jwt token
+	SignIn(payload *Domain) (auth.Token, error) // return jwt token
 	GetAgent(id uuid.UUID) (*Domain, error)
 	UpdateAgent(id uuid.UUID, payload *Domain) error
 }

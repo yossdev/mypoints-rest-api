@@ -4,9 +4,9 @@ definitions:
     properties:
       access_token:
         type: string
-      id:
-        type: string
       refresh_token:
+        type: string
+      sub:
         type: string
     type: object
   dto.SignInReq:

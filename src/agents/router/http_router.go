@@ -1,8 +1,7 @@
 package router
 
 import (
-	jwtware "github.com/gofiber/jwt/v3"
-	"github.com/yossdev/mypoints-rest-api/configs"
+	"github.com/yossdev/mypoints-rest-api/internal/middleware"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/agents/handlers"
 	"github.com/yossdev/mypoints-rest-api/src/agents/repositories"
@@ -28,10 +27,8 @@ func (r *HttpRouter) GetRoute() {
 	// Public
 	v1.Post("/login", agentHandler.SignIn)
 
-	// JWT Middleware
-	v1.Use(jwtware.New(jwtware.Config{
-		SigningKey: []byte(configs.Get().JwtSecretKey),
-	}))
+	// Custom JWT Middleware
+	v1.Use(middleware.JwtVerifyToken)
 
 	// Private
 	v1.Get("/profile/:id", agentHandler.GetAgent)
