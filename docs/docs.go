@@ -33,7 +33,7 @@ var doc = `{
     "paths": {
         "/login": {
             "post": {
-                "description": "Get agent by checking given email and password.",
+                "description": "check agent by checking given email and password.",
                 "consumes": [
                     "application/json"
                 ],
@@ -43,7 +43,7 @@ var doc = `{
                 "tags": [
                     "Agents"
                 ],
-                "summary": "get agent by given email return jwt token if successfully signin",
+                "summary": "check agent by given email return jwt token if successfully signIn",
                 "parameters": [
                     {
                         "description": "body request",
@@ -59,7 +59,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.SignInRes"
+                            "$ref": "#/definitions/auth.Token"
                         }
                     }
                 }
@@ -67,6 +67,20 @@ var doc = `{
         }
     },
     "definitions": {
+        "auth.Token": {
+            "type": "object",
+            "properties": {
+                "access_token": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.SignInReq": {
             "type": "object",
             "properties": {
@@ -74,17 +88,6 @@ var doc = `{
                     "type": "string"
                 },
                 "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.SignInRes": {
-            "type": "object",
-            "properties": {
-                "access_token": {
-                    "type": "string"
-                },
-                "id": {
                     "type": "string"
                 }
             }

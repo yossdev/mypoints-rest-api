@@ -29,9 +29,9 @@ func (p *agentPsqlRepository) SignInWithEmail(email string) (*entities.Domain, e
 
 func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 	agent := Agents{}
-	//if err := u.DB.DB().First(&agent, "id = ?", id).Error; err != nil {
-	//	return nil, err
-	//}
+	if err := p.DB.DB().First(&agent, "id = ?", id).Error; err != nil {
+		return nil, err
+	}
 
 	return agent.toDomain(), nil
 }

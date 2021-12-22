@@ -1,10 +1,11 @@
 package services
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
+	"github.com/yossdev/mypoints-rest-api/internal/utils/auth"
+	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type agentService struct {
@@ -23,11 +24,15 @@ func (s *agentService) SignIn(payload *entities.Domain) (interface{}, error) {
 		return nil, err
 	}
 
-	if err := bcrypt.CompareHashAndPassword([]byte(agent.Password), []byte(payload.Password)); err != nil {
+	if err := helpers.ValidateHash(agent.Password, payload.Password); err != nil {
 		return nil, err
 	}
 
-	return fiber.Map{"token": "berhasil login dan ini token"}, nil
+	token := auth.Sign(agent.ID, jwt.MapClaims{
+		"id": agent.ID,
+	})
+
+	return token, nil
 }
 
 func (s *agentService) GetAgent(id uuid.UUID) (*entities.Domain, error) {

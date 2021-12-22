@@ -52,6 +52,7 @@ func main() {
 	//_s.StartServerWithGracefulShutdown(app)
 }
 
+// dbMigrate func will auto migrate model struct from record.go in repositories
 func dbMigrate(db *gorm.DB) {
 	err := db.AutoMigrate(
 		&repositories.Agents{},

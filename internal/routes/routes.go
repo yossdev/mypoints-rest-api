@@ -22,7 +22,10 @@ func (r *RouterStruct) GetRoutes() {
 	api := r.Web.Group("api")
 	v1 := api.Group("/v1")
 
+	// Fiber middleware
 	v1.Use(logger.New(), cors.New())
+
+	// custom middleware
 	v1.Use(middleware.NewLogMongo(r.MongoDB).LogReqRes)
 
 	// base path

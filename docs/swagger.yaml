@@ -1,17 +1,19 @@
 basePath: /api/v1
 definitions:
+  auth.Token:
+    properties:
+      access_token:
+        type: string
+      id:
+        type: string
+      refresh_token:
+        type: string
+    type: object
   dto.SignInReq:
     properties:
       email:
         type: string
       password:
-        type: string
-    type: object
-  dto.SignInRes:
-    properties:
-      access_token:
-        type: string
-      id:
         type: string
     type: object
 host: localhost:8080
@@ -31,7 +33,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Get agent by checking given email and password.
+      description: check agent by checking given email and password.
       parameters:
       - description: body request
         in: body
@@ -45,8 +47,8 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.SignInRes'
-      summary: get agent by given email return jwt token if successfully signin
+            $ref: '#/definitions/auth.Token'
+      summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agents
 securityDefinitions:

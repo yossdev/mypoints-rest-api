@@ -77,6 +77,7 @@ func load() appConfigStruct {
 	}
 }
 
+// Get func to get config value
 func Get() *appConfigStruct {
 	return &config
 }
