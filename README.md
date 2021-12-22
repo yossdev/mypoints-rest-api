@@ -33,6 +33,7 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 ## Other technology
 
 - [air](https://github.com/cosmtrek/air) - ☁️ Live reload for Go apps.
+- [xendit](https://github.com/xendit/xendit-go) - Go library from xendit
 - [gofiber/jwt](https://github.com/gofiber/jwt) - 🧬 JWT middleware for Fiber.
 - [uuid](https://github.com/google/uuid) - Go package for UUIDs based on RFC 4122 and DCE 1.1: Authentication and Security Services.
 - [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt) - Package bcrypt implements Provos and Mazières's bcrypt adaptive hashing algorithm.

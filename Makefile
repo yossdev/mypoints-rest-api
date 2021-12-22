@@ -3,9 +3,18 @@
 APP_NAME = mypoints-rest-api
 BUILD_DIR = ./build
 
+start: clean swag
+	air
+
 clean:
 	rm -rf ./build
+	rm -rf ./tmp
+	rm -rf ./gen
 
+swag:
+	swag init -g app.go
+
+# code below cannot be run at the moment TODO: need to look this up
 security:
 	gosec -quiet ./...
 
@@ -18,6 +27,3 @@ build: clean test
 
 run: swag build
 	$(BUILD_DIR)/$(APP_NAME)
-
-swag:
-	swag init -g app.go

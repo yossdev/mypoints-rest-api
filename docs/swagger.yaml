@@ -1,4 +1,19 @@
 basePath: /api/v1
+definitions:
+  dto.SignInReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.SignInRes:
+    properties:
+      access_token:
+        type: string
+      id:
+        type: string
+    type: object
 host: localhost:8080
 info:
   contact:
@@ -11,7 +26,29 @@ info:
   termsOfService: https://swagger.io/terms/
   title: MyPoints API
   version: "1.0"
-paths: {}
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Get agent by checking given email and password.
+      parameters:
+      - description: body request
+        in: body
+        name: signIn
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SignInReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.SignInRes'
+      summary: get agent by given email return jwt token if successfully signin
+      tags:
+      - Agents
 securityDefinitions:
   ApiKeyAuth:
     in: header
