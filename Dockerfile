@@ -4,7 +4,7 @@ RUN mkdir /app
 ADD . /app
 WORKDIR /app
 RUN go clean --modcache
-RUN go build -o main
+RUN go build -o app
 
 # Stage 2:
 FROM alpine:3.14
