@@ -9,8 +9,8 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## Features
 
-- [ ] Sign-in agent
-- [ ] Agent profile
+- [x] Sign-in agent
+- [x] Get agent profile
 - [ ] Claim points for product sold
 - [ ] Redeem points for a reward
 
@@ -33,7 +33,7 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 ## Other technology
 
 - [air](https://github.com/cosmtrek/air) - ☁️ Live reload for Go apps.
-- [gofiber/jwt](https://github.com/gofiber/jwt) - 🧬 JWT middleware for Fiber.
+- [xendit](https://github.com/xendit/xendit-go) - Go library from xendit
 - [uuid](https://github.com/google/uuid) - Go package for UUIDs based on RFC 4122 and DCE 1.1: Authentication and Security Services.
 - [bcrypt](https://pkg.go.dev/golang.org/x/crypto/bcrypt) - Package bcrypt implements Provos and Mazières's bcrypt adaptive hashing algorithm.
 - [validator v10](https://github.com/go-playground/validator) - Go Struct and Field validation.

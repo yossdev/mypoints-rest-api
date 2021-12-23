@@ -3,13 +3,11 @@ package web
 import "errors"
 
 var (
-	ErrInternalServer = errors.New("something gone wrong, contact administrator")
-
-	ErrNotFound = errors.New("data not found")
-
-	ErrIDNotFound = errors.New("id not found")
-
-	ErrDuplicateData = errors.New("duplicate data")
-
-	ErrUsernamePasswordNotFound = errors.New("bad credential")
+	BadRequest        = errors.New("something is not right")
+	BadCredential     = errors.New("bad credentials")
+	Forbidden         = errors.New("forbidden")
+	InternalServerErr = errors.New("something gone wrong, contact administrator")
+	NotFound          = errors.New("data not found")
+	IDNotFound        = errors.New("id not found")
+	DuplicateData     = errors.New("duplicate data")
 )

@@ -4,9 +4,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/yossdev/mypoints-rest-api/configs"
 	_ "github.com/yossdev/mypoints-rest-api/docs" // load API Docs files (Swagger)
+	"github.com/yossdev/mypoints-rest-api/infrastuctures/db"
 	"github.com/yossdev/mypoints-rest-api/internal/routes"
 	_s "github.com/yossdev/mypoints-rest-api/internal/utils/start-server"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
+	"github.com/yossdev/mypoints-rest-api/src/agents/repositories"
+	"gorm.io/gorm"
+	"log"
 )
 
 // @title MyPoints API
@@ -29,11 +33,16 @@ func main() {
 	config := configs.FiberConfig()
 	app := fiber.New(config)
 
+	psqlDB := db.NewPsqlClient()
+	dbMigrate(psqlDB.DB())
+
+	mongoDB := db.NewMongoClient()
+
 	routeStruct := routes.RouterStruct{
 		RouterStruct: web.RouterStruct{
-			Web: app,
-			//PostgresqlDB: PostgresqlDB,
-			//MongoDB:      mongoDB,
+			Web:     app,
+			PsqlDB:  psqlDB,
+			MongoDB: mongoDB,
 		},
 	}
 	router := routes.NewHttpRoute(routeStruct)
@@ -41,4 +50,15 @@ func main() {
 
 	_s.StartServer(app)
 	//_s.StartServerWithGracefulShutdown(app)
+}
+
+// dbMigrate func will auto migrate model struct from record.go in repositories
+func dbMigrate(db *gorm.DB) {
+	err := db.AutoMigrate(
+		&repositories.Agents{},
+	)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
 }

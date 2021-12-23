@@ -5,8 +5,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/yossdev/mypoints-rest-api/internal/middleware"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
-	"log"
+	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
 )
 
 type RouterStruct struct {
@@ -14,8 +15,6 @@ type RouterStruct struct {
 }
 
 func NewHttpRoute(r RouterStruct) RouterStruct {
-	log.Println("Loading the HTTP Router")
-
 	return r
 }
 
@@ -23,7 +22,11 @@ func (r *RouterStruct) GetRoutes() {
 	api := r.Web.Group("api")
 	v1 := api.Group("/v1")
 
+	// Fiber middleware
 	v1.Use(logger.New(), cors.New())
+
+	// custom middleware
+	v1.Use(middleware.NewLogMongo(r.MongoDB).LogReqRes)
 
 	// base path
 	v1.Get("/", func(c *fiber.Ctx) error {
@@ -33,12 +36,19 @@ func (r *RouterStruct) GetRoutes() {
 	// Swagger Docs
 	v1.Get("/swagger/*", swagger.Handler)
 
-	//webRouterConfig := web.RouterStruct{
-	//	Web: r.Web,
-	//}
+	webRouterConfig := web.RouterStruct{
+		Web:     r.Web,
+		PsqlDB:  r.PsqlDB,
+		MongoDB: r.MongoDB,
+	}
 
 	// registering route from another modules
 	// Agent Route
+	agentRouterStruct := _agentRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	agentRouter := _agentRoute.NewHttpRoute(agentRouterStruct)
+	agentRouter.GetRoute()
 
 	// handling 404 error
 	v1.Use(func(c *fiber.Ctx) error {
