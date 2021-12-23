@@ -36,6 +36,22 @@ func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 	return agent.toDomain(), nil
 }
 
-func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) error {
-	return nil
+func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain, adminID uuid.UUID) (int64, error) {
+	agent := Agents{
+		AdminID:  adminID,
+		Name:     payload.Name,
+		Email:    payload.Email,
+		Password: payload.Password,
+		Img:      payload.Img,
+	}
+	res := p.DB.DB().Create(&agent)
+	if res.Error != nil {
+		return 0, res.Error
+	}
+
+	return res.RowsAffected, nil
 }
+
+//func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) error {
+//	return nil
+//}
