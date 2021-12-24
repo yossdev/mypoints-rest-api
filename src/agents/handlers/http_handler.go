@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/agents/dto"
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
@@ -35,7 +36,13 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	// TODO add struct validator
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
 
 	res, err := h.agentService.SignIn(payload.ToDomain())
 	if err != nil {
@@ -58,14 +65,21 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
 	adminID := c.Params("id")
+	payload.AdminID = uuid.MustParse(adminID)
 
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	// TODO add struct validator
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
 
-	res, err := h.agentService.SignUp(payload.ToDomain(), uuid.MustParse(adminID))
+	res, err := h.agentService.SignUp(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
 	}

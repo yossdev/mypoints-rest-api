@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/admins/dto"
 	"github.com/yossdev/mypoints-rest-api/src/admins/entities"
@@ -34,7 +35,13 @@ func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	// TODO add struct validator
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
 
 	res, err := h.adminService.SignIn(payload.ToDomain())
 	if err != nil {

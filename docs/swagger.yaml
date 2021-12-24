@@ -7,42 +7,12 @@ definitions:
       refresh_token:
         type: string
     type: object
-  github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
+  dto.AccountCreated:
     properties:
       rows_affected:
         type: integer
     type: object
-  github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-    type: object
-  github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq:
-    properties:
-      email:
-        type: string
-      img:
-        type: string
-      name:
-        type: string
-      password:
-        type: string
-    type: object
-  github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated:
-    properties:
-      rows_affected:
-        type: integer
-    type: object
-  github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
-    type: object
-  github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq:
+  dto.SignUpReq:
     properties:
       admin_id:
         type: string
@@ -56,6 +26,25 @@ definitions:
         type: string
       status:
         type: boolean
+    required:
+    - admin_id
+    - email
+    - name
+    - password
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
     type: object
 host: localhost:8080
 info:
@@ -81,14 +70,14 @@ paths:
         name: signUp
         required: true
         schema:
-          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq'
+          $ref: '#/definitions/dto.SignUpReq'
       produces:
       - application/json
       responses:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated'
+            $ref: '#/definitions/dto.AccountCreated'
       summary: admins can create agent account with this api
       tags:
       - Agent
@@ -112,28 +101,6 @@ paths:
           schema:
             $ref: '#/definitions/auth.Token'
       summary: check admins by given email return jwt token if successfully signIn
-      tags:
-      - Admin
-  /admin/signup:
-    post:
-      consumes:
-      - application/json
-      description: create admin account.
-      parameters:
-      - description: body request
-        in: body
-        name: signUp
-        required: true
-        schema:
-          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq'
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated'
-      summary: admins can create from register page
       tags:
       - Admin
   /login:
