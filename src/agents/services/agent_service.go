@@ -1,6 +1,7 @@
 package services
 
 import (
+	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/auth"
@@ -30,6 +31,12 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 
 	token := auth.Sign(agent.ID, jwt.MapClaims{
 		"sub": agent.ID,
+		"https://hasura.io/jwt/claims": fiber.Map{
+			"x-hasura-default-role": "agent",
+			// do some custom logic to decide allowed roles
+			"x-hasura-allowed-roles": []string{"agent"},
+			"x-hasura-agent-id":      agent.ID,
+		},
 	})
 
 	return token, nil

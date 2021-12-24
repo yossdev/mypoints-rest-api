@@ -27,10 +27,7 @@ func (r *HttpRouter) GetRoute() {
 	// Public
 	v1.Post("/login", agentHandler.SignIn)
 
-	// Custom JWT Middleware
-	v1.Use(middleware.JwtVerifyToken)
-
 	// Private
-	v1.Get("/profile/:id", agentHandler.GetAgent)
+  v1.Get("/profile/:id", middleware.JwtVerifyToken, agentHandler.GetAgent)
 	v1.Post("/:id/agent", middleware.JwtVerifyToken, agentHandler.SignUp)
 }
