@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/yossdev/mypoints-rest-api/internal/middleware"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
+	_adminRoute "github.com/yossdev/mypoints-rest-api/src/admins/router"
 	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
 )
 
@@ -43,6 +44,13 @@ func (r *RouterStruct) GetRoutes() {
 	}
 
 	// registering route from another modules
+	// Admin Route
+	adminRouterStruct := _adminRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	adminRouter := _adminRoute.NewHttpRoute(adminRouterStruct)
+	adminRouter.GetRoute()
+
 	// Agent Route
 	agentRouterStruct := _agentRoute.HttpRouter{
 		RouterStruct: webRouterConfig,

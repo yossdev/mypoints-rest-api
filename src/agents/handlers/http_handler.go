@@ -21,7 +21,7 @@ func NewHttpHandler(s entities.Service) *agentHandler {
 // SignIn post handler.
 // @Description check agent by checking given email and password.
 // @Summary check agent by given email return jwt token if successfully signIn
-// @Tags Agents
+// @Tags Agent
 // @Scheme https
 // @Accept json
 // @Produce json
@@ -46,9 +46,9 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 }
 
 // SignUp post handler.
-// @Description create agent account by admin.
-// @Summary admin can create agent account with this api
-// @Tags Agents
+// @Description create agent account by admins.
+// @Summary admins can create agent account with this api
+// @Tags Agent
 // @Scheme https
 // @Accept json
 // @Produce json

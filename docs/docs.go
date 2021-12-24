@@ -33,7 +33,7 @@ var doc = `{
     "paths": {
         "/:id/agent": {
             "post": {
-                "description": "create agent account by admin.",
+                "description": "create agent account by admins.",
                 "consumes": [
                     "application/json"
                 ],
@@ -41,9 +41,9 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Agents"
+                    "Agent"
                 ],
-                "summary": "admin can create agent account with this api",
+                "summary": "admins can create agent account with this api",
                 "parameters": [
                     {
                         "description": "body request",
@@ -65,6 +65,40 @@ var doc = `{
                 }
             }
         },
+        "/admin/login": {
+            "post": {
+                "description": "check admins by checking given email and password.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "check admins by given email return jwt token if successfully signIn",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "signIn",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/auth.Token"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "description": "check agent by checking given email and password.",
@@ -75,7 +109,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Agents"
+                    "Agent"
                 ],
                 "summary": "check agent by given email return jwt token if successfully signIn",
                 "parameters": [
@@ -85,7 +119,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.SignInReq"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq"
                         }
                     }
                 ],
@@ -109,9 +143,6 @@ var doc = `{
                 },
                 "refresh_token": {
                     "type": "string"
-                },
-                "sub": {
-                    "type": "string"
                 }
             }
         },
@@ -120,17 +151,6 @@ var doc = `{
             "properties": {
                 "rows_affected": {
                     "type": "integer"
-                }
-            }
-        },
-        "dto.SignInReq": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
                 }
             }
         },
@@ -147,6 +167,31 @@ var doc = `{
                     "type": "string"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq": {
+            "type": "object",
+            "properties": {
+                "email": {
                     "type": "string"
                 },
                 "password": {

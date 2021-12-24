@@ -6,20 +6,11 @@ definitions:
         type: string
       refresh_token:
         type: string
-      sub:
-        type: string
     type: object
   dto.AccountCreated:
     properties:
       rows_affected:
         type: integer
-    type: object
-  dto.SignInReq:
-    properties:
-      email:
-        type: string
-      password:
-        type: string
     type: object
   dto.SignUpReq:
     properties:
@@ -30,6 +21,22 @@ definitions:
       img:
         type: string
       name:
+        type: string
+      password:
+        type: string
+      status:
+        type: boolean
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq:
+    properties:
+      email:
         type: string
       password:
         type: string
@@ -51,7 +58,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: create agent account by admin.
+      description: create agent account by admins.
       parameters:
       - description: body request
         in: body
@@ -66,9 +73,31 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/dto.AccountCreated'
-      summary: admin can create agent account with this api
+      summary: admins can create agent account with this api
       tags:
-      - Agents
+      - Agent
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: check admins by checking given email and password.
+      parameters:
+      - description: body request
+        in: body
+        name: signIn
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/auth.Token'
+      summary: check admins by given email return jwt token if successfully signIn
+      tags:
+      - Admin
   /login:
     post:
       consumes:
@@ -80,7 +109,7 @@ paths:
         name: signIn
         required: true
         schema:
-          $ref: '#/definitions/dto.SignInReq'
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq'
       produces:
       - application/json
       responses:
@@ -90,7 +119,7 @@ paths:
             $ref: '#/definitions/auth.Token'
       summary: check agent by given email return jwt token if successfully signIn
       tags:
-      - Agents
+      - Agent
 securityDefinitions:
   ApiKeyAuth:
     in: header

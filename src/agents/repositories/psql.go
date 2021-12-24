@@ -17,7 +17,7 @@ func NewAgentPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 }
 
 func (p *agentPsqlRepository) SignInWithEmail(email string) (*entities.Domain, error) {
-	agent := Agents{}
+	agent := Agent{}
 
 	res := p.DB.DB().Where("email = ?", email).First(&agent)
 	if res.Error != nil {
@@ -28,7 +28,7 @@ func (p *agentPsqlRepository) SignInWithEmail(email string) (*entities.Domain, e
 }
 
 func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
-	agent := Agents{}
+	agent := Agent{}
 	if err := p.DB.DB().First(&agent, "id = ?", id).Error; err != nil {
 		return nil, err
 	}
@@ -37,12 +37,13 @@ func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 }
 
 func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain, adminID uuid.UUID) (int64, error) {
-	agent := Agents{
+	agent := Agent{
 		AdminID:  adminID,
 		Name:     payload.Name,
 		Email:    payload.Email,
 		Password: payload.Password,
 		Img:      payload.Img,
+		Status:   payload.Status,
 	}
 	res := p.DB.DB().Create(&agent)
 	if res.Error != nil {

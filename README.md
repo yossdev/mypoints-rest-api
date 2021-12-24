@@ -9,7 +9,8 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## Features
 
-- [x] Sign-in agent
+- [x] Sign-in admin & agent
+- [x] Sign-up agent
 - [x] Get agent profile
 - [ ] Claim points for product sold
 - [ ] Redeem points for a reward
