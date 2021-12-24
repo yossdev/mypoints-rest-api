@@ -51,7 +51,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.SignUpReq"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq"
                         }
                     }
                 ],
@@ -59,7 +59,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountCreated"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated"
                         }
                     }
                 }
@@ -94,6 +94,40 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/auth.Token"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/signup": {
+            "post": {
+                "description": "create admin account.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "admins can create from register page",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "signUp",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated"
                         }
                     }
                 }
@@ -146,7 +180,7 @@ var doc = `{
                 }
             }
         },
-        "dto.AccountCreated": {
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -154,7 +188,54 @@ var doc = `{
                 }
             }
         },
-        "dto.SignUpReq": {
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq": {
             "type": "object",
             "properties": {
                 "admin_id": {
@@ -174,28 +255,6 @@ var doc = `{
                 },
                 "status": {
                     "type": "boolean"
-                }
-            }
-        },
-        "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq": {
-            "type": "object",
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
                 }
             }
         }

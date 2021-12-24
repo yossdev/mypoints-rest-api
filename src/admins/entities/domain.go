@@ -20,8 +20,10 @@ type Domain struct {
 
 type Service interface {
 	SignIn(payload *Domain) (auth.Token, error) // return jwt token
+	SignUp(payload *Domain) (int64, error)
 }
 
 type PsqlRepository interface {
 	SignInWithEmail(email string) (*Domain, error)
+	CreateAdmin(payload *Domain) (int64, error)
 }
