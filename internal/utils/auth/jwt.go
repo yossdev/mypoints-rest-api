@@ -2,18 +2,16 @@ package auth
 
 import (
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/configs"
 	"time"
 )
 
 type Token struct {
-	Sub          uuid.UUID `json:"sub"`
-	AccessToken  string    `json:"access_token"`
-	RefreshToken string    `json:"refresh_token"`
+	AccessToken  string `json:"access_token"`
+	RefreshToken string `json:"refresh_token"`
 }
 
-func Sign(id uuid.UUID, claims jwt.MapClaims) Token {
+func Sign(claims jwt.MapClaims) Token {
 	timeNow := time.Now()
 	tokenExpired := timeNow.Add(configs.Get().JwtTokenExpired).Unix()
 
@@ -52,7 +50,6 @@ func Sign(id uuid.UUID, claims jwt.MapClaims) Token {
 		return Token{}
 	}
 
-	authToken.Sub = id
 	authToken.AccessToken = tokenString
 
 	//create refresh token
@@ -71,7 +68,6 @@ func Sign(id uuid.UUID, claims jwt.MapClaims) Token {
 	authToken.RefreshToken = refreshTokenString
 
 	return Token{
-		Sub:          authToken.Sub,
 		AccessToken:  authToken.AccessToken,
 		RefreshToken: authToken.RefreshToken,
 	}

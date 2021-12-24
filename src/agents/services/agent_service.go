@@ -29,7 +29,7 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 		return auth.Token{}, err
 	}
 
-	token := auth.Sign(agent.ID, jwt.MapClaims{
+	token := auth.Sign(jwt.MapClaims{
 		"sub": agent.ID,
 		"https://hasura.io/jwt/claims": fiber.Map{
 			"x-hasura-default-role": "agent",

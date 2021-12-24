@@ -28,7 +28,7 @@ func (s *adminService) SignIn(payload *entities.Domain) (auth.Token, error) {
 		return auth.Token{}, err
 	}
 
-	token := auth.Sign(admin.ID, jwt.MapClaims{
+	token := auth.Sign(jwt.MapClaims{
 		"sub": admin.ID,
 		"https://hasura.io/jwt/claims": fiber.Map{
 			"x-hasura-default-role": "admins",

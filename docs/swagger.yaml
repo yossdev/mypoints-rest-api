@@ -6,8 +6,6 @@ definitions:
         type: string
       refresh_token:
         type: string
-      sub:
-        type: string
     type: object
   dto.AccountCreated:
     properties:

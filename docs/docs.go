@@ -143,9 +143,6 @@ var doc = `{
                 },
                 "refresh_token": {
                     "type": "string"
-                },
-                "sub": {
-                    "type": "string"
                 }
             }
         },
