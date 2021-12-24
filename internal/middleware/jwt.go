@@ -53,11 +53,19 @@ func JwtVerifyToken(c *fiber.Ctx) error {
 	req.Header.Set("Authorization", jwtToken)
 
 	token, err := jwt.Parse(jwtToken, func(t *jwt.Token) (interface{}, error) {
+		// check jwt token type
 		tokenType := t.Claims.(jwt.MapClaims)["token_type"]
-
 		if tokenType != "access_token" {
 			return nil, fmt.Errorf("unexpected token type: %v", tokenType)
 		}
+
+		// check jwt sub and id from param
+		sub := t.Claims.(jwt.MapClaims)["sub"]
+		id := c.Params("id")
+		if sub != id {
+			return nil, fmt.Errorf("forbidden")
+		}
+
 		return []byte(configs.Get().JwtSecretKey), nil
 	})
 
