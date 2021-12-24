@@ -40,3 +40,10 @@ func (s *adminService) SignIn(payload *entities.Domain) (auth.Token, error) {
 
 	return token, nil
 }
+
+func (s *adminService) SignUp(payload *entities.Domain) (int64, error) {
+	payload.Password, _ = helpers.Hash(payload.Password)
+	res, err := s.adminPsqlRepository.CreateAdmin(payload)
+
+	return res, err
+}

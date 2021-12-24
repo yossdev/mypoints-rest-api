@@ -43,3 +43,30 @@ func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Welcome, res)
 }
+
+// SignUp post handler.
+// @Description create admin account.
+// @Summary admins can create from register page
+// @Tags Admin
+// @Scheme https
+// @Accept json
+// @Produce json
+// @Param signUp body dto.SignUpReq true "body request"
+// @Success 201 {object} dto.AccountCreated
+// @Router /admin/signup [post]
+func (h *adminHandler) SignUp(c *fiber.Ctx) error {
+	payload := new(dto.SignUpReq)
+
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	// TODO add struct validator
+
+	res, err := h.adminService.SignUp(payload.ToDomain())
+	if err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusCreated, web.Created, dto.AccountCreated{RowsAffected: res})
+}

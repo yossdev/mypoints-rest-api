@@ -13,3 +13,19 @@ func (req *SignInReq) ToDomain() *entities.Domain {
 		Password: req.Password,
 	}
 }
+
+type SignUpReq struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Img      string `json:"img"`
+}
+
+func (req *SignUpReq) ToDomain() *entities.Domain {
+	return &entities.Domain{
+		Name:     req.Name,
+		Email:    req.Email,
+		Password: req.Password,
+		Img:      req.Img,
+	}
+}

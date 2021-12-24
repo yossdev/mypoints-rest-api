@@ -25,6 +25,7 @@ func (r *HttpRouter) GetRoute() {
 
 	// Public
 	v1.Post("/admin/login", adminHandler.SignIn)
+	v1.Post("/admin/signup", adminHandler.SignUp)
 
 	// Private
 
