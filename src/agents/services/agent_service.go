@@ -51,6 +51,13 @@ func (s *agentService) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 	return agent, nil
 }
 
-func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) error {
-	return nil
+func (s *agentService) SignUp(payload *entities.Domain, adminID uuid.UUID) (int64, error) {
+	payload.Password, _ = helpers.Hash(payload.Password)
+	res, err := s.agentPsqlRepository.CreateAgent(payload, adminID)
+
+	return res, err
 }
+
+//func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) error {
+//	return nil
+//}

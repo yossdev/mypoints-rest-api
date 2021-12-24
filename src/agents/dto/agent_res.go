@@ -29,3 +29,7 @@ func FromDomain(d *entities.Domain) Profile {
 		UpdatedAt: d.UpdatedAt,
 	}
 }
+
+type AccountCreated struct {
+	RowsAffected int64 `json:"rows_affected"`
+}

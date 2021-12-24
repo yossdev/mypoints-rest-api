@@ -31,6 +31,40 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/:id/agent": {
+            "post": {
+                "description": "create agent account by admin.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agents"
+                ],
+                "summary": "admin can create agent account with this api",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "signUp",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.SignUpReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AccountCreated"
+                        }
+                    }
+                }
+            }
+        },
         "/login": {
             "post": {
                 "description": "check agent by checking given email and password.",
@@ -81,10 +115,38 @@ var doc = `{
                 }
             }
         },
+        "dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.SignInReq": {
             "type": "object",
             "properties": {
                 "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.SignUpReq": {
+            "type": "object",
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
                     "type": "string"
                 },
                 "password": {

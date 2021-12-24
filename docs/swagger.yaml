@@ -9,9 +9,27 @@ definitions:
       sub:
         type: string
     type: object
+  dto.AccountCreated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
   dto.SignInReq:
     properties:
       email:
+        type: string
+      password:
+        type: string
+    type: object
+  dto.SignUpReq:
+    properties:
+      admin_id:
+        type: string
+      email:
+        type: string
+      img:
+        type: string
+      name:
         type: string
       password:
         type: string
@@ -29,6 +47,28 @@ info:
   title: MyPoints API
   version: "1.0"
 paths:
+  /:id/agent:
+    post:
+      consumes:
+      - application/json
+      description: create agent account by admin.
+      parameters:
+      - description: body request
+        in: body
+        name: signUp
+        required: true
+        schema:
+          $ref: '#/definitions/dto.SignUpReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.AccountCreated'
+      summary: admin can create agent account with this api
+      tags:
+      - Agents
   /login:
     post:
       consumes:

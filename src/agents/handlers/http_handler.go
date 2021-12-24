@@ -45,6 +45,34 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 	return web.JsonResponse(c, fiber.StatusOK, web.Welcome, res)
 }
 
+// SignUp post handler.
+// @Description create agent account by admin.
+// @Summary admin can create agent account with this api
+// @Tags Agents
+// @Scheme https
+// @Accept json
+// @Produce json
+// @Param signUp body dto.SignUpReq true "body request"
+// @Success 201 {object} dto.AccountCreated
+// @Router /:id/agent [post]
+func (h *agentHandler) SignUp(c *fiber.Ctx) error {
+	payload := new(dto.SignUpReq)
+	adminID := c.Params("id")
+
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	// TODO add struct validator
+
+	res, err := h.agentService.SignUp(payload.ToDomain(), uuid.MustParse(adminID))
+	if err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusCreated, web.Created, dto.AccountCreated{RowsAffected: res})
+}
+
 // GetAgent get handler.
 func (h *agentHandler) GetAgent(c *fiber.Ctx) error {
 	id := c.Params("id")

@@ -28,5 +28,6 @@ func (r *HttpRouter) GetRoute() {
 	v1.Post("/login", agentHandler.SignIn)
 
 	// Private
-	v1.Get("/profile/:id", middleware.JwtVerifyToken, agentHandler.GetAgent)
+  v1.Get("/profile/:id", middleware.JwtVerifyToken, agentHandler.GetAgent)
+	v1.Post("/:id/agent", middleware.JwtVerifyToken, agentHandler.SignUp)
 }
