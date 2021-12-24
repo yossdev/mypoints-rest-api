@@ -23,6 +23,7 @@ type SignUpReq struct {
 	Email    string    `json:"email"`
 	Password string    `json:"password"`
 	Img      string    `json:"img"`
+	Status   bool      `json:"status"`
 }
 
 func (req *SignUpReq) ToDomain() *entities.Domain {
@@ -32,5 +33,6 @@ func (req *SignUpReq) ToDomain() *entities.Domain {
 		Email:    req.Email,
 		Password: req.Password,
 		Img:      req.Img,
+		Status:   req.Status,
 	}
 }

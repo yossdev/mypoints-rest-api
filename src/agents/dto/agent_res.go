@@ -13,6 +13,7 @@ type Profile struct {
 	Email     string    `json:"email"`
 	Points    int32     `json:"points"`
 	Img       string    `json:"img"`
+	Status    bool      `json:"status"`
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -25,6 +26,7 @@ func FromDomain(d *entities.Domain) Profile {
 		Email:     d.Email,
 		Points:    d.Points,
 		Img:       d.Img,
+		Status:    d.Status,
 		CreatedAt: d.CreatedAt,
 		UpdatedAt: d.UpdatedAt,
 	}

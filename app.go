@@ -8,7 +8,8 @@ import (
 	"github.com/yossdev/mypoints-rest-api/internal/routes"
 	_s "github.com/yossdev/mypoints-rest-api/internal/utils/start-server"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
-	"github.com/yossdev/mypoints-rest-api/src/agents/repositories"
+	_admin "github.com/yossdev/mypoints-rest-api/src/admins/repositories"
+	_agent "github.com/yossdev/mypoints-rest-api/src/agents/repositories"
 	"gorm.io/gorm"
 	"log"
 )
@@ -55,7 +56,8 @@ func main() {
 // dbMigrate func will auto migrate model struct from record.go in repositories
 func dbMigrate(db *gorm.DB) {
 	err := db.AutoMigrate(
-		&repositories.Agents{},
+		&_admin.Admin{},
+		&_agent.Agent{},
 	)
 	if err != nil {
 		log.Fatal(err)
