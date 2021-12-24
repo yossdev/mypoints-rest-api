@@ -191,9 +191,7 @@ var doc = `{
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignInReq": {
             "type": "object",
             "required": [
-                "admin_id",
                 "email",
-                "name",
                 "password"
             ],
             "properties": {
@@ -232,6 +230,10 @@ var doc = `{
         },
         "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignInReq": {
             "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -243,6 +245,12 @@ var doc = `{
         },
         "github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq": {
             "type": "object",
+            "required": [
+                "admin_id",
+                "email",
+                "name",
+                "password"
+            ],
             "properties": {
                 "admin_id": {
                     "type": "string"
