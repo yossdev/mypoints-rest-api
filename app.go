@@ -49,8 +49,8 @@ func main() {
 	router := routes.NewHttpRoute(routeStruct)
 	router.GetRoutes()
 
-	_s.StartServer(app)
-	//_s.StartServerWithGracefulShutdown(app)
+	//_s.StartServer(app)
+	_s.StartServerWithGracefulShutdown(app)
 }
 
 // dbMigrate func will auto migrate model struct from record.go in repositories

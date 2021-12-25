@@ -36,9 +36,9 @@ func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 	return agent.toDomain(), nil
 }
 
-func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain, adminID uuid.UUID) (int64, error) {
+func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, error) {
 	agent := Agent{
-		AdminID:  adminID,
+		AdminID:  payload.AdminID,
 		Name:     payload.Name,
 		Email:    payload.Email,
 		Password: payload.Password,
