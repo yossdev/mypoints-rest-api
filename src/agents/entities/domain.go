@@ -23,12 +23,12 @@ type Service interface {
 	SignIn(payload *Domain) (auth.Token, error) // return jwt token
 	SignUp(payload *Domain) (int64, error)
 	GetAgent(id uuid.UUID) (*Domain, error)
-	//UpdateAgent(id uuid.UUID, payload *Domain) error
+	UpdateAgent(id uuid.UUID, payload *Domain) (int64, error)
 }
 
 type PsqlRepository interface {
 	SignInWithEmail(email string) (*Domain, error)
 	CreateAgent(payload *Domain) (int64, error)
 	GetAgent(id uuid.UUID) (*Domain, error)
-	//UpdateAgent(payload *Domain) error
+	UpdateAgent(payload *Domain) (int64, error)
 }

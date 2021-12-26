@@ -88,6 +88,13 @@ func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 }
 
 // GetAgent get handler.
+// @Description Get agent data by id.
+// @Summary get agent data
+// @Tags Agent
+// @Accept json
+// @Produce json
+// @Success 200 {object} dto.Profile
+// @Router /profile/:id [get]
 func (h *agentHandler) GetAgent(c *fiber.Ctx) error {
 	id := c.Params("id")
 	agent, err := h.agentService.GetAgent(uuid.MustParse(id))
@@ -96,4 +103,37 @@ func (h *agentHandler) GetAgent(c *fiber.Ctx) error {
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomain(agent))
+}
+
+// UpdateAgent put handler.
+// @Description update agent data by id.
+// @Summary update agent data
+// @Tags Agent
+// @Accept json
+// @Produce json
+// @Param updateAccount body dto.UpdateAccount true "body request"
+// @Success 200 {object} dto.AccountUpdated
+// @Router /profile/:id [put]
+func (h *agentHandler) UpdateAgent(c *fiber.Ctx) error {
+	payload := new(dto.UpdateAccount)
+	id := c.Params("id")
+
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	res, err := h.agentService.UpdateAgent(uuid.MustParse(id), payload.ToDomain())
+	if err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusCreated, web.Success, dto.AccountUpdated{RowsAffected: res})
 }

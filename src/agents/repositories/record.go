@@ -33,3 +33,10 @@ func (rec *Agent) toDomain() *entities.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
+
+func updateAccount(p *entities.Domain, a *Agent) {
+	a.Name = p.Name
+	a.Email = p.Email
+	a.Password = p.Password
+	a.Img = p.Img
+}

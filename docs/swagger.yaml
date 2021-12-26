@@ -7,6 +7,47 @@ definitions:
       refresh_token:
         type: string
     type: object
+  dto.AccountUpdated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.Profile:
+    properties:
+      admin_id:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      img:
+        type: string
+      name:
+        type: string
+      points:
+        type: integer
+      status:
+        type: boolean
+      updated_at:
+        type: string
+    type: object
+  dto.UpdateAccount:
+    properties:
+      email:
+        type: string
+      img:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
     properties:
       rows_affected:
@@ -167,6 +208,42 @@ paths:
           schema:
             $ref: '#/definitions/auth.Token'
       summary: check agent by given email return jwt token if successfully signIn
+      tags:
+      - Agent
+  /profile/:id:
+    get:
+      consumes:
+      - application/json
+      description: Get agent data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Profile'
+      summary: get agent data
+      tags:
+      - Agent
+    put:
+      consumes:
+      - application/json
+      description: update agent data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAccount
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AccountUpdated'
+      summary: update agent data
       tags:
       - Agent
 securityDefinitions:

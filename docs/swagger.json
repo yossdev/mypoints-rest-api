@@ -152,6 +152,61 @@
                     }
                 }
             }
+        },
+        "/profile/:id": {
+            "get": {
+                "description": "Get agent data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "get agent data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Profile"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update agent data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -162,6 +217,68 @@
                     "type": "string"
                 },
                 "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.AccountUpdated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.Profile": {
+            "type": "object",
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
                     "type": "string"
                 }
             }
