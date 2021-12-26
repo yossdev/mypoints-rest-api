@@ -53,6 +53,16 @@ func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, erro
 	return res.RowsAffected, nil
 }
 
-//func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) error {
-//	return nil
-//}
+func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) (int64, error) {
+	agent := Agent{}
+	p.DB.DB().First(&agent, "id = ?", payload.ID)
+
+	updateAccount(payload, &agent)
+
+	res := p.DB.DB().Save(&agent)
+	if res.Error != nil {
+		return 0, res.Error
+	}
+
+	return res.RowsAffected, nil
+}

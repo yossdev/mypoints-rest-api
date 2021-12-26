@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
@@ -23,6 +24,10 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 	agent, err := s.agentPsqlRepository.SignInWithEmail(payload.Email)
 	if err != nil {
 		return auth.Token{}, err
+	}
+
+	if !agent.Status {
+		return auth.Token{}, errors.New("account disabled")
 	}
 
 	if err := helpers.ValidateHash(agent.Password, payload.Password); err != nil {
@@ -58,6 +63,9 @@ func (s *agentService) SignUp(payload *entities.Domain) (int64, error) {
 	return res, err
 }
 
-//func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) error {
-//	return nil
-//}
+func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) (int64, error) {
+	payload.ID = id
+	res, err := s.agentPsqlRepository.UpdateAgent(payload)
+
+	return res, err
+}

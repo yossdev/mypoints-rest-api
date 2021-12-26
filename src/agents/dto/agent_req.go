@@ -36,3 +36,19 @@ func (req *SignUpReq) ToDomain() *entities.Domain {
 		Status:   req.Status,
 	}
 }
+
+type UpdateAccount struct {
+	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Img      string `json:"img"`
+}
+
+func (req *UpdateAccount) ToDomain() *entities.Domain {
+	return &entities.Domain{
+		Name:     req.Name,
+		Email:    req.Email,
+		Password: req.Password,
+		Img:      req.Img,
+	}
+}
