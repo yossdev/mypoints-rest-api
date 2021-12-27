@@ -42,6 +42,7 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 			"x-hasura-allowed-roles": []string{"agent"},
 			"x-hasura-agent-id":      agent.ID,
 		},
+		"role": "agent",
 	})
 
 	return token, nil
@@ -65,7 +66,18 @@ func (s *agentService) SignUp(payload *entities.Domain) (int64, error) {
 
 func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) (int64, error) {
 	payload.ID = id
+	if payload.Password != "" {
+		payload.Password, _ = helpers.Hash(payload.Password)
+	}
+
 	res, err := s.agentPsqlRepository.UpdateAgent(payload)
+
+	return res, err
+}
+
+func (s *agentService) UpdateAvatar(id uuid.UUID, payload *entities.Domain) (int64, error) {
+	payload.ID = id
+	res, err := s.agentPsqlRepository.UpdateAvatar(payload)
 
 	return res, err
 }

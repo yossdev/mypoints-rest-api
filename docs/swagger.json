@@ -207,6 +207,40 @@
                     }
                 }
             }
+        },
+        "/profile/avatar/:id": {
+            "put": {
+                "description": "update agent photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -265,20 +299,27 @@
             "type": "object",
             "required": [
                 "email",
-                "name",
-                "password"
+                "name"
             ],
             "properties": {
                 "email": {
-                    "type": "string"
-                },
-                "img": {
                     "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
                 "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
                     "type": "string"
                 }
             }

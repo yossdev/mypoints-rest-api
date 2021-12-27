@@ -66,3 +66,17 @@ func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) (int64, erro
 
 	return res.RowsAffected, nil
 }
+
+func (p *agentPsqlRepository) UpdateAvatar(payload *entities.Domain) (int64, error) {
+	agent := Agent{}
+	p.DB.DB().First(&agent, "id = ?", payload.ID)
+
+	agent.Img = payload.Img
+
+	res := p.DB.DB().Save(&agent)
+	if res.Error != nil {
+		return 0, res.Error
+	}
+
+	return res.RowsAffected, nil
+}
