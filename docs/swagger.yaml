@@ -7,11 +7,6 @@ definitions:
       refresh_token:
         type: string
     type: object
-  dto.AccountUpdated:
-    properties:
-      rows_affected:
-        type: integer
-    type: object
   dto.Profile:
     properties:
       admin_id:
@@ -33,26 +28,12 @@ definitions:
       updated_at:
         type: string
     type: object
-  dto.UpdateAccount:
-    properties:
-      email:
-        type: string
-      name:
-        type: string
-      password:
-        type: string
-    required:
-    - email
-    - name
-    type: object
-  dto.UpdateAvatar:
-    properties:
-      img:
-        type: string
-    required:
-    - img
-    type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated:
     properties:
       rows_affected:
         type: integer
@@ -78,7 +59,31 @@ definitions:
       password:
         type: string
     type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar:
+    properties:
+      img:
+        type: string
+    required:
+    - img
+    type: object
   github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated:
     properties:
       rows_affected:
         type: integer
@@ -112,6 +117,25 @@ definitions:
     - email
     - name
     - password
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar:
+    properties:
+      img:
+        type: string
+    required:
+    - img
     type: object
 host: localhost:8080
 info:
@@ -168,6 +192,50 @@ paths:
           schema:
             $ref: '#/definitions/auth.Token'
       summary: check admins by given email return jwt token if successfully signIn
+      tags:
+      - Admin
+  /admin/profile/:id:
+    put:
+      consumes:
+      - application/json
+      description: update admin data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAccount
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+      summary: update admin data
+      tags:
+      - Admin
+  /admin/profile/avatar/:id:
+    put:
+      consumes:
+      - application/json
+      description: update admin photo profile by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAvatar
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+      summary: update admin photo profile
       tags:
       - Admin
   /admin/signup:
@@ -239,14 +307,14 @@ paths:
         name: updateAccount
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateAccount'
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.AccountUpdated'
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
       summary: update agent data
       tags:
       - Agent
@@ -261,14 +329,14 @@ paths:
         name: updateAvatar
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateAvatar'
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.AccountUpdated'
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
       summary: update agent photo profile
       tags:
       - Agent
