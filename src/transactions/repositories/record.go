@@ -9,7 +9,7 @@ type Transaction struct {
 	ID      uuid.UUID `gorm:"primaryKey; type:uuid; default:uuid_generate_v4()"`
 	AgentID uuid.UUID `gorm:"type:uuid; not null"`
 	//RewardID      int32
-	//ProductID     int32
+	ProductID     int32
 	Type          string `gorm:"not null"`
 	Title         string `gorm:"not null"`
 	Points        int32  `gorm:"not null"`

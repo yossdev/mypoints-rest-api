@@ -10,6 +10,7 @@ import (
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_admin "github.com/yossdev/mypoints-rest-api/src/admins/repositories"
 	_agent "github.com/yossdev/mypoints-rest-api/src/agents/repositories"
+	_product "github.com/yossdev/mypoints-rest-api/src/products/repositories"
 	_transaction "github.com/yossdev/mypoints-rest-api/src/transactions/repositories"
 	"gorm.io/gorm"
 	"log"
@@ -61,6 +62,7 @@ func dbMigrate(db *gorm.DB) {
 		&_agent.Agent{},
 		&_transaction.TransactionType{},
 		&_transaction.TransactionStatus{},
+		&_product.Product{},
 		&_transaction.Transaction{},
 	)
 	if err != nil {

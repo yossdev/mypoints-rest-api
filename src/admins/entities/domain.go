@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/auth"
 	_agent "github.com/yossdev/mypoints-rest-api/src/agents/entities"
+	_product "github.com/yossdev/mypoints-rest-api/src/products/entities"
 	"time"
 )
 
@@ -14,6 +15,7 @@ type Domain struct {
 	Password  string
 	Img       string
 	Agents    []_agent.Domain
+	Products  []_product.Domain
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
