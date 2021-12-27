@@ -37,8 +37,6 @@ definitions:
     properties:
       email:
         type: string
-      img:
-        type: string
       name:
         type: string
       password:
@@ -46,7 +44,13 @@ definitions:
     required:
     - email
     - name
-    - password
+    type: object
+  dto.UpdateAvatar:
+    properties:
+      img:
+        type: string
+    required:
+    - img
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
     properties:
@@ -244,6 +248,28 @@ paths:
           schema:
             $ref: '#/definitions/dto.AccountUpdated'
       summary: update agent data
+      tags:
+      - Agent
+  /profile/avatar/:id:
+    put:
+      consumes:
+      - application/json
+      description: update agent photo profile by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAvatar
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAvatar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.AccountUpdated'
+      summary: update agent photo profile
       tags:
       - Agent
 securityDefinitions:

@@ -39,6 +39,7 @@ func (rec *Agent) toDomain() *entities.Domain {
 func updateAccount(p *entities.Domain, a *Agent) {
 	a.Name = p.Name
 	a.Email = p.Email
-	a.Password = p.Password
-	a.Img = p.Img
+	if p.Password != "" {
+		a.Password = p.Password
+	}
 }
