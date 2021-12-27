@@ -9,6 +9,7 @@ import (
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_adminRoute "github.com/yossdev/mypoints-rest-api/src/admins/router"
 	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
+	_transactionRoute "github.com/yossdev/mypoints-rest-api/src/transactions/router"
 )
 
 type RouterStruct struct {
@@ -57,6 +58,13 @@ func (r *RouterStruct) GetRoutes() {
 	}
 	agentRouter := _agentRoute.NewHttpRoute(agentRouterStruct)
 	agentRouter.GetRoute()
+
+	// Transaction Route
+	transactionRouterStruct := _transactionRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	transactionRouter := _transactionRoute.NewHttpRoute(transactionRouterStruct)
+	transactionRouter.GetRoute()
 
 	// handling 404 error
 	v1.Use(func(c *fiber.Ctx) error {

@@ -21,6 +21,7 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 - REST Server: [**fiber v2**](https://docs.gofiber.io/)
 - Database: **PostgreSQL**, **MongoDB**
 - ORM: [**gorm**](https://gorm.io/docs/)
+- Nginx & Cloudflare
 
 ## Third-party API used:
 - [xendit](https://www.xendit.co/en-id/) - Payment gateway
