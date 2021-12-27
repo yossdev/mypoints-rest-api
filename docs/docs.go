@@ -99,6 +99,74 @@ var doc = `{
                 }
             }
         },
+        "/admin/profile/:id": {
+            "put": {
+                "description": "update admin data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/profile/avatar/:id": {
+            "put": {
+                "description": "update admin photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/signup": {
             "post": {
                 "description": "create admin account.",
@@ -208,7 +276,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAccount"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount"
                         }
                     }
                 ],
@@ -216,7 +284,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountUpdated"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
                         }
                     }
                 }
@@ -242,7 +310,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAvatar"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar"
                         }
                     }
                 ],
@@ -250,7 +318,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountUpdated"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
                         }
                     }
                 }
@@ -266,14 +334,6 @@ var doc = `{
                 },
                 "refresh_token": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.AccountUpdated": {
-            "type": "object",
-            "properties": {
-                "rows_affected": {
-                    "type": "integer"
                 }
             }
         },
@@ -309,36 +369,15 @@ var doc = `{
                 }
             }
         },
-        "dto.UpdateAccount": {
-            "type": "object",
-            "required": [
-                "email",
-                "name"
-            ],
-            "properties": {
-                "email": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.UpdateAvatar": {
-            "type": "object",
-            "required": [
-                "img"
-            ],
-            "properties": {
-                "img": {
-                    "type": "string"
-                }
-            }
-        },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -378,7 +417,44 @@ var doc = `{
                 }
             }
         },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -427,6 +503,35 @@ var doc = `{
                 },
                 "status": {
                     "type": "boolean"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
                 }
             }
         }

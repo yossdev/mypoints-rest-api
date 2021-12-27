@@ -29,3 +29,11 @@ func (rec *Admin) toDomain() *entities.Domain {
 		UpdatedAt: rec.UpdatedAt,
 	}
 }
+
+func updateAccount(p *entities.Domain, a *Admin) {
+	a.Name = p.Name
+	a.Email = p.Email
+	if p.Password != "" {
+		a.Password = p.Password
+	}
+}
