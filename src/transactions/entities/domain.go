@@ -9,7 +9,7 @@ type Domain struct {
 	ID      uuid.UUID
 	AgentID uuid.UUID
 	//RewardID      int32
-	//ProductID     int32
+	ProductID     int32
 	Type          string
 	Title         string
 	Points        int32
