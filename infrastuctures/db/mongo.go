@@ -20,8 +20,8 @@ type mongoDB struct {
 func NewMongoClient() MongoDB {
 	var client *mongo.Client
 	// Set client options
-	//clientOptions := options.Client().ApplyURI(configs.Get().MongodbAddress) //for local connection
-	clientOptions := options.Client().ApplyURI("mongodb+srv://" + configs.Get().MongodbUsername + ":" + configs.Get().MongodbPassword + "@cluster0.atngo.mongodb.net/" + configs.Get().MongodbName + "?retryWrites=true&w=majority")
+	clientOptions := options.Client().ApplyURI(configs.Get().MongodbAddress) //for local connection
+	//clientOptions := options.Client().ApplyURI("mongodb+srv://" + configs.Get().MongodbUsername + ":" + configs.Get().MongodbPassword + "@cluster0.atngo.mongodb.net/" + configs.Get().MongodbName + "?retryWrites=true&w=majority")
 
 	// Connect to MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
