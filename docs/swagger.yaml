@@ -58,6 +58,10 @@ definitions:
         type: string
       password:
         type: string
+    required:
+    - email
+    - name
+    - password
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount:
     properties:

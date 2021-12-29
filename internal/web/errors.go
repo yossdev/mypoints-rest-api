@@ -10,4 +10,5 @@ var (
 	NotFound          = errors.New("data not found")
 	IDNotFound        = errors.New("id not found")
 	DuplicateData     = errors.New("duplicate data")
+	AccountDisabled   = errors.New("account disabled")
 )

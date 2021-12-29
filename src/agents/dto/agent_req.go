@@ -6,7 +6,7 @@ import (
 )
 
 type SignInReq struct {
-	Email    string `json:"email" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -20,7 +20,7 @@ func (req *SignInReq) ToDomain() *entities.Domain {
 type SignUpReq struct {
 	AdminID  uuid.UUID `json:"admin_id" validate:"required,uuid"`
 	Name     string    `json:"name" validate:"required"`
-	Email    string    `json:"email" validate:"required"`
+	Email    string    `json:"email" validate:"required,email"`
 	Password string    `json:"password" validate:"required"`
 	Img      string    `json:"img"`
 	Status   bool      `json:"status"`
@@ -39,7 +39,7 @@ func (req *SignUpReq) ToDomain() *entities.Domain {
 
 type UpdateAccount struct {
 	Name     string `json:"name" validate:"required"`
-	Email    string `json:"email" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password"`
 }
 

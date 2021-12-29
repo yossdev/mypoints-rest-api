@@ -31,7 +31,6 @@ func NewHttpHandler(s entities.Service) *agentHandler {
 // @Router /login [post]
 func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
-
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
@@ -64,9 +63,6 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 // @Router /:id/agent [post]
 func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
-	adminID := c.Params("id")
-	payload.AdminID = uuid.MustParse(adminID)
-
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}

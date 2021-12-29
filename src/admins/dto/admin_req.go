@@ -3,7 +3,7 @@ package dto
 import "github.com/yossdev/mypoints-rest-api/src/admins/entities"
 
 type SignInReq struct {
-	Email    string `json:"email" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
 }
 
@@ -15,9 +15,9 @@ func (req *SignInReq) ToDomain() *entities.Domain {
 }
 
 type SignUpReq struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name     string `json:"name" validate:"required"`
+	Email    string `json:"email" validate:"required,email"`
+	Password string `json:"password" validate:"required"`
 	Img      string `json:"img"`
 }
 

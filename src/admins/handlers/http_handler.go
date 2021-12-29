@@ -31,7 +31,6 @@ func NewHttpHandler(s entities.Service) *adminHandler {
 // @Router /admin/login [post]
 func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
-
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
@@ -64,12 +63,17 @@ func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 // @Router /admin/signup [post]
 func (h *adminHandler) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
-
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	// TODO add struct validator
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
 
 	res, err := h.adminService.SignUp(payload.ToDomain())
 	if err != nil {

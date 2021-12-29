@@ -1,12 +1,12 @@
 package services
 
 import (
-	"errors"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/auth"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
+	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
 )
 
@@ -27,7 +27,7 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 	}
 
 	if !agent.Status {
-		return auth.Token{}, errors.New("account disabled")
+		return auth.Token{}, web.AccountDisabled
 	}
 
 	if err := helpers.ValidateHash(agent.Password, payload.Password); err != nil {

@@ -402,6 +402,11 @@ var doc = `{
         },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq": {
             "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
