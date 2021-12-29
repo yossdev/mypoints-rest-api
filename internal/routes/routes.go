@@ -11,6 +11,7 @@ import (
 	_adminRoute "github.com/yossdev/mypoints-rest-api/src/admins/router"
 	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
 	_productRoute "github.com/yossdev/mypoints-rest-api/src/products/router"
+	_rewardRoute "github.com/yossdev/mypoints-rest-api/src/rewards/router"
 	_transactionRoute "github.com/yossdev/mypoints-rest-api/src/transactions/router"
 )
 
@@ -74,6 +75,13 @@ func (r *RouterStruct) GetRoutes() {
 	}
 	productRouter := _productRoute.NewHttpRoute(productRouterStruct)
 	productRouter.GetRoute()
+
+	// Reward Route
+	rewardRouterStruct := _rewardRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	rewardRouter := _rewardRoute.NewHttpRoute(rewardRouterStruct)
+	rewardRouter.GetRoute()
 
 	// handling 404 error
 	v1.Use(func(c *fiber.Ctx) error {

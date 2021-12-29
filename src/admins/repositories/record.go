@@ -5,6 +5,7 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/admins/entities"
 	_agent "github.com/yossdev/mypoints-rest-api/src/agents/repositories"
 	_product "github.com/yossdev/mypoints-rest-api/src/products/repositories"
+	_reward "github.com/yossdev/mypoints-rest-api/src/rewards/repositories"
 	"time"
 )
 
@@ -16,6 +17,7 @@ type Admin struct {
 	Img       string
 	Agents    []_agent.Agent     `gorm:"constraint:OnUpdate:RESTRICT,OnDelete:RESTRICT;"`
 	Products  []_product.Product `gorm:"constraint:OnUpdate:RESTRICT,OnDelete:RESTRICT;"`
+	Rewards   []_reward.Reward   `gorm:"constraint:OnUpdate:RESTRICT,OnDelete:RESTRICT;"`
 	CreatedAt time.Time          `gorm:"not null; default: now()"`
 	UpdatedAt time.Time          `gorm:"not null; default: now()"`
 }
