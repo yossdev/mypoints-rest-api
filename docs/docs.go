@@ -99,6 +99,74 @@ var doc = `{
                 }
             }
         },
+        "/admin/profile/:id": {
+            "put": {
+                "description": "update admin data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/profile/avatar/:id": {
+            "put": {
+                "description": "update admin photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/signup": {
             "post": {
                 "description": "create admin account.",
@@ -166,6 +234,95 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/profile/:id": {
+            "get": {
+                "description": "Get agent data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "get agent data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Profile"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "update agent data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/avatar/:id": {
+            "put": {
+                "description": "update agent photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -180,7 +337,47 @@ var doc = `{
                 }
             }
         },
+        "dto.Profile": {
+            "type": "object",
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -205,6 +402,11 @@ var doc = `{
         },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq": {
             "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -220,7 +422,44 @@ var doc = `{
                 }
             }
         },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -269,6 +508,35 @@ var doc = `{
                 },
                 "status": {
                     "type": "boolean"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
                 }
             }
         }

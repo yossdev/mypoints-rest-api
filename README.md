@@ -7,11 +7,15 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 [MyPointsPPT]()
 
+## APIs Doc
+[MyPoints REST APIs](https://server.mypoints.site/api/v1/swagger/index.html)
+
 ## Features
 
 - [x] Sign-in admin & agent
 - [x] Sign-up admin & agent
 - [x] Get agent profile
+- [x] Update Account & Avatar for admin & agent
 - [ ] Claim points for product sold
 - [ ] Redeem points for a reward
 
@@ -21,6 +25,7 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 - REST Server: [**fiber v2**](https://docs.gofiber.io/)
 - Database: **PostgreSQL**, **MongoDB**
 - ORM: [**gorm**](https://gorm.io/docs/)
+- Nginx & Cloudflare
 
 ## Third-party API used:
 - [xendit](https://www.xendit.co/en-id/) - Payment gateway

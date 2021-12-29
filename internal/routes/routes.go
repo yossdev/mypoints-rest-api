@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"errors"
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -9,6 +10,9 @@ import (
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_adminRoute "github.com/yossdev/mypoints-rest-api/src/admins/router"
 	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
+	_productRoute "github.com/yossdev/mypoints-rest-api/src/products/router"
+	_rewardRoute "github.com/yossdev/mypoints-rest-api/src/rewards/router"
+	_transactionRoute "github.com/yossdev/mypoints-rest-api/src/transactions/router"
 )
 
 type RouterStruct struct {
@@ -58,8 +62,29 @@ func (r *RouterStruct) GetRoutes() {
 	agentRouter := _agentRoute.NewHttpRoute(agentRouterStruct)
 	agentRouter.GetRoute()
 
+	// Transaction Route
+	transactionRouterStruct := _transactionRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	transactionRouter := _transactionRoute.NewHttpRoute(transactionRouterStruct)
+	transactionRouter.GetRoute()
+
+	// Product Route
+	productRouterStruct := _productRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	productRouter := _productRoute.NewHttpRoute(productRouterStruct)
+	productRouter.GetRoute()
+
+	// Reward Route
+	rewardRouterStruct := _rewardRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	rewardRouter := _rewardRoute.NewHttpRoute(rewardRouterStruct)
+	rewardRouter.GetRoute()
+
 	// handling 404 error
 	v1.Use(func(c *fiber.Ctx) error {
-		return web.JsonResponse(c, fiber.StatusNotFound, "Sorry can't find that!", nil)
+		return web.JsonErrorResponse(c, fiber.StatusNotFound, errors.New("sorry can't find that"), nil)
 	})
 }

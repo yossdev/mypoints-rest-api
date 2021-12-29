@@ -63,7 +63,91 @@ func JwtVerifyToken(c *fiber.Ctx) error {
 		sub := t.Claims.(jwt.MapClaims)["sub"]
 		id := c.Params("id")
 		if sub != id {
-			return nil, fmt.Errorf("forbidden")
+			return nil, fmt.Errorf("unexpected token sub")
+		}
+
+		return []byte(configs.Get().JwtSecretKey), nil
+	})
+
+	if err != nil || !token.Valid {
+		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, errors.New(web.InvalidJwt), err)
+	}
+
+	return c.Next()
+}
+
+// JwtVerifyTokenAgent func for verify jwt token with signed string HS265
+func JwtVerifyTokenAgent(c *fiber.Ctx) error {
+	jwtToken := strings.Replace(c.Get("Authorization"), fmt.Sprintf("%s ", "Bearer"), "", 1)
+
+	if jwtToken == "" {
+		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, errors.New(web.InvalidJwt), web.BadCredential)
+	}
+
+	req := new(http.Request)
+	req.Header = http.Header{}
+	req.Header.Set("Authorization", jwtToken)
+
+	token, err := jwt.Parse(jwtToken, func(t *jwt.Token) (interface{}, error) {
+		// check jwt token type
+		tokenType := t.Claims.(jwt.MapClaims)["token_type"]
+		if tokenType != "access_token" {
+			return nil, fmt.Errorf("unexpected token type: %v", tokenType)
+		}
+
+		// check jwt sub and id from param
+		sub := t.Claims.(jwt.MapClaims)["sub"]
+		id := c.Params("id")
+		if sub != id {
+			return nil, fmt.Errorf("unexpected token sub")
+		}
+
+		// check role
+		role := t.Claims.(jwt.MapClaims)["role"]
+		if role != "agent" {
+			return nil, fmt.Errorf("unexpected token role")
+		}
+
+		return []byte(configs.Get().JwtSecretKey), nil
+	})
+
+	if err != nil || !token.Valid {
+		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, errors.New(web.InvalidJwt), err)
+	}
+
+	return c.Next()
+}
+
+// JwtVerifyTokenAdmin func for verify jwt token with signed string HS265
+func JwtVerifyTokenAdmin(c *fiber.Ctx) error {
+	jwtToken := strings.Replace(c.Get("Authorization"), fmt.Sprintf("%s ", "Bearer"), "", 1)
+
+	if jwtToken == "" {
+		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, errors.New(web.InvalidJwt), web.BadCredential)
+	}
+
+	req := new(http.Request)
+	req.Header = http.Header{}
+	req.Header.Set("Authorization", jwtToken)
+
+	token, err := jwt.Parse(jwtToken, func(t *jwt.Token) (interface{}, error) {
+		// check jwt token type
+		tokenType := t.Claims.(jwt.MapClaims)["token_type"]
+		if tokenType != "access_token" {
+			return nil, fmt.Errorf("unexpected token type: %v", tokenType)
+		}
+
+		// check jwt sub and id from param
+		sub := t.Claims.(jwt.MapClaims)["sub"]
+		id := c.Params("id")
+		if sub != id {
+			return nil, fmt.Errorf("unexpected token sub")
+		}
+
+		// check role
+		role := t.Claims.(jwt.MapClaims)["role"]
+		if role != "admins" {
+			return nil, fmt.Errorf("unexpected token role")
 		}
 
 		return []byte(configs.Get().JwtSecretKey), nil
