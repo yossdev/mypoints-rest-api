@@ -28,7 +28,7 @@ import (
 // @license.name Apache 2.0
 // @license.url https://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host server.mypoints.site
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization

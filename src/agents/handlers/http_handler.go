@@ -80,7 +80,7 @@ func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusCreated, web.Created, dto.AccountCreated{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusCreated, web.AccountCreated, dto.AccountCreated{RowsAffected: res})
 }
 
 // GetAgent get handler.
