@@ -1,8 +1,9 @@
 package web
 
 var (
-	Welcome    = "welcome"
-	Success    = "success"
-	Created    = "account created"
-	InvalidJwt = "malformed or invalid jwt"
+	AccountCreated = "account created"
+	InvalidJwt     = "malformed or invalid jwt"
+	RewardCreated  = "reward created"
+	Success        = "success"
+	Welcome        = "welcome"
 )

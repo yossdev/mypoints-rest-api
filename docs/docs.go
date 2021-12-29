@@ -323,6 +323,106 @@ var doc = `{
                     }
                 }
             }
+        },
+        "/reward/:id": {
+            "post": {
+                "description": "create reward by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "admins can create reward",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newReward",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewReward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RowsAffected"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "soft delete reward data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "soft delete reward data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "deleteReward",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteReward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RowsAffected"
+                        }
+                    }
+                }
+            }
+        },
+        "/reward/:id/:rewardId": {
+            "put": {
+                "description": "update reward data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "update reward data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateReward",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateReward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RowsAffected"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -334,6 +434,43 @@ var doc = `{
                 },
                 "refresh_token": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.DeleteReward": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.NewReward": {
+            "type": "object",
+            "required": [
+                "admin_id",
+                "points",
+                "title",
+                "value"
+            ],
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
                 }
             }
         },
@@ -366,6 +503,36 @@ var doc = `{
                 },
                 "updated_at": {
                     "type": "string"
+                }
+            }
+        },
+        "dto.RowsAffected": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateReward": {
+            "type": "object",
+            "required": [
+                "points",
+                "title",
+                "value"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
                 }
             }
         },
@@ -562,7 +729,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
+	Host:        "server.mypoints.site",
 	BasePath:    "/api/v1",
 	Schemes:     []string{},
 	Title:       "MyPoints API",

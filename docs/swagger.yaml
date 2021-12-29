@@ -7,6 +7,31 @@ definitions:
       refresh_token:
         type: string
     type: object
+  dto.DeleteReward:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  dto.NewReward:
+    properties:
+      admin_id:
+        type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - admin_id
+    - points
+    - title
+    - value
+    type: object
   dto.Profile:
     properties:
       admin_id:
@@ -27,6 +52,26 @@ definitions:
         type: boolean
       updated_at:
         type: string
+    type: object
+  dto.RowsAffected:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.UpdateReward:
+    properties:
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - points
+    - title
+    - value
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
     properties:
@@ -141,7 +186,7 @@ definitions:
     required:
     - img
     type: object
-host: localhost:8080
+host: server.mypoints.site
 info:
   contact:
     email: zenhanprogram@gmail.com
@@ -344,6 +389,71 @@ paths:
       summary: update agent photo profile
       tags:
       - Agent
+  /reward/:id:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete reward data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: deleteReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteReward'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RowsAffected'
+      summary: soft delete reward data
+      tags:
+      - Reward
+    post:
+      consumes:
+      - application/json
+      description: create reward by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewReward'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RowsAffected'
+      summary: admins can create reward
+      tags:
+      - Admin
+  /reward/:id/:rewardId:
+    put:
+      consumes:
+      - application/json
+      description: update reward data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateReward'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RowsAffected'
+      summary: update reward data
+      tags:
+      - Reward
 securityDefinitions:
   ApiKeyAuth:
     in: header

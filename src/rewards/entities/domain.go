@@ -8,11 +8,11 @@ import (
 )
 
 type Domain struct {
-	ID           int32
+	ID           uint32
 	AdminID      uuid.UUID
 	Title        string
-	Value        int64
-	Points       int32
+	Value        uint64
+	Points       uint32
 	Img          string
 	Transactions []_transaction.Domain
 	CreatedAt    time.Time
@@ -21,9 +21,13 @@ type Domain struct {
 }
 
 type Service interface {
-	CreateReward() error
+	CreateReward(payload *Domain) (int64, error)
+	UpdateReward(rewardId string, payload *Domain) (int64, error)
+	DeleteReward(payload *Domain) (int64, error)
 }
 
 type PsqlRepository interface {
-	Create() error
+	Create(payload *Domain) (int64, error)
+	Update(payload *Domain) (int64, error)
+	Delete(id uint32) (int64, error)
 }
