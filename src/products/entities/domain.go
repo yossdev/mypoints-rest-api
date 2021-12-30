@@ -8,10 +8,10 @@ import (
 )
 
 type Domain struct {
-	ID           int32
+	ID           uint32
 	AdminID      uuid.UUID
 	Title        string
-	Points       int32
+	Points       uint32
 	Img          string
 	Transactions []_transaction.Domain
 	CreatedAt    time.Time

@@ -38,13 +38,3 @@ func (req *UpdateReward) ToDomain() *entities.Domain {
 		Img:    req.Img,
 	}
 }
-
-type DeleteReward struct {
-	ID uint32 `json:"id" validate:"required,numeric,gt=0"`
-}
-
-func (req *DeleteReward) ToDomain() *entities.Domain {
-	return &entities.Domain{
-		ID: req.ID,
-	}
-}

@@ -15,14 +15,6 @@ func NewTransactionPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	}
 }
 
-func (p *transactionPsqlRepository) GetMany() error {
-	return nil
-}
-
-func (p *transactionPsqlRepository) GetOne() error {
-	return nil
-}
-
-func (p *transactionPsqlRepository) GetManyAdmin() error {
+func (p *transactionPsqlRepository) Create() error {
 	return nil
 }

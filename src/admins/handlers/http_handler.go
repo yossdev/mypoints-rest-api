@@ -80,7 +80,7 @@ func (h *adminHandler) SignUp(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusCreated, web.AccountCreated, dto.AccountCreated{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusCreated, web.AccountCreated, dto.FromDomainAC(res))
 }
 
 // UpdateAdmin put handler.
@@ -113,7 +113,7 @@ func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.AccountUpdated{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))
 }
 
 // UpdateAvatar put handler.
@@ -146,5 +146,5 @@ func (h *adminHandler) UpdateAvatar(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.AccountUpdated{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))
 }

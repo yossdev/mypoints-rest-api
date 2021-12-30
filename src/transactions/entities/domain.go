@@ -8,11 +8,11 @@ import (
 type Domain struct {
 	ID            uuid.UUID
 	AgentID       uuid.UUID
-	RewardID      int32
-	ProductID     int32
+	RewardID      uint32
+	ProductID     uint32
 	Type          string
 	Title         string
-	Points        int32
+	Points        uint32
 	RedeemInvoice string
 	Status        string
 	CreatedAt     time.Time
@@ -32,13 +32,9 @@ type TransactionType struct {
 }
 
 type Service interface {
-	GetTransactions() error
-	GetTransactionDetail() error
-	GetTransactionsAdmin() error
+	CreateTransaction() error
 }
 
 type PsqlRepository interface {
-	GetMany() error
-	GetOne() error
-	GetManyAdmin() error
+	Create() error
 }

@@ -15,14 +15,6 @@ func NewHttpHandler(s entities.Service) *transactionHandler {
 	}
 }
 
-func (h *transactionHandler) GetTransactions(c *fiber.Ctx) error {
-	return nil
-}
-
-func (h *transactionHandler) GetTransactionDetail(c *fiber.Ctx) error {
-	return nil
-}
-
-func (h *transactionHandler) GetTransactionsAdmin(c *fiber.Ctx) error {
+func (h *transactionHandler) CreateTransaction(c *fiber.Ctx) error {
 	return nil
 }
