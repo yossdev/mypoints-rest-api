@@ -50,11 +50,7 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 
 func (s *agentService) GetAgent(id uuid.UUID) (*entities.Domain, error) {
 	agent, err := s.agentPsqlRepository.GetAgent(id)
-	if err != nil {
-		return &agent, err
-	}
-
-	return &agent, nil
+	return &agent, err
 }
 
 func (s *agentService) SignUp(payload *entities.Domain) (int64, error) {
