@@ -356,38 +356,6 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "soft delete reward data by id.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Reward"
-                ],
-                "summary": "soft delete reward data",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "deleteReward",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.DeleteReward"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.RowsAffected"
-                        }
-                    }
-                }
             }
         },
         "/reward/:id/:rewardId": {
@@ -422,6 +390,27 @@ var doc = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "description": "soft delete reward data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "soft delete reward data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RowsAffected"
+                        }
+                    }
+                }
             }
         }
     },
@@ -434,17 +423,6 @@ var doc = `{
                 },
                 "refresh_token": {
                     "type": "string"
-                }
-            }
-        },
-        "dto.DeleteReward": {
-            "type": "object",
-            "required": [
-                "id"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer"
                 }
             }
         },
@@ -477,10 +455,14 @@ var doc = `{
         "dto.Profile": {
             "type": "object",
             "properties": {
+                "active": {
+                    "type": "boolean"
+                },
                 "admin_id": {
                     "type": "string"
                 },
                 "created_at": {
+                    "description": "Transactions []_transaction.Domain ` + "`" + `json:\"transactions\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {
@@ -497,9 +479,6 @@ var doc = `{
                 },
                 "points": {
                     "type": "integer"
-                },
-                "status": {
-                    "type": "boolean"
                 },
                 "updated_at": {
                     "type": "string"
@@ -658,6 +637,9 @@ var doc = `{
                 "password"
             ],
             "properties": {
+                "active": {
+                    "type": "boolean"
+                },
                 "admin_id": {
                     "type": "string"
                 },
@@ -672,9 +654,6 @@ var doc = `{
                 },
                 "password": {
                     "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
                 }
             }
         },

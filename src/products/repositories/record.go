@@ -8,10 +8,10 @@ import (
 )
 
 type Product struct {
-	ID           int32     `gorm:"primaryKey; autoIncrement"`
+	ID           uint32    `gorm:"primaryKey; autoIncrement"`
 	AdminID      uuid.UUID `gorm:"type:uuid; not null"`
 	Title        string    `gorm:"not null"`
-	Points       int32     `gorm:"not null"`
+	Points       uint32    `gorm:"not null"`
 	Img          string
 	Transactions []_t.Transaction `gorm:"constraint:OnUpdate:RESTRICT,OnDelete:RESTRICT;"`
 	CreatedAt    time.Time        `gorm:"not null; default: now()"`

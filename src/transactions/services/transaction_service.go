@@ -12,14 +12,6 @@ func NewTransactionService(p entities.PsqlRepository) entities.Service {
 	}
 }
 
-func (s *transactionService) GetTransactions() error {
-	return nil
-}
-
-func (s *transactionService) GetTransactionDetail() error {
-	return nil
-}
-
-func (s *transactionService) GetTransactionsAdmin() error {
+func (s *transactionService) CreateTransaction() error {
 	return nil
 }

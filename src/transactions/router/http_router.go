@@ -24,14 +24,13 @@ func (r *HttpRouter) GetRoute() {
 	api := r.Web.Group("api")
 	v1 := api.Group("/v1")
 
-	admin := v1.Group("/:id/transactions") // param for agent id
-	agent := v1.Group("/:id/transactions") // param for agent id
+	admin := v1.Group("/admin/:id/transactions") // param for agent id
+	agent := v1.Group("/:id/transactions")       // param for agent id
 
 	// Private
 	// Agent API only for agent
-	agent.Get("/", middleware.JwtVerifyTokenAgent, transactionHandler.GetTransactions)
-	agent.Get("/:transactionId", middleware.JwtVerifyTokenAgent, transactionHandler.GetTransactionDetail)
+	agent.Get("/", middleware.JwtVerifyTokenAgent, transactionHandler.CreateTransaction)
 
 	// Admin API only for admin
-	admin.Get("/", middleware.JwtVerifyTokenAdmin, transactionHandler.GetTransactionsAdmin)
+	admin.Get("/", middleware.JwtVerifyTokenAdmin, transactionHandler.CreateTransaction)
 }

@@ -15,15 +15,15 @@ func NewAdminPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	}
 }
 
-func (p *adminPsqlRepository) SignInWithEmail(email string) (*entities.Domain, error) {
+func (p *adminPsqlRepository) SignInWithEmail(email string) (entities.Domain, error) {
 	admin := Admin{}
 
 	res := p.DB.DB().Where("email = ?", email).First(&admin)
 	if res.Error != nil {
-		return admin.toDomain(), res.Error
+		return admin.ToDomain(), res.Error
 	}
 
-	return admin.toDomain(), nil
+	return admin.ToDomain(), nil
 }
 
 func (p *adminPsqlRepository) CreateAdmin(payload *entities.Domain) (int64, error) {

@@ -16,24 +16,30 @@ func NewAgentPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	}
 }
 
-func (p *agentPsqlRepository) SignInWithEmail(email string) (*entities.Domain, error) {
+func (p *agentPsqlRepository) SignInWithEmail(email string) (entities.Domain, error) {
 	agent := Agent{}
 
 	res := p.DB.DB().Where("email = ?", email).First(&agent)
 	if res.Error != nil {
-		return agent.toDomain(), res.Error
+		return agent.ToDomain(), res.Error
 	}
 
-	return agent.toDomain(), nil
+	return agent.ToDomain(), nil
 }
 
-func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
+func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (entities.Domain, error) {
 	agent := Agent{}
+
+	// Preload all relations
+	//if err := p.DB.DB().Preload(clause.Associations).First(&agent, "id = ?", id).Error; err != nil {
+	//	return agent.ToDomain(), err
+	//}
+
 	if err := p.DB.DB().First(&agent, "id = ?", id).Error; err != nil {
-		return nil, err
+		return agent.ToDomain(), err
 	}
 
-	return agent.toDomain(), nil
+	return agent.ToDomain(), nil
 }
 
 func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, error) {
@@ -43,7 +49,7 @@ func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, erro
 		Email:    payload.Email,
 		Password: payload.Password,
 		Img:      payload.Img,
-		Status:   payload.Status,
+		Active:   payload.Active,
 	}
 	res := p.DB.DB().Create(&agent)
 	if res.Error != nil {

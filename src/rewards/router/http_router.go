@@ -27,5 +27,5 @@ func (r *HttpRouter) GetRoute() {
 	//	Private - for admin only
 	v1.Post("/reward/:id", middleware.JwtVerifyTokenAdmin, rewardHandler.CreateReward)
 	v1.Put("/reward/:id/:rewardId", middleware.JwtVerifyTokenAdmin, rewardHandler.UpdateReward)
-	v1.Delete("/reward/:id/", middleware.JwtVerifyTokenAdmin, rewardHandler.DeleteReward)
+	v1.Delete("/reward/:id/:rewardId", middleware.JwtVerifyTokenAdmin, rewardHandler.DeleteReward)
 }

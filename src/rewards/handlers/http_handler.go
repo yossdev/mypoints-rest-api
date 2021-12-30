@@ -47,7 +47,7 @@ func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusFailedDependency, web.Failed, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusCreated, web.RewardCreated, dto.RowsAffected{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusCreated, web.RewardCreated, dto.FromDomainRA(res))
 }
 
 // UpdateReward put handler.
@@ -60,9 +60,13 @@ func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 // @Success 200 {object} dto.RowsAffected
 // @Router /reward/:id/:rewardId [put]
 func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
-	payload := new(dto.UpdateReward)
-	rewardId := c.Params("rewardId")
+	params := c.Params("rewardId")
+	rewardId, convErr := helpers.StringToUint32(params)
+	if convErr != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, convErr)
+	}
 
+	payload := new(dto.UpdateReward)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
@@ -80,7 +84,7 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusUnprocessableEntity, fiber.ErrUnprocessableEntity, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.RowsAffected{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainRA(res))
 }
 
 // DeleteReward delete handler.
@@ -89,27 +93,19 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 // @Tags Reward
 // @Accept json
 // @Produce json
-// @Param deleteReward body dto.DeleteReward true "body request"
 // @Success 200 {object} dto.RowsAffected
-// @Router /reward/:id [delete]
+// @Router /reward/:id/:rewardId [delete]
 func (h *rewardHandler) DeleteReward(c *fiber.Ctx) error {
-	payload := new(dto.DeleteReward)
-	if err := c.BodyParser(payload); err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	params := c.Params("rewardId")
+	rewardId, convErr := helpers.StringToUint32(params)
+	if convErr != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, convErr)
 	}
 
-	// Create a new validator.
-	validate := helpers.NewValidator()
-	// Validate fields from payload.
-	if err := validate.Struct(payload); err != nil {
-		// Return, if some fields are not valid.
-		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
-	}
-
-	res, err := h.rewardService.DeleteReward(payload.ToDomain())
+	res, err := h.rewardService.DeleteReward(rewardId)
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusNotFound, web.IDNotFound, err)
 	}
 
-	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.RowsAffected{RowsAffected: res})
+	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainRA(res))
 }

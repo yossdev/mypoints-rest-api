@@ -30,7 +30,7 @@ type Service interface {
 }
 
 type PsqlRepository interface {
-	SignInWithEmail(email string) (*Domain, error)
+	SignInWithEmail(email string) (Domain, error)
 	CreateAdmin(payload *Domain) (int64, error)
 	UpdateAdmin(payload *Domain) (int64, error)
 	UpdateAvatar(payload *Domain) (int64, error)
