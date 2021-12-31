@@ -7,16 +7,52 @@ definitions:
       refresh_token:
         type: string
     type: object
-  dto.AccountUpdated:
+  dto.NewProduct:
+    properties:
+      admin_id:
+        type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+    required:
+    - admin_id
+    - points
+    - title
+    type: object
+  dto.NewReward:
+    properties:
+      admin_id:
+        type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - admin_id
+    - points
+    - title
+    - value
+    type: object
+  dto.ProductRes:
     properties:
       rows_affected:
         type: integer
     type: object
   dto.Profile:
     properties:
+      active:
+        type: boolean
       admin_id:
         type: string
       created_at:
+        description: Transactions []_transaction.Domain `json:"transactions"`
         type: string
       email:
         type: string
@@ -28,27 +64,47 @@ definitions:
         type: string
       points:
         type: integer
-      status:
-        type: boolean
       updated_at:
         type: string
     type: object
-  dto.UpdateAccount:
+  dto.RewardRes:
     properties:
-      email:
-        type: string
+      rows_affected:
+        type: integer
+    type: object
+  dto.UpdateProduct:
+    properties:
       img:
         type: string
-      name:
-        type: string
-      password:
+      points:
+        type: integer
+      title:
         type: string
     required:
-    - email
-    - name
-    - password
+    - points
+    - title
+    type: object
+  dto.UpdateReward:
+    properties:
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - points
+    - title
+    - value
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated:
     properties:
       rows_affected:
         type: integer
@@ -73,8 +129,36 @@ definitions:
         type: string
       password:
         type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar:
+    properties:
+      img:
+        type: string
+    required:
+    - img
     type: object
   github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated:
     properties:
       rows_affected:
         type: integer
@@ -91,6 +175,8 @@ definitions:
     type: object
   github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq:
     properties:
+      active:
+        type: boolean
       admin_id:
         type: string
       email:
@@ -101,15 +187,32 @@ definitions:
         type: string
       password:
         type: string
-      status:
-        type: boolean
     required:
     - admin_id
     - email
     - name
     - password
     type: object
-host: localhost:8080
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - name
+    type: object
+  github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar:
+    properties:
+      img:
+        type: string
+    required:
+    - img
+    type: object
+host: server.mypoints.site
 info:
   contact:
     email: zenhanprogram@gmail.com
@@ -166,6 +269,50 @@ paths:
       summary: check admins by given email return jwt token if successfully signIn
       tags:
       - Admin
+  /admin/profile/:id:
+    put:
+      consumes:
+      - application/json
+      description: update admin data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAccount
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+      summary: update admin data
+      tags:
+      - Admin
+  /admin/profile/avatar/:id:
+    put:
+      consumes:
+      - application/json
+      description: update admin photo profile by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAvatar
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+      summary: update admin photo profile
+      tags:
+      - Admin
   /admin/signup:
     post:
       consumes:
@@ -210,6 +357,64 @@ paths:
       summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agent
+  /product/:id:
+    post:
+      consumes:
+      - application/json
+      description: create product by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: admins can create product
+      tags:
+      - Product
+  /product/:id/:productId:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete product data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: soft delete product data
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: update product data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateProduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: update product data
+      tags:
+      - Product
   /profile/:id:
     get:
       consumes:
@@ -235,17 +440,97 @@ paths:
         name: updateAccount
         required: true
         schema:
-          $ref: '#/definitions/dto.UpdateAccount'
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount'
       produces:
       - application/json
       responses:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.AccountUpdated'
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
       summary: update agent data
       tags:
       - Agent
+  /profile/avatar/:id:
+    put:
+      consumes:
+      - application/json
+      description: update agent photo profile by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAvatar
+        required: true
+        schema:
+          $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
+      summary: update agent photo profile
+      tags:
+      - Agent
+  /reward/:id:
+    post:
+      consumes:
+      - application/json
+      description: create reward by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewReward'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: admins can create reward
+      tags:
+      - Reward
+  /reward/:id/:rewardId:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete reward data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: soft delete reward data
+      tags:
+      - Reward
+    put:
+      consumes:
+      - application/json
+      description: update reward data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateReward'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: update reward data
+      tags:
+      - Reward
 securityDefinitions:
   ApiKeyAuth:
     in: header

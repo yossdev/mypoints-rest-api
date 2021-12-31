@@ -5,10 +5,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/yossdev/mypoints-rest-api/internal/middleware"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_adminRoute "github.com/yossdev/mypoints-rest-api/src/admins/router"
 	_agentRoute "github.com/yossdev/mypoints-rest-api/src/agents/router"
+	_productRoute "github.com/yossdev/mypoints-rest-api/src/products/router"
+	_rewardRoute "github.com/yossdev/mypoints-rest-api/src/rewards/router"
 	_transactionRoute "github.com/yossdev/mypoints-rest-api/src/transactions/router"
 )
 
@@ -23,6 +26,9 @@ func NewHttpRoute(r RouterStruct) RouterStruct {
 func (r *RouterStruct) GetRoutes() {
 	api := r.Web.Group("api")
 	v1 := api.Group("/v1")
+
+	// Recover from panic
+	v1.Use(recover.New())
 
 	// Fiber middleware
 	v1.Use(logger.New(), cors.New())
@@ -65,6 +71,20 @@ func (r *RouterStruct) GetRoutes() {
 	}
 	transactionRouter := _transactionRoute.NewHttpRoute(transactionRouterStruct)
 	transactionRouter.GetRoute()
+
+	// Product Route
+	productRouterStruct := _productRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	productRouter := _productRoute.NewHttpRoute(productRouterStruct)
+	productRouter.GetRoute()
+
+	// Reward Route
+	rewardRouterStruct := _rewardRoute.HttpRouter{
+		RouterStruct: webRouterConfig,
+	}
+	rewardRouter := _rewardRoute.NewHttpRoute(rewardRouterStruct)
+	rewardRouter.GetRoute()
 
 	// handling 404 error
 	v1.Use(func(c *fiber.Ctx) error {

@@ -5,24 +5,21 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/transactions/entities"
 )
 
-type transactionHandler struct {
-	transactionService entities.Service
+// TransactionHandlers contains method used for the handler
+type TransactionHandlers interface {
+	CreateTransaction(c *fiber.Ctx) error
 }
 
-func NewHttpHandler(s entities.Service) *transactionHandler {
-	return &transactionHandler{
-		transactionService: s,
+type transactionHandlers struct {
+	TransactionService entities.Service
+}
+
+func NewHttpHandler(s entities.Service) TransactionHandlers {
+	return &transactionHandlers{
+		TransactionService: s,
 	}
 }
 
-func (h *transactionHandler) GetTransactions(c *fiber.Ctx) error {
-	return nil
-}
-
-func (h *transactionHandler) GetTransactionDetail(c *fiber.Ctx) error {
-	return nil
-}
-
-func (h *transactionHandler) GetTransactionsAdmin(c *fiber.Ctx) error {
+func (h *transactionHandlers) CreateTransaction(c *fiber.Ctx) error {
 	return nil
 }

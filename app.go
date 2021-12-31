@@ -10,6 +10,8 @@ import (
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_admin "github.com/yossdev/mypoints-rest-api/src/admins/repositories"
 	_agent "github.com/yossdev/mypoints-rest-api/src/agents/repositories"
+	_product "github.com/yossdev/mypoints-rest-api/src/products/repositories"
+	_reward "github.com/yossdev/mypoints-rest-api/src/rewards/repositories"
 	_transaction "github.com/yossdev/mypoints-rest-api/src/transactions/repositories"
 	"gorm.io/gorm"
 	"log"
@@ -26,7 +28,7 @@ import (
 // @license.name Apache 2.0
 // @license.url https://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host server.mypoints.site
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
@@ -61,6 +63,8 @@ func dbMigrate(db *gorm.DB) {
 		&_agent.Agent{},
 		&_transaction.TransactionType{},
 		&_transaction.TransactionStatus{},
+		&_product.Product{},
+		&_reward.Reward{},
 		&_transaction.Transaction{},
 	)
 	if err != nil {

@@ -3,11 +3,14 @@ package web
 import "errors"
 
 var (
+	AccountDisabled   = errors.New("account disabled")
 	BadRequest        = errors.New("something is not right")
 	BadCredential     = errors.New("bad credentials")
+	CannotProcess     = errors.New("can't process")
+	DuplicateData     = errors.New("duplicate data")
+	Failed            = errors.New("something when wrong when trying to create")
 	Forbidden         = errors.New("forbidden")
 	InternalServerErr = errors.New("something gone wrong, contact administrator")
-	NotFound          = errors.New("data not found")
 	IDNotFound        = errors.New("id not found")
-	DuplicateData     = errors.New("duplicate data")
+	NotFound          = errors.New("data not found")
 )

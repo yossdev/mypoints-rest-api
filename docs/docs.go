@@ -99,6 +99,74 @@ var doc = `{
                 }
             }
         },
+        "/admin/profile/:id": {
+            "put": {
+                "description": "update admin data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/profile/avatar/:id": {
+            "put": {
+                "description": "update admin photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/signup": {
             "post": {
                 "description": "create admin account.",
@@ -167,6 +235,95 @@ var doc = `{
                 }
             }
         },
+        "/product/:id": {
+            "post": {
+                "description": "create product by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "admins can create product",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newProduct",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/:id/:productId": {
+            "put": {
+                "description": "update product data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "update product data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateProduct",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "soft delete product data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "soft delete product data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            }
+        },
         "/profile/:id": {
             "get": {
                 "description": "Get agent data by id.",
@@ -208,7 +365,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/dto.UpdateAccount"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount"
                         }
                     }
                 ],
@@ -216,7 +373,130 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.AccountUpdated"
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/avatar/:id": {
+            "put": {
+                "description": "update agent photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent photo profile",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    }
+                }
+            }
+        },
+        "/reward/:id": {
+            "post": {
+                "description": "create reward by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "admins can create reward",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newReward",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewReward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RewardRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/reward/:id/:rewardId": {
+            "put": {
+                "description": "update reward data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "update reward data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateReward",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateReward"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RewardRes"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "soft delete reward data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Reward"
+                ],
+                "summary": "soft delete reward data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.RewardRes"
                         }
                     }
                 }
@@ -235,7 +515,55 @@ var doc = `{
                 }
             }
         },
-        "dto.AccountUpdated": {
+        "dto.NewProduct": {
+            "type": "object",
+            "required": [
+                "admin_id",
+                "points",
+                "title"
+            ],
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.NewReward": {
+            "type": "object",
+            "required": [
+                "admin_id",
+                "points",
+                "title",
+                "value"
+            ],
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ProductRes": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -246,10 +574,14 @@ var doc = `{
         "dto.Profile": {
             "type": "object",
             "properties": {
+                "active": {
+                    "type": "boolean"
+                },
                 "admin_id": {
                     "type": "string"
                 },
                 "created_at": {
+                    "description": "Transactions []_transaction.Domain ` + "`" + `json:\"transactions\"` + "`" + `",
                     "type": "string"
                 },
                 "email": {
@@ -267,37 +599,68 @@ var doc = `{
                 "points": {
                     "type": "integer"
                 },
-                "status": {
-                    "type": "boolean"
-                },
                 "updated_at": {
                     "type": "string"
                 }
             }
         },
-        "dto.UpdateAccount": {
+        "dto.RewardRes": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateProduct": {
             "type": "object",
             "required": [
-                "email",
-                "name",
-                "password"
+                "points",
+                "title"
             ],
             "properties": {
-                "email": {
-                    "type": "string"
-                },
                 "img": {
                     "type": "string"
                 },
-                "name": {
-                    "type": "string"
+                "points": {
+                    "type": "integer"
                 },
-                "password": {
+                "title": {
                     "type": "string"
                 }
             }
         },
+        "dto.UpdateReward": {
+            "type": "object",
+            "required": [
+                "points",
+                "title",
+                "value"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "integer"
+                }
+            }
+        },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -322,6 +685,11 @@ var doc = `{
         },
         "github.com_yossdev_mypoints-rest-api_src_admins_dto.SignUpReq": {
             "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
             "properties": {
                 "email": {
                     "type": "string"
@@ -337,7 +705,44 @@ var doc = `{
                 }
             }
         },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                }
+            }
+        },
         "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated": {
             "type": "object",
             "properties": {
                 "rows_affected": {
@@ -369,6 +774,9 @@ var doc = `{
                 "password"
             ],
             "properties": {
+                "active": {
+                    "type": "boolean"
+                },
                 "admin_id": {
                     "type": "string"
                 },
@@ -383,9 +791,35 @@ var doc = `{
                 },
                 "password": {
                     "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAccount": {
+            "type": "object",
+            "required": [
+                "email",
+                "name"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
                 },
-                "status": {
-                    "type": "boolean"
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar": {
+            "type": "object",
+            "required": [
+                "img"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
                 }
             }
         }
@@ -411,7 +845,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
+	Host:        "server.mypoints.site",
 	BasePath:    "/api/v1",
 	Schemes:     []string{},
 	Title:       "MyPoints API",

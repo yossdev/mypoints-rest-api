@@ -1,6 +1,7 @@
 package router
 
 import (
+	"github.com/yossdev/mypoints-rest-api/internal/middleware"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/admins/handlers"
 	"github.com/yossdev/mypoints-rest-api/src/admins/repositories"
@@ -28,5 +29,6 @@ func (r *HttpRouter) GetRoute() {
 	v1.Post("/admin/signup", adminHandler.SignUp)
 
 	// Private
-
+	v1.Put("/admin/profile/:id", middleware.JwtVerifyTokenAdmin, adminHandler.UpdateAdmin)
+	v1.Put("/admin/profile/avatar/:id", middleware.JwtVerifyTokenAdmin, adminHandler.UpdateAvatar)
 }
