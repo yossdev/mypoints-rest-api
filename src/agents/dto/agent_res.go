@@ -19,7 +19,7 @@ type Profile struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func FromDomainProfile(d *entities.Domain) Profile {
+func FromDomainProfile(d entities.Domain) Profile {
 	return Profile{
 		ID:      d.ID,
 		AdminID: d.AdminID,

@@ -19,23 +19,23 @@ func NewAdminService(p entities.PsqlRepository) entities.Service {
 	}
 }
 
-func (s *adminService) SignIn(payload *entities.Domain) (auth.Token, error) {
+func (s *adminService) SignIn(payload entities.Domain) (auth.Token, error) {
 	admin, err := s.adminPsqlRepository.SignInWithEmail(payload.Email)
 	if err != nil {
 		return auth.Token{}, err
 	}
 
-	if err := helpers.ValidateHash(admin.Password, payload.Password); err != nil {
+	if err := helpers.ValidateHash(admin[0], payload.Password); err != nil {
 		return auth.Token{}, err
 	}
 
 	token := auth.Sign(jwt.MapClaims{
-		"sub": admin.ID,
+		"sub": admin[1],
 		"https://hasura.io/jwt/claims": fiber.Map{
 			"x-hasura-default-role": "admins",
 			// do some custom logic to decide allowed roles
 			"x-hasura-allowed-roles": []string{"admins"},
-			"x-hasura-admins-id":     admin.ID,
+			"x-hasura-admins-id":     admin[1],
 		},
 		"role": "admins",
 	})
@@ -50,7 +50,7 @@ func (s *adminService) SignUp(payload *entities.Domain) (int64, error) {
 	return res, err
 }
 
-func (s *adminService) UpdateAdmin(id uuid.UUID, payload *entities.Domain) (int64, error) {
+func (s *adminService) UpdateAdmin(id uuid.UUID, payload entities.Domain) (int64, error) {
 	payload.ID = id
 	if payload.Password != "" {
 		payload.Password, _ = helpers.Hash(payload.Password)
@@ -61,7 +61,7 @@ func (s *adminService) UpdateAdmin(id uuid.UUID, payload *entities.Domain) (int6
 	return res, err
 }
 
-func (s *adminService) UpdateAvatar(id uuid.UUID, payload *entities.Domain) (int64, error) {
+func (s *adminService) UpdateAvatar(id uuid.UUID, payload entities.Domain) (int64, error) {
 	payload.ID = id
 	res, err := s.adminPsqlRepository.UpdateAvatar(payload)
 

@@ -21,13 +21,13 @@ type Domain struct {
 }
 
 type Service interface {
-	CreateReward(payload *Domain) (int64, error)
-	UpdateReward(rewardId uint32, payload *Domain) (int64, error)
+	CreateReward(payload Domain) (int64, error)
+	UpdateReward(rewardId uint32, payload Domain) (int64, error)
 	DeleteReward(rewardId uint32) (int64, error)
 }
 
 type PsqlRepository interface {
-	Create(payload *Domain) (int64, error)
-	Update(payload *Domain) (int64, error)
+	Create(payload Domain) (int64, error)
+	Update(payload Domain) (int64, error)
 	Delete(id uint32) (int64, error)
 }

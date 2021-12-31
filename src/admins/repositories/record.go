@@ -34,10 +34,19 @@ func (rec *Admin) ToDomain() entities.Domain {
 	}
 }
 
-func updateAccount(p *entities.Domain, a *Admin) {
-	a.Name = p.Name
-	a.Email = p.Email
+func createAccount(p *entities.Domain, rec *Admin) {
+	rec.Name = p.Name
+	rec.Email = p.Email
+	rec.Password = p.Password
+	if p.Img != "" {
+		rec.Img = p.Img
+	}
+}
+
+func updateAccount(p entities.Domain, rec *Admin) {
+	rec.Name = p.Name
+	rec.Email = p.Email
 	if p.Password != "" {
-		a.Password = p.Password
+		rec.Password = p.Password
 	}
 }

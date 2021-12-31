@@ -87,8 +87,8 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 	}
 
 	res, err := h.rewardService.UpdateReward(rewardId, payload.ToDomain())
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusUnprocessableEntity, fiber.ErrUnprocessableEntity, err)
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, fiber.ErrBadRequest)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainRA(res))
@@ -110,8 +110,8 @@ func (h *rewardHandler) DeleteReward(c *fiber.Ctx) error {
 	}
 
 	res, err := h.rewardService.DeleteReward(rewardId)
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusNotFound, web.IDNotFound, err)
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, fiber.ErrBadRequest)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainRA(res))

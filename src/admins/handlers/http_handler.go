@@ -17,13 +17,13 @@ type AdminHandlers interface {
 	UpdateAvatar(c *fiber.Ctx) error
 }
 
-type adminHandler struct {
-	adminService entities.Service
+type adminHandlers struct {
+	AdminService entities.Service
 }
 
-func NewHttpHandler(s entities.Service) *adminHandler {
-	return &adminHandler{
-		adminService: s,
+func NewHttpHandler(s entities.Service) AdminHandlers {
+	return &adminHandlers{
+		AdminService: s,
 	}
 }
 
@@ -37,7 +37,7 @@ func NewHttpHandler(s entities.Service) *adminHandler {
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
 // @Router /admin/login [post]
-func (h *adminHandler) SignIn(c *fiber.Ctx) error {
+func (h *adminHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
@@ -51,7 +51,7 @@ func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.adminService.SignIn(payload.ToDomain())
+	res, err := h.AdminService.SignIn(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, web.BadCredential, err)
 	}
@@ -69,7 +69,7 @@ func (h *adminHandler) SignIn(c *fiber.Ctx) error {
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
 // @Router /admin/signup [post]
-func (h *adminHandler) SignUp(c *fiber.Ctx) error {
+func (h *adminHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
@@ -83,7 +83,7 @@ func (h *adminHandler) SignUp(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.adminService.SignUp(payload.ToDomain())
+	res, err := h.AdminService.SignUp(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
 	}
@@ -100,7 +100,7 @@ func (h *adminHandler) SignUp(c *fiber.Ctx) error {
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Router /admin/profile/:id [put]
-func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
+func (h *adminHandlers) UpdateAdmin(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
 	id := c.Params("id")
 
@@ -116,9 +116,9 @@ func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.adminService.UpdateAdmin(uuid.MustParse(id), payload.ToDomain())
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
+	res, err := h.AdminService.UpdateAdmin(uuid.MustParse(id), payload.ToDomain())
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))
@@ -133,7 +133,7 @@ func (h *adminHandler) UpdateAdmin(c *fiber.Ctx) error {
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Router /admin/profile/avatar/:id [put]
-func (h *adminHandler) UpdateAvatar(c *fiber.Ctx) error {
+func (h *adminHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
 	id := c.Params("id")
 
@@ -149,9 +149,9 @@ func (h *adminHandler) UpdateAvatar(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.adminService.UpdateAvatar(uuid.MustParse(id), payload.ToDomain())
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
+	res, err := h.AdminService.UpdateAvatar(uuid.MustParse(id), payload.ToDomain())
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))

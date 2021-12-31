@@ -14,12 +14,12 @@ func NewRewardService(p entities.PsqlRepository) entities.Service {
 	}
 }
 
-func (s *rewardService) CreateReward(payload *entities.Domain) (int64, error) {
+func (s *rewardService) CreateReward(payload entities.Domain) (int64, error) {
 	res, err := s.rewardPsqlRepository.Create(payload)
 	return res, err
 }
 
-func (s *rewardService) UpdateReward(rewardId uint32, payload *entities.Domain) (int64, error) {
+func (s *rewardService) UpdateReward(rewardId uint32, payload entities.Domain) (int64, error) {
 	payload.ID = rewardId
 
 	res, err := s.rewardPsqlRepository.Update(payload)
