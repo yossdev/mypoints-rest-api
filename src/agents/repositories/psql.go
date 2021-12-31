@@ -43,46 +43,25 @@ func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (entities.Domain, error) {
 }
 
 func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, error) {
-	agent := Agent{
-		AdminID:  payload.AdminID,
-		Name:     payload.Name,
-		Email:    payload.Email,
-		Password: payload.Password,
-		Img:      payload.Img,
-		Active:   payload.Active,
-	}
-	res := p.DB.DB().Create(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
+	agent := Agent{}
+	createAccount(payload, &agent)
 
-	return res.RowsAffected, nil
+	res := p.DB.DB().Create(&agent)
+	return res.RowsAffected, res.Error
 }
 
-func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) (int64, error) {
+func (p *agentPsqlRepository) UpdateAgent(payload entities.Domain) (int64, error) {
 	agent := Agent{}
-	p.DB.DB().First(&agent, "id = ?", payload.ID)
-
 	updateAccount(payload, &agent)
 
-	res := p.DB.DB().Save(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
-
-	return res.RowsAffected, nil
+	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	return res.RowsAffected, res.Error
 }
 
-func (p *agentPsqlRepository) UpdateAvatar(payload *entities.Domain) (int64, error) {
+func (p *agentPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, error) {
 	agent := Agent{}
-	p.DB.DB().First(&agent, "id = ?", payload.ID)
-
 	agent.Img = payload.Img
 
-	res := p.DB.DB().Save(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
-
-	return res.RowsAffected, nil
+	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	return res.RowsAffected, res.Error
 }

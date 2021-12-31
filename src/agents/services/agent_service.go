@@ -20,7 +20,7 @@ func NewAgentService(p entities.PsqlRepository) entities.Service {
 	}
 }
 
-func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
+func (s *agentService) SignIn(payload entities.Domain) (auth.Token, error) {
 	agent, err := s.agentPsqlRepository.SignInWithEmail(payload.Email)
 	if err != nil {
 		return auth.Token{}, err
@@ -48,9 +48,9 @@ func (s *agentService) SignIn(payload *entities.Domain) (auth.Token, error) {
 	return token, nil
 }
 
-func (s *agentService) GetAgent(id uuid.UUID) (*entities.Domain, error) {
+func (s *agentService) GetAgent(id uuid.UUID) (entities.Domain, error) {
 	agent, err := s.agentPsqlRepository.GetAgent(id)
-	return &agent, err
+	return agent, err
 }
 
 func (s *agentService) SignUp(payload *entities.Domain) (int64, error) {
@@ -60,7 +60,7 @@ func (s *agentService) SignUp(payload *entities.Domain) (int64, error) {
 	return res, err
 }
 
-func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) (int64, error) {
+func (s *agentService) UpdateAgent(id uuid.UUID, payload entities.Domain) (int64, error) {
 	payload.ID = id
 	if payload.Password != "" {
 		payload.Password, _ = helpers.Hash(payload.Password)
@@ -71,7 +71,7 @@ func (s *agentService) UpdateAgent(id uuid.UUID, payload *entities.Domain) (int6
 	return res, err
 }
 
-func (s *agentService) UpdateAvatar(id uuid.UUID, payload *entities.Domain) (int64, error) {
+func (s *agentService) UpdateAvatar(id uuid.UUID, payload entities.Domain) (int64, error) {
 	payload.ID = id
 	res, err := s.agentPsqlRepository.UpdateAvatar(payload)
 

@@ -235,6 +235,95 @@ var doc = `{
                 }
             }
         },
+        "/product/:id": {
+            "post": {
+                "description": "create product by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "admins can create product",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newProduct",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.NewProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/:id/:productId": {
+            "put": {
+                "description": "update product data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "update product data",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateProduct",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "soft delete product data by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Product"
+                ],
+                "summary": "soft delete product data",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    }
+                }
+            }
+        },
         "/profile/:id": {
             "get": {
                 "description": "Get agent data by id.",
@@ -334,7 +423,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Admin"
+                    "Reward"
                 ],
                 "summary": "admins can create reward",
                 "parameters": [
@@ -352,7 +441,7 @@ var doc = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/dto.RowsAffected"
+                            "$ref": "#/definitions/dto.RewardRes"
                         }
                     }
                 }
@@ -386,7 +475,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.RowsAffected"
+                            "$ref": "#/definitions/dto.RewardRes"
                         }
                     }
                 }
@@ -407,7 +496,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/dto.RowsAffected"
+                            "$ref": "#/definitions/dto.RewardRes"
                         }
                     }
                 }
@@ -422,6 +511,28 @@ var doc = `{
                     "type": "string"
                 },
                 "refresh_token": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.NewProduct": {
+            "type": "object",
+            "required": [
+                "admin_id",
+                "points",
+                "title"
+            ],
+            "properties": {
+                "admin_id": {
+                    "type": "string"
+                },
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
                     "type": "string"
                 }
             }
@@ -448,6 +559,14 @@ var doc = `{
                     "type": "string"
                 },
                 "value": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.ProductRes": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
                     "type": "integer"
                 }
             }
@@ -485,11 +604,29 @@ var doc = `{
                 }
             }
         },
-        "dto.RowsAffected": {
+        "dto.RewardRes": {
             "type": "object",
             "properties": {
                 "rows_affected": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateProduct": {
+            "type": "object",
+            "required": [
+                "points",
+                "title"
+            ],
+            "properties": {
+                "img": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
                 }
             }
         },

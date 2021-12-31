@@ -18,13 +18,13 @@ type AgentHandlers interface {
 	UpdateAvatar(c *fiber.Ctx) error
 }
 
-type agentHandler struct {
-	agentService entities.Service
+type agentHandlers struct {
+	AgentService entities.Service
 }
 
-func NewHttpHandler(s entities.Service) *agentHandler {
-	return &agentHandler{
-		agentService: s,
+func NewHttpHandler(s entities.Service) AgentHandlers {
+	return &agentHandlers{
+		AgentService: s,
 	}
 }
 
@@ -38,7 +38,7 @@ func NewHttpHandler(s entities.Service) *agentHandler {
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
 // @Router /login [post]
-func (h *agentHandler) SignIn(c *fiber.Ctx) error {
+func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
@@ -52,7 +52,7 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.agentService.SignIn(payload.ToDomain())
+	res, err := h.AgentService.SignIn(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusUnauthorized, web.BadCredential, err)
 	}
@@ -70,7 +70,7 @@ func (h *agentHandler) SignIn(c *fiber.Ctx) error {
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
 // @Router /:id/agent [post]
-func (h *agentHandler) SignUp(c *fiber.Ctx) error {
+func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
@@ -84,7 +84,7 @@ func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.agentService.SignUp(payload.ToDomain())
+	res, err := h.AgentService.SignUp(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusConflict, web.DuplicateData, err)
 	}
@@ -100,9 +100,9 @@ func (h *agentHandler) SignUp(c *fiber.Ctx) error {
 // @Produce json
 // @Success 200 {object} dto.Profile
 // @Router /profile/:id [get]
-func (h *agentHandler) GetAgent(c *fiber.Ctx) error {
+func (h *agentHandlers) GetAgent(c *fiber.Ctx) error {
 	id := c.Params("id")
-	agent, err := h.agentService.GetAgent(uuid.MustParse(id))
+	agent, err := h.AgentService.GetAgent(uuid.MustParse(id))
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusForbidden, web.Forbidden, err)
 	}
@@ -119,7 +119,7 @@ func (h *agentHandler) GetAgent(c *fiber.Ctx) error {
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Router /profile/:id [put]
-func (h *agentHandler) UpdateAgent(c *fiber.Ctx) error {
+func (h *agentHandlers) UpdateAgent(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
 	id := c.Params("id")
 
@@ -135,9 +135,9 @@ func (h *agentHandler) UpdateAgent(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.agentService.UpdateAgent(uuid.MustParse(id), payload.ToDomain())
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
+	res, err := h.AgentService.UpdateAgent(uuid.MustParse(id), payload.ToDomain())
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))
@@ -152,7 +152,7 @@ func (h *agentHandler) UpdateAgent(c *fiber.Ctx) error {
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Router /profile/avatar/:id [put]
-func (h *agentHandler) UpdateAvatar(c *fiber.Ctx) error {
+func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
 	id := c.Params("id")
 
@@ -168,9 +168,9 @@ func (h *agentHandler) UpdateAvatar(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.agentService.UpdateAvatar(uuid.MustParse(id), payload.ToDomain())
-	if err != nil {
-		return web.JsonErrorResponse(c, fiber.StatusInternalServerError, web.InternalServerErr, err)
+	res, err := h.AgentService.UpdateAvatar(uuid.MustParse(id), payload.ToDomain())
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))

@@ -10,16 +10,16 @@ type TransactionHandlers interface {
 	CreateTransaction(c *fiber.Ctx) error
 }
 
-type transactionHandler struct {
-	transactionService entities.Service
+type transactionHandlers struct {
+	TransactionService entities.Service
 }
 
-func NewHttpHandler(s entities.Service) *transactionHandler {
-	return &transactionHandler{
-		transactionService: s,
+func NewHttpHandler(s entities.Service) TransactionHandlers {
+	return &transactionHandlers{
+		TransactionService: s,
 	}
 }
 
-func (h *transactionHandler) CreateTransaction(c *fiber.Ctx) error {
+func (h *transactionHandlers) CreateTransaction(c *fiber.Ctx) error {
 	return nil
 }

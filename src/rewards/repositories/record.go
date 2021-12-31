@@ -21,11 +21,21 @@ type Reward struct {
 	DeletedAt    gorm.DeletedAt   `gorm:"index"`
 }
 
-func updateReward(p *entities.Domain, r *Reward) {
-	r.Title = p.Title
-	r.Value = p.Value
-	r.Points = p.Points
-	if r.Img != "" {
-		r.Img = p.Img
+func createReward(p entities.Domain, rec *Reward) {
+	rec.AdminID = p.AdminID
+	rec.Title = p.Title
+	rec.Value = p.Value
+	rec.Points = p.Points
+	if p.Img != "" {
+		rec.Img = p.Img
+	}
+}
+
+func updateReward(p entities.Domain, rec *Reward) {
+	rec.Title = p.Title
+	rec.Value = p.Value
+	rec.Points = p.Points
+	if p.Img != "" {
+		rec.Img = p.Img
 	}
 }

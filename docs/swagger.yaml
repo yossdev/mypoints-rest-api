@@ -7,6 +7,21 @@ definitions:
       refresh_token:
         type: string
     type: object
+  dto.NewProduct:
+    properties:
+      admin_id:
+        type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+    required:
+    - admin_id
+    - points
+    - title
+    type: object
   dto.NewReward:
     properties:
       admin_id:
@@ -24,6 +39,11 @@ definitions:
     - points
     - title
     - value
+    type: object
+  dto.ProductRes:
+    properties:
+      rows_affected:
+        type: integer
     type: object
   dto.Profile:
     properties:
@@ -47,10 +67,22 @@ definitions:
       updated_at:
         type: string
     type: object
-  dto.RowsAffected:
+  dto.RewardRes:
     properties:
       rows_affected:
         type: integer
+    type: object
+  dto.UpdateProduct:
+    properties:
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+    required:
+    - points
+    - title
     type: object
   dto.UpdateReward:
     properties:
@@ -325,6 +357,64 @@ paths:
       summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agent
+  /product/:id:
+    post:
+      consumes:
+      - application/json
+      description: create product by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: admins can create product
+      tags:
+      - Product
+  /product/:id/:productId:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete product data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: soft delete product data
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: update product data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateProduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: update product data
+      tags:
+      - Product
   /profile/:id:
     get:
       consumes:
@@ -401,10 +491,10 @@ paths:
         "201":
           description: Created
           schema:
-            $ref: '#/definitions/dto.RowsAffected'
+            $ref: '#/definitions/dto.RewardRes'
       summary: admins can create reward
       tags:
-      - Admin
+      - Reward
   /reward/:id/:rewardId:
     delete:
       consumes:
@@ -416,7 +506,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.RowsAffected'
+            $ref: '#/definitions/dto.RewardRes'
       summary: soft delete reward data
       tags:
       - Reward
@@ -437,7 +527,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/dto.RowsAffected'
+            $ref: '#/definitions/dto.RewardRes'
       summary: update reward data
       tags:
       - Reward

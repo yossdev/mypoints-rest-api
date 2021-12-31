@@ -13,8 +13,8 @@ type NewReward struct {
 	Img     string    `json:"img" validate:"omitempty,url"`
 }
 
-func (req *NewReward) ToDomain() *entities.Domain {
-	return &entities.Domain{
+func (req *NewReward) ToDomain() entities.Domain {
+	return entities.Domain{
 		AdminID: req.AdminID,
 		Title:   req.Title,
 		Value:   req.Value,
@@ -30,8 +30,8 @@ type UpdateReward struct {
 	Img    string `json:"img" validate:"omitempty,url"`
 }
 
-func (req *UpdateReward) ToDomain() *entities.Domain {
-	return &entities.Domain{
+func (req *UpdateReward) ToDomain() entities.Domain {
+	return entities.Domain{
 		Title:  req.Title,
 		Value:  req.Value,
 		Points: req.Points,

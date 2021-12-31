@@ -10,8 +10,8 @@ type SignInReq struct {
 	Password string `json:"password" validate:"required"`
 }
 
-func (req *SignInReq) ToDomain() *entities.Domain {
-	return &entities.Domain{
+func (req *SignInReq) ToDomain() entities.Domain {
+	return entities.Domain{
 		Email:    req.Email,
 		Password: req.Password,
 	}
@@ -43,8 +43,8 @@ type UpdateAccount struct {
 	Password string `json:"password"`
 }
 
-func (req *UpdateAccount) ToDomain() *entities.Domain {
-	return &entities.Domain{
+func (req *UpdateAccount) ToDomain() entities.Domain {
+	return entities.Domain{
 		Name:     req.Name,
 		Email:    req.Email,
 		Password: req.Password,
@@ -55,8 +55,8 @@ type UpdateAvatar struct {
 	Img string `json:"img" validate:"required"`
 }
 
-func (req *UpdateAvatar) ToDomain() *entities.Domain {
-	return &entities.Domain{
+func (req *UpdateAvatar) ToDomain() entities.Domain {
+	return entities.Domain{
 		Img: req.Img,
 	}
 }
