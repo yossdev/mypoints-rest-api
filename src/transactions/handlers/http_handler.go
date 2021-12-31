@@ -5,6 +5,11 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/transactions/entities"
 )
 
+// TransactionHandlers contains method used for the handler
+type TransactionHandlers interface {
+	CreateTransaction(c *fiber.Ctx) error
+}
+
 type transactionHandler struct {
 	transactionService entities.Service
 }

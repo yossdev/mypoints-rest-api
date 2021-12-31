@@ -6,6 +6,7 @@ var (
 	AccountDisabled   = errors.New("account disabled")
 	BadRequest        = errors.New("something is not right")
 	BadCredential     = errors.New("bad credentials")
+	CannotProcess     = errors.New("can't process")
 	DuplicateData     = errors.New("duplicate data")
 	Failed            = errors.New("something when wrong when trying to create")
 	Forbidden         = errors.New("forbidden")

@@ -9,6 +9,14 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/admins/entities"
 )
 
+// AdminHandlers contains method used for the handler
+type AdminHandlers interface {
+	SignIn(c *fiber.Ctx) error
+	SignUp(c *fiber.Ctx) error
+	UpdateAdmin(c *fiber.Ctx) error
+	UpdateAvatar(c *fiber.Ctx) error
+}
+
 type adminHandler struct {
 	adminService entities.Service
 }

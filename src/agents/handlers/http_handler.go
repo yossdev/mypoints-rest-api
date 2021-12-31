@@ -9,6 +9,15 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
 )
 
+// AgentHandlers contains method used for the handler
+type AgentHandlers interface {
+	SignIn(c *fiber.Ctx) error
+	SignUp(c *fiber.Ctx) error
+	GetAgent(c *fiber.Ctx) error
+	UpdateAgent(c *fiber.Ctx) error
+	UpdateAvatar(c *fiber.Ctx) error
+}
+
 type agentHandler struct {
 	agentService entities.Service
 }

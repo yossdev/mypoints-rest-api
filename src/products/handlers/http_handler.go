@@ -5,6 +5,11 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/products/entities"
 )
 
+// ProductHandlers contains method used for the handler
+type ProductHandlers interface {
+	CreateProduct(c *fiber.Ctx) error
+}
+
 type productHandler struct {
 	productService entities.Service
 }
