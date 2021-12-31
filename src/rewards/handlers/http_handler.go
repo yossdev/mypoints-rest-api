@@ -28,12 +28,12 @@ func NewHttpHandler(s entities.Service) *rewardHandler {
 // CreateReward post handler.
 // @Description create reward by admins.
 // @Summary admins can create reward
-// @Tags Admin
+// @Tags Reward
 // @Scheme https
 // @Accept json
 // @Produce json
 // @Param newReward body dto.NewReward true "body request"
-// @Success 201 {object} dto.RowsAffected
+// @Success 201 {object} dto.RewardRes
 // @Router /reward/:id [post]
 func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 	payload := new(dto.NewReward)
@@ -64,7 +64,7 @@ func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Param updateReward body dto.UpdateReward true "body request"
-// @Success 200 {object} dto.RowsAffected
+// @Success 200 {object} dto.RewardRes
 // @Router /reward/:id/:rewardId [put]
 func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
@@ -100,7 +100,7 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 // @Tags Reward
 // @Accept json
 // @Produce json
-// @Success 200 {object} dto.RowsAffected
+// @Success 200 {object} dto.RewardRes
 // @Router /reward/:id/:rewardId [delete]
 func (h *rewardHandler) DeleteReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
