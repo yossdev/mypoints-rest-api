@@ -20,7 +20,7 @@ func (p *adminPsqlRepository) SignInWithEmail(email string) (entities.Domain, er
 
 	res := p.DB.DB().Where("email = ?", email).First(&admin)
 	if res.Error != nil {
-		return admin.ToDomain(), res.Error
+		return entities.Domain{}, res.Error
 	}
 
 	return admin.ToDomain(), nil

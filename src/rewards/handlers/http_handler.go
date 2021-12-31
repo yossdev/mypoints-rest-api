@@ -8,6 +8,13 @@ import (
 	"github.com/yossdev/mypoints-rest-api/src/rewards/entities"
 )
 
+// RewardHandlers contains method used for the handler
+type RewardHandlers interface {
+	CreateReward(c *fiber.Ctx) error
+	UpdateReward(c *fiber.Ctx) error
+	DeleteReward(c *fiber.Ctx) error
+}
+
 type rewardHandler struct {
 	rewardService entities.Service
 }
@@ -63,7 +70,7 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)
 	if convErr != nil {
-		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, convErr)
+		return web.JsonErrorResponse(c, fiber.StatusUnprocessableEntity, web.CannotProcess, convErr)
 	}
 
 	payload := new(dto.UpdateReward)
@@ -99,7 +106,7 @@ func (h *rewardHandler) DeleteReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)
 	if convErr != nil {
-		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, convErr)
+		return web.JsonErrorResponse(c, fiber.StatusUnprocessableEntity, web.CannotProcess, convErr)
 	}
 
 	res, err := h.rewardService.DeleteReward(rewardId)
