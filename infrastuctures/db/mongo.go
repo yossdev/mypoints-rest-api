@@ -19,14 +19,11 @@ type mongoDB struct {
 
 func NewMongoClient() MongoDB {
 	var client *mongo.Client
-	// Set client options
-	//clientOptions := options.Client().ApplyURI(configs.Get().MongodbAddress) //for local connection
-	clientOptions := options.Client().ApplyURI("mongodb+srv://" + configs.Get().MongodbUsername + ":" + configs.Get().MongodbPassword + "@cluster0.atngo.mongodb.net/" + configs.Get().MongodbName + "?retryWrites=true&w=majority")
 
 	// Connect to MongoDB
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(ctx, clientOptions())
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,6 +36,17 @@ func NewMongoClient() MongoDB {
 	return &mongoDB{
 		client: client,
 	}
+}
+
+func clientOptions() *options.ClientOptions {
+	address := configs.Get().MongodbAddress
+	// Set client options
+	if address != "" {
+		clientOptions := options.Client().ApplyURI(address) //for local connection
+		return clientOptions
+	}
+	clientOptions := options.Client().ApplyURI("mongodb+srv://" + configs.Get().MongodbUsername + ":" + configs.Get().MongodbPassword + "@cluster0.atngo.mongodb.net/" + configs.Get().MongodbName + "?retryWrites=true&w=majority")
+	return clientOptions
 }
 
 func (c mongoDB) DB() *mongo.Client {

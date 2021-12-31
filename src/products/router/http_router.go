@@ -25,5 +25,7 @@ func (r *HttpRouter) GetRoute() {
 	v1 := api.Group("/v1")
 
 	//	Private - for admin only
-	v1.Post("/product", middleware.JwtVerifyTokenAdmin, productHandler.CreateProduct)
+	v1.Post("/product/:id", middleware.JwtVerifyTokenAdmin, productHandler.CreateProduct)
+	v1.Put("/product/:id/:productId", middleware.JwtVerifyTokenAdmin, productHandler.UpdateProduct)
+	v1.Delete("/product/:id/:productId", middleware.JwtVerifyTokenAdmin, productHandler.DeleteProduct)
 }

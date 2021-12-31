@@ -20,9 +20,13 @@ type Domain struct {
 }
 
 type Service interface {
-	CreateProduct() error
+	CreateProduct(payload Domain) (int64, error)
+	UpdateProduct(productId uint32, payload Domain) int64
+	DeleteProduct(productId uint32) int64
 }
 
 type PsqlRepository interface {
-	Create() error
+	Create(payload Domain) (int64, error)
+	Update(payload Domain) int64
+	Delete(productId uint32) int64
 }
