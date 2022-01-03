@@ -7,6 +7,22 @@ definitions:
       refresh_token:
         type: string
     type: object
+  dto.ClaimsReq:
+    properties:
+      agent_id:
+        type: string
+      points:
+        type: integer
+      product_id:
+        type: integer
+      title:
+        type: string
+    required:
+    - agent_id
+    - points
+    - product_id
+    - title
+    type: object
   dto.NewProduct:
     properties:
       admin_id:
@@ -71,6 +87,21 @@ definitions:
     properties:
       rows_affected:
         type: integer
+    type: object
+  dto.TransactionRes:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.UpdateClaimsReq:
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+    required:
+    - id
+    - status
     type: object
   dto.UpdateProduct:
     properties:
@@ -247,6 +278,50 @@ paths:
       summary: admins can create agent account with this api
       tags:
       - Agent
+  /:id/transactions/claims:
+    post:
+      consumes:
+      - application/json
+      description: create claims transaction by agents.
+      parameters:
+      - description: body request
+        in: body
+        name: newClaims
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClaimsReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: agent can create claims transaction
+      tags:
+      - Transaction
+  /admin/:id/transactions/claims/:transactionId:
+    put:
+      consumes:
+      - application/json
+      description: update claims transaction status by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: updateClaims
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateClaimsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: admins can update claims transaction from agent
+      tags:
+      - Transaction
   /admin/login:
     post:
       consumes:

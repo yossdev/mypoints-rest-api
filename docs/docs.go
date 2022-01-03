@@ -65,6 +65,74 @@ var doc = `{
                 }
             }
         },
+        "/:id/transactions/claims": {
+            "post": {
+                "description": "create claims transaction by agents.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "agent can create claims transaction",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newClaims",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClaimsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/:id/transactions/claims/:transactionId": {
+            "put": {
+                "description": "update claims transaction status by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "admins can update claims transaction from agent",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "updateClaims",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateClaimsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/login": {
             "post": {
                 "description": "check admins by checking given email and password.",
@@ -515,6 +583,29 @@ var doc = `{
                 }
             }
         },
+        "dto.ClaimsReq": {
+            "type": "object",
+            "required": [
+                "agent_id",
+                "points",
+                "product_id",
+                "title"
+            ],
+            "properties": {
+                "agent_id": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.NewProduct": {
             "type": "object",
             "required": [
@@ -609,6 +700,29 @@ var doc = `{
             "properties": {
                 "rows_affected": {
                     "type": "integer"
+                }
+            }
+        },
+        "dto.TransactionRes": {
+            "type": "object",
+            "properties": {
+                "rows_affected": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.UpdateClaimsReq": {
+            "type": "object",
+            "required": [
+                "id",
+                "status"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
                 }
             }
         },

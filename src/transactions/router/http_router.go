@@ -29,8 +29,11 @@ func (r *HttpRouter) GetRoute() {
 
 	// Private
 	// Agent API only for agent
-	agent.Get("/", middleware.JwtVerifyTokenAgent, transactionHandler.CreateTransaction)
+	agent.Post("/claims", middleware.JwtVerifyTokenAgent, transactionHandler.Claims)
+	agent.Post("/redeem", middleware.JwtVerifyTokenAgent, transactionHandler.Redeem)
 
 	// Admin API only for admin
-	admin.Get("/", middleware.JwtVerifyTokenAdmin, transactionHandler.CreateTransaction)
+	admin.Put("/claims/:transactionId", middleware.JwtVerifyTokenAdmin, transactionHandler.UpdateClaims)
+	admin.Put("/redeem/:transactionId", middleware.JwtVerifyTokenAdmin, transactionHandler.PayRedeem)
+	admin.Put("/callback/:transactionId", middleware.JwtVerifyTokenAdmin, transactionHandler.CallbackXendit)
 }
