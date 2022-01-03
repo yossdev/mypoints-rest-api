@@ -15,13 +15,13 @@ type RewardHandlers interface {
 	DeleteReward(c *fiber.Ctx) error
 }
 
-type rewardHandler struct {
-	rewardService entities.Service
+type rewardHandlers struct {
+	RewardService entities.Service
 }
 
-func NewHttpHandler(s entities.Service) *rewardHandler {
-	return &rewardHandler{
-		rewardService: s,
+func NewHttpHandler(s entities.Service) RewardHandlers {
+	return &rewardHandlers{
+		RewardService: s,
 	}
 }
 
@@ -35,7 +35,7 @@ func NewHttpHandler(s entities.Service) *rewardHandler {
 // @Param newReward body dto.NewReward true "body request"
 // @Success 201 {object} dto.RewardRes
 // @Router /reward/:id [post]
-func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
+func (h *rewardHandlers) CreateReward(c *fiber.Ctx) error {
 	payload := new(dto.NewReward)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
@@ -49,7 +49,7 @@ func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.rewardService.CreateReward(payload.ToDomain())
+	res, err := h.RewardService.CreateReward(payload.ToDomain())
 	if err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusFailedDependency, web.Failed, err)
 	}
@@ -66,7 +66,7 @@ func (h *rewardHandler) CreateReward(c *fiber.Ctx) error {
 // @Param updateReward body dto.UpdateReward true "body request"
 // @Success 200 {object} dto.RewardRes
 // @Router /reward/:id/:rewardId [put]
-func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
+func (h *rewardHandlers) UpdateReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)
 	if convErr != nil {
@@ -86,7 +86,7 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	res, err := h.rewardService.UpdateReward(rewardId, payload.ToDomain())
+	res, err := h.RewardService.UpdateReward(rewardId, payload.ToDomain())
 	if err != nil || res == 0 {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, fiber.ErrBadRequest)
 	}
@@ -102,14 +102,14 @@ func (h *rewardHandler) UpdateReward(c *fiber.Ctx) error {
 // @Produce json
 // @Success 200 {object} dto.RewardRes
 // @Router /reward/:id/:rewardId [delete]
-func (h *rewardHandler) DeleteReward(c *fiber.Ctx) error {
+func (h *rewardHandlers) DeleteReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)
 	if convErr != nil {
 		return web.JsonErrorResponse(c, fiber.StatusUnprocessableEntity, web.CannotProcess, convErr)
 	}
 
-	res, err := h.rewardService.DeleteReward(rewardId)
+	res, err := h.RewardService.DeleteReward(rewardId)
 	if err != nil || res == 0 {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, fiber.ErrBadRequest)
 	}
