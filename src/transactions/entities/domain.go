@@ -32,9 +32,11 @@ type TransactionType struct {
 }
 
 type Service interface {
-	CreateTransaction() error
+	Claims(payload Domain) (int64, error)
+	ClaimsStatus(id uuid.UUID, status string) (int64, error)
 }
 
 type PsqlRepository interface {
-	Create() error
+	CreateClaims(payload Domain) (int64, error)
+	UpdateClaimsStatus(id uuid.UUID, status string) (int64, error)
 }

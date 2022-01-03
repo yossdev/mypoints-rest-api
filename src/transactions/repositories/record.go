@@ -47,3 +47,11 @@ func (rec *Transaction) ToTransaction() entities.Domain {
 		UpdatedAt:     rec.UpdatedAt,
 	}
 }
+
+func createClaims(p entities.Domain, rec *Transaction) {
+	rec.AgentID = p.AgentID
+	rec.ProductID = p.ProductID
+	rec.Title = p.Title
+	rec.Points = p.Points
+	rec.Type = "Debit"
+}
