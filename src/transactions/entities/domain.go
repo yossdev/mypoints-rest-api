@@ -6,17 +6,19 @@ import (
 )
 
 type Domain struct {
-	ID            uuid.UUID
-	AgentID       uuid.UUID
-	RewardID      uint32
-	ProductID     uint32
-	Type          string
-	Title         string
-	Points        uint32
-	RedeemInvoice string
-	Status        string
-	CreatedAt     time.Time
-	UpdatedAt     time.Time
+	ID               uuid.UUID
+	AgentID          uuid.UUID
+	RewardID         uint32
+	ProductID        uint32
+	Title            string
+	Points           uint32
+	NotaImg          string
+	RedeemInvoiceID  string
+	RedeemInvoiceURL string
+	Type             string
+	Status           string
+	CreatedAt        time.Time
+	UpdatedAt        time.Time
 }
 
 type TransactionStatus struct {

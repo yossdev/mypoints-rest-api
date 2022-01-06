@@ -7,17 +7,19 @@ import (
 )
 
 type Transaction struct {
-	ID            uuid.UUID `gorm:"primaryKey; type:uuid; default:uuid_generate_v4()"`
-	AgentID       uuid.UUID `gorm:"type:uuid; not null"`
-	RewardID      uint32
-	ProductID     uint32
-	Type          string `gorm:"not null"`
-	Title         string `gorm:"not null"`
-	Points        uint32 `gorm:"not null"`
-	RedeemInvoice string
-	Status        string    `gorm:"not null; default:Pending"`
-	CreatedAt     time.Time `gorm:"not null; default: now()"`
-	UpdatedAt     time.Time `gorm:"not null; default: now()"`
+	ID               uuid.UUID `gorm:"primaryKey; type:uuid; default:uuid_generate_v4()"`
+	AgentID          uuid.UUID `gorm:"type:uuid; not null"`
+	RewardID         uint32
+	ProductID        uint32
+	Title            string `gorm:"not null"`
+	Points           uint32 `gorm:"not null"`
+	NotaImg          string
+	RedeemInvoiceID  string
+	RedeemInvoiceURL string
+	Type             string    `gorm:"not null"`
+	Status           string    `gorm:"not null; default:Pending"`
+	CreatedAt        time.Time `gorm:"not null; default: now()"`
+	UpdatedAt        time.Time `gorm:"not null; default: now()"`
 }
 
 type TransactionStatus struct {
@@ -34,17 +36,19 @@ type TransactionType struct {
 
 func (rec *Transaction) ToTransaction() entities.Domain {
 	return entities.Domain{
-		ID:            rec.ID,
-		AgentID:       rec.AgentID,
-		RewardID:      rec.RewardID,
-		ProductID:     rec.ProductID,
-		Type:          rec.Type,
-		Title:         rec.Title,
-		Points:        rec.Points,
-		RedeemInvoice: rec.RedeemInvoice,
-		Status:        rec.Status,
-		CreatedAt:     rec.CreatedAt,
-		UpdatedAt:     rec.UpdatedAt,
+		ID:               rec.ID,
+		AgentID:          rec.AgentID,
+		RewardID:         rec.RewardID,
+		ProductID:        rec.ProductID,
+		Title:            rec.Title,
+		Points:           rec.Points,
+		NotaImg:          rec.NotaImg,
+		RedeemInvoiceID:  rec.RedeemInvoiceID,
+		RedeemInvoiceURL: rec.RedeemInvoiceURL,
+		Type:             rec.Type,
+		Status:           rec.Status,
+		CreatedAt:        rec.CreatedAt,
+		UpdatedAt:        rec.UpdatedAt,
 	}
 }
 
@@ -53,5 +57,6 @@ func createClaims(p entities.Domain, rec *Transaction) {
 	rec.ProductID = p.ProductID
 	rec.Title = p.Title
 	rec.Points = p.Points
+	rec.NotaImg = p.NotaImg
 	rec.Type = "Debit"
 }

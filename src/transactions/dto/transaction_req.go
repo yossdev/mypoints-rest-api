@@ -10,6 +10,7 @@ type ClaimsReq struct {
 	ProductID uint32    `json:"product_id" validate:"required,numeric,gt=0"`
 	Title     string    `json:"title" validate:"required"`
 	Points    uint32    `json:"points" validate:"required,numeric,gt=0"`
+	NotaImg   string    `json:"nota_img" validate:"required,url"`
 }
 
 func (req *ClaimsReq) ToDomain() entities.Domain {
@@ -18,6 +19,7 @@ func (req *ClaimsReq) ToDomain() entities.Domain {
 		ProductID: req.ProductID,
 		Title:     req.Title,
 		Points:    req.Points,
+		NotaImg:   req.NotaImg,
 	}
 }
 

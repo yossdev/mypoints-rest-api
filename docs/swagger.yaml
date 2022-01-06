@@ -11,6 +11,8 @@ definitions:
     properties:
       agent_id:
         type: string
+      nota_img:
+        type: string
       points:
         type: integer
       product_id:
@@ -19,6 +21,7 @@ definitions:
         type: string
     required:
     - agent_id
+    - nota_img
     - points
     - product_id
     - title
