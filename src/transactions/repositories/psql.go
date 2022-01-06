@@ -20,7 +20,7 @@ func (p *transactionPsqlRepository) CreateClaims(payload entities.Domain) (int64
 	claims := Transaction{}
 	createClaims(payload, &claims)
 
-	res := p.DB.DB().Omit("RewardID", "RedeemInvoice").Create(&claims)
+	res := p.DB.DB().Omit("RewardID", "RedeemInvoiceID", "RedeemInvoiceURL").Create(&claims)
 	return res.RowsAffected, res.Error
 }
 

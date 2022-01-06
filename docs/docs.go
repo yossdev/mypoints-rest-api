@@ -587,12 +587,16 @@ var doc = `{
             "type": "object",
             "required": [
                 "agent_id",
+                "nota_img",
                 "points",
                 "product_id",
                 "title"
             ],
             "properties": {
                 "agent_id": {
+                    "type": "string"
+                },
+                "nota_img": {
                     "type": "string"
                 },
                 "points": {
