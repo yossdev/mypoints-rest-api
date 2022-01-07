@@ -14,8 +14,9 @@ type Transaction struct {
 	Title            string `gorm:"not null"`
 	Points           uint32 `gorm:"not null"`
 	NotaImg          string
-	RedeemInvoiceID  string
+	RedeemInvoiceID  string `gorm:"unique"`
 	RedeemInvoiceURL string
+	RedeemDesc       string
 	Type             string    `gorm:"not null"`
 	Status           string    `gorm:"not null; default:Pending"`
 	CreatedAt        time.Time `gorm:"not null; default: now()"`
@@ -34,7 +35,7 @@ type TransactionType struct {
 	Transactions []Transaction `gorm:"foreignKey:Type; constraint:OnUpdate:RESTRICT,OnDelete:RESTRICT;"`
 }
 
-func (rec *Transaction) ToTransaction() entities.Domain {
+func (rec *Transaction) ToDomain() entities.Domain {
 	return entities.Domain{
 		ID:               rec.ID,
 		AgentID:          rec.AgentID,
@@ -59,4 +60,15 @@ func createClaims(p entities.Domain, rec *Transaction) {
 	rec.Points = p.Points
 	rec.NotaImg = p.NotaImg
 	rec.Type = "Debit"
+}
+
+func createRedeem(p entities.Domain, rec *Transaction) {
+	rec.AgentID = p.AgentID
+	rec.RewardID = p.RewardID
+	rec.Title = p.Title
+	rec.Points = p.Points
+	rec.RedeemInvoiceID = p.RedeemInvoiceID
+	rec.RedeemInvoiceURL = p.RedeemInvoiceURL
+	rec.RedeemDesc = p.RedeemDesc
+	rec.Type = "Credit"
 }

@@ -15,6 +15,7 @@ type Domain struct {
 	NotaImg          string
 	RedeemInvoiceID  string
 	RedeemInvoiceURL string
+	RedeemDesc       string
 	Type             string
 	Status           string
 	CreatedAt        time.Time
@@ -33,12 +34,24 @@ type TransactionType struct {
 	Transactions []Domain
 }
 
+type InvoiceCallback struct {
+	ID           string
+	Status       string
+	MerchantName string
+	Amount       int
+}
+
 type Service interface {
 	Claims(payload Domain) (int64, error)
 	ClaimsStatus(id uuid.UUID, status string) (int64, error)
+	Redeem(payload Domain) (int64, error)
+	CallbackXendit(token string, payload InvoiceCallback) error
 }
 
 type PsqlRepository interface {
+	GetTransaction(id string) (Domain, error)
 	CreateClaims(payload Domain) (int64, error)
 	UpdateClaimsStatus(id uuid.UUID, status string) (int64, error)
+	CreateRedeem(payload Domain) (int64, error)
+	UpdateRedeemStatus(id, status string) (Domain, error)
 }

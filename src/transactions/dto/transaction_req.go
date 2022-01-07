@@ -24,22 +24,40 @@ func (req *ClaimsReq) ToDomain() entities.Domain {
 }
 
 type RedeemReq struct {
-	AgentID  uuid.UUID `json:"agent_id"  validate:"required,uuid"`
-	RewardID uint32    `json:"reward_id" validate:"required,numeric,gt=0"`
-	Title    string    `json:"title" validate:"required"`
-	Points   uint32    `json:"points" validate:"required,numeric,gt=0"`
+	AgentID    uuid.UUID `json:"agent_id"  validate:"required,uuid"`
+	RewardID   uint32    `json:"reward_id" validate:"required,numeric,gt=0"`
+	Title      string    `json:"title" validate:"required"`
+	Points     uint32    `json:"points" validate:"required,numeric,gt=0"`
+	RedeemDesc string    `json:"redeem_desc" validate:"required"`
 }
 
 func (req *RedeemReq) ToDomain() entities.Domain {
 	return entities.Domain{
-		AgentID:  req.AgentID,
-		RewardID: req.RewardID,
-		Title:    req.Title,
-		Points:   req.Points,
+		AgentID:    req.AgentID,
+		RewardID:   req.RewardID,
+		Title:      req.Title,
+		Points:     req.Points,
+		RedeemDesc: req.RedeemDesc,
 	}
 }
 
 type UpdateClaimsReq struct {
 	ID     uuid.UUID `json:"id" validate:"required,uuid"`
 	Status string    `json:"status" validate:"required"`
+}
+
+type InvoiceCallback struct {
+	ID           string `json:"id"`
+	Status       string `json:"status"`
+	MerchantName string `json:"merchant_name"`
+	Amount       int    `json:"amount"`
+}
+
+func (req *InvoiceCallback) ToDomain() entities.InvoiceCallback {
+	return entities.InvoiceCallback{
+		ID:           req.ID,
+		Status:       req.Status,
+		MerchantName: req.MerchantName,
+		Amount:       req.Amount,
+	}
 }

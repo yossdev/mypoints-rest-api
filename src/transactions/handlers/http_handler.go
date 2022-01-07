@@ -14,7 +14,6 @@ type TransactionHandlers interface {
 	Claims(c *fiber.Ctx) error
 	UpdateClaims(c *fiber.Ctx) error
 	Redeem(c *fiber.Ctx) error
-	PayRedeem(c *fiber.Ctx) error
 	CallbackXendit(c *fiber.Ctx) error
 }
 
@@ -87,20 +86,56 @@ func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 
 	res, err := h.TransactionService.ClaimsStatus(payload.ID, payload.Status)
 	if err != nil || res == 0 {
-		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, fiber.ErrBadRequest)
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
 	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomain(res))
 }
 
+// Redeem post handler.
+// @Description create redeem transaction by agents.
+// @Summary agent can create redeem transaction
+// @Tags Transaction
+// @Scheme https
+// @Accept json
+// @Produce json
+// @Param newRedeem body dto.RedeemReq true "body request"
+// @Success 201 {object} dto.TransactionRes
+// @Router /:id/transactions/redeem [post]
 func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
-	return nil
+	payload := new(dto.RedeemReq)
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	// Create a new validator.
+	validate := helpers.NewValidator()
+	// Validate fields from payload.
+	if err := validate.Struct(payload); err != nil {
+		// Return, if some fields are not valid.
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	res, err := h.TransactionService.Redeem(payload.ToDomain())
+	if err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusFailedDependency, web.Failed, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusCreated, web.RedeemTransactionCreated, dto.FromDomain(res))
 }
 
-func (h *transactionHandlers) PayRedeem(c *fiber.Ctx) error {
-	return nil
-}
-
+// CallbackXendit post handler called by xendit after admin paid the invoice
 func (h *transactionHandlers) CallbackXendit(c *fiber.Ctx) error {
-	return nil
+	token := c.GetRespHeader("X-Callback-Token")
+
+	payload := new(dto.InvoiceCallback)
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	if err := h.TransactionService.CallbackXendit(token, payload.ToDomain()); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusOK, web.RedeemTransactionCompleted, nil)
 }

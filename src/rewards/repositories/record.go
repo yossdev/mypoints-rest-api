@@ -21,6 +21,16 @@ type Reward struct {
 	DeletedAt    gorm.DeletedAt   `gorm:"index"`
 }
 
+func (rec *Reward) ToDomain() entities.Domain {
+	return entities.Domain{
+		ID:      rec.ID,
+		AdminID: rec.AdminID,
+		Title:   rec.Title,
+		Value:   rec.Value,
+		Points:  rec.Points,
+	}
+}
+
 func createReward(p entities.Domain, rec *Reward) {
 	rec.AdminID = p.AdminID
 	rec.Title = p.Title

@@ -30,6 +30,7 @@ type Service interface {
 }
 
 type PsqlRepository interface {
+	GetAdminByAgentID(id uuid.UUID) (Domain, error)
 	SignInWithEmail(email string) ([2]string, error)
 	CreateAdmin(payload *Domain) (int64, error)
 	UpdateAdmin(payload Domain) (int64, error)
