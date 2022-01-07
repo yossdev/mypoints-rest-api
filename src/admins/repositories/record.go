@@ -3,6 +3,7 @@ package repositories
 import (
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/src/admins/entities"
+	_agent "github.com/yossdev/mypoints-rest-api/src/agents/entities"
 	_a "github.com/yossdev/mypoints-rest-api/src/agents/repositories"
 	_p "github.com/yossdev/mypoints-rest-api/src/products/repositories"
 	_r "github.com/yossdev/mypoints-rest-api/src/rewards/repositories"
@@ -23,15 +24,26 @@ type Admin struct {
 }
 
 func (rec *Admin) ToDomain() entities.Domain {
+	agents := agentSlice(rec.Agents)
 	return entities.Domain{
 		ID:        rec.ID,
 		Name:      rec.Name,
 		Email:     rec.Email,
 		Password:  rec.Password,
+		Agents:    agents,
 		Img:       rec.Img,
 		CreatedAt: rec.CreatedAt,
 		UpdatedAt: rec.UpdatedAt,
 	}
+}
+
+func agentSlice(a []_a.Agent) []_agent.Domain {
+	var res []_agent.Domain
+
+	for _, val := range a {
+		res = append(res, val.ToDomain())
+	}
+	return res
 }
 
 func createAccount(p *entities.Domain, rec *Admin) {

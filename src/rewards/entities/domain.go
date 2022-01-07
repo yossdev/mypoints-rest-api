@@ -27,6 +27,7 @@ type Service interface {
 }
 
 type PsqlRepository interface {
+	GetReward(id uint32) (Domain, error)
 	Create(payload Domain) (int64, error)
 	Update(payload Domain) (int64, error)
 	Delete(id uint32) (int64, error)

@@ -23,7 +23,7 @@ type Agent struct {
 }
 
 func (rec *Agent) ToDomain() entities.Domain {
-	//transaction := transactionSlice(rec.Transactions)
+	//transactions := transactionSlice(rec.Transactions)
 	return entities.Domain{
 		ID:       rec.ID,
 		AdminID:  rec.AdminID,
@@ -33,7 +33,7 @@ func (rec *Agent) ToDomain() entities.Domain {
 		Points:   rec.Points,
 		Img:      rec.Img,
 		Active:   rec.Active,
-		//Transactions: transaction,
+		//Transactions: transactions,
 		CreatedAt: rec.CreatedAt,
 		UpdatedAt: rec.UpdatedAt,
 	}
@@ -62,7 +62,7 @@ func transactionSlice(t []_t.Transaction) []_transaction.Domain {
 	var res []_transaction.Domain
 
 	for _, val := range t {
-		res = append(res, val.ToTransaction())
+		res = append(res, val.ToDomain())
 	}
 	return res
 }

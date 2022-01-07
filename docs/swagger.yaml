@@ -86,6 +86,25 @@ definitions:
       updated_at:
         type: string
     type: object
+  dto.RedeemReq:
+    properties:
+      agent_id:
+        type: string
+      points:
+        type: integer
+      redeem_desc:
+        type: string
+      reward_id:
+        type: integer
+      title:
+        type: string
+    required:
+    - agent_id
+    - points
+    - redeem_desc
+    - reward_id
+    - title
+    type: object
   dto.RewardRes:
     properties:
       rows_affected:
@@ -301,6 +320,28 @@ paths:
           schema:
             $ref: '#/definitions/dto.TransactionRes'
       summary: agent can create claims transaction
+      tags:
+      - Transaction
+  /:id/transactions/redeem:
+    post:
+      consumes:
+      - application/json
+      description: create redeem transaction by agents.
+      parameters:
+      - description: body request
+        in: body
+        name: newRedeem
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RedeemReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: agent can create redeem transaction
       tags:
       - Transaction
   /admin/:id/transactions/claims/:transactionId:

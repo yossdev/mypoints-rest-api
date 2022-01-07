@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/infrastuctures/db"
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
+	"gorm.io/gorm"
 )
 
 type agentPsqlRepository struct {
@@ -63,5 +64,12 @@ func (p *agentPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, erro
 	agent.Img = payload.Img
 
 	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	return res.RowsAffected, res.Error
+}
+
+func (p *agentPsqlRepository) UpdatePoints(id uuid.UUID, points int32) (int64, error) {
+	agent := Agent{}
+
+	res := p.DB.DB().Model(&agent).Where("id = ?", id).Update("points", gorm.Expr("points + ?", points))
 	return res.RowsAffected, res.Error
 }

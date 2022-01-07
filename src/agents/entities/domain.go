@@ -35,4 +35,5 @@ type PsqlRepository interface {
 	GetAgent(id uuid.UUID) (Domain, error)
 	UpdateAgent(payload Domain) (int64, error)
 	UpdateAvatar(payload Domain) (int64, error)
+	UpdatePoints(id uuid.UUID, points int32) (int64, error)
 }

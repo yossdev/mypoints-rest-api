@@ -99,6 +99,40 @@ var doc = `{
                 }
             }
         },
+        "/:id/transactions/redeem": {
+            "post": {
+                "description": "create redeem transaction by agents.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "agent can create redeem transaction",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "newRedeem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RedeemReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/:id/transactions/claims/:transactionId": {
             "put": {
                 "description": "update claims transaction status by admins.",
@@ -695,6 +729,33 @@ var doc = `{
                     "type": "integer"
                 },
                 "updated_at": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.RedeemReq": {
+            "type": "object",
+            "required": [
+                "agent_id",
+                "points",
+                "redeem_desc",
+                "reward_id",
+                "title"
+            ],
+            "properties": {
+                "agent_id": {
+                    "type": "string"
+                },
+                "points": {
+                    "type": "integer"
+                },
+                "redeem_desc": {
+                    "type": "string"
+                },
+                "reward_id": {
+                    "type": "integer"
+                },
+                "title": {
                     "type": "string"
                 }
             }

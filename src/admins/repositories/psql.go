@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/infrastuctures/db"
 	"github.com/yossdev/mypoints-rest-api/src/admins/entities"
 )
@@ -13,6 +14,16 @@ func NewAdminPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	return &adminPsqlRepository{
 		DB: p,
 	}
+}
+
+func (p *adminPsqlRepository) GetAdminByAgentID(id uuid.UUID) (entities.Domain, error) {
+	admin := Admin{}
+	res := p.DB.DB().Joins("INNER JOIN agents ON agents.admin_id = admins.id").Where("agents.id = ?", id).Preload("Agents", "id IN (?)", id).Find(&admin)
+	if res.Error != nil {
+		return entities.Domain{}, res.Error
+	}
+
+	return admin.ToDomain(), nil
 }
 
 func (p *adminPsqlRepository) SignInWithEmail(email string) ([2]string, error) {

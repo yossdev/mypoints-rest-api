@@ -15,6 +15,16 @@ func NewRewardPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	}
 }
 
+func (p *rewardPsqlRepository) GetReward(id uint32) (entities.Domain, error) {
+	reward := Reward{}
+
+	if err := p.DB.DB().First(&reward, "id = ?", id).Error; err != nil {
+		return entities.Domain{}, err
+	}
+
+	return reward.ToDomain(), nil
+}
+
 func (p *rewardPsqlRepository) Create(payload entities.Domain) (int64, error) {
 	reward := Reward{}
 	createReward(payload, &reward)
