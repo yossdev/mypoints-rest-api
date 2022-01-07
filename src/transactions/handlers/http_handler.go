@@ -127,7 +127,7 @@ func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
 
 // CallbackXendit post handler called by xendit after admin paid the invoice
 func (h *transactionHandlers) CallbackXendit(c *fiber.Ctx) error {
-	token := c.GetRespHeader("X-Callback-Token")
+	token := c.GetRespHeader("x-callback-token")
 
 	fmt.Println(token)
 
