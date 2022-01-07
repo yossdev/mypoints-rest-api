@@ -36,24 +36,22 @@ func CreateInvoice(body BodyReq) (*xendit.Invoice, *xendit.Error) {
 		},
 	}
 
-	//fees := []xendit.InvoiceFee{
-	//	{
-	//		Type:  "admin",
-	//		Value: 5000, // problem with library
-	//	},
-	//}
-
-	const adminFee float64 = 5000
+	fees := []xendit.InvoiceFee{
+		{
+			Type:  "Admin Fee",
+			Value: 5000,
+		},
+	}
 
 	data := invoice.CreateParams{
 		ExternalID:  "INV-" + timestamp,
-		Amount:      body.Value + adminFee,
+		Amount:      body.Value,
 		PayerEmail:  body.Email,
 		Description: body.Desc,
 		Customer:    cust,
 		Items:       items,
-		//Fees:        fees,
-		Currency: "IDR",
+		Fees:        fees,
+		Currency:    "IDR",
 	}
 
 	resp, err := invoice.Create(&data)
