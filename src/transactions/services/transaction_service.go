@@ -61,11 +61,6 @@ func (s *transactionService) Redeem(payload entities.Domain) (int64, error) {
 	rewardPoints := reward.Points
 	if agentPoints < rewardPoints {
 		return 0, web.NotEnoughPoints
-	} else {
-		_, err := s.agentPsqlRepository.UpdatePoints(payload.AgentID, -int32(rewardPoints))
-		if err != nil {
-			return 0, err
-		}
 	}
 
 	body := _xendit.BodyReq{
@@ -91,6 +86,10 @@ func (s *transactionService) Redeem(payload entities.Domain) (int64, error) {
 		return 0, err
 	}
 
+	if _, err := s.agentPsqlRepository.UpdatePoints(payload.AgentID, -int32(rewardPoints)); err != nil {
+		return 0, err
+	}
+	
 	return res, nil
 }
 
