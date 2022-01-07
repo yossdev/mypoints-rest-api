@@ -32,4 +32,5 @@ func (r *HttpRouter) GetRoute() {
 	v1.Get("/profile/:id", middleware.JwtVerifyTokenAgent, agentHandler.GetAgent)
 	v1.Put("/profile/:id", middleware.JwtVerifyTokenAgent, agentHandler.UpdateAgent)
 	v1.Put("/profile/avatar/:id", middleware.JwtVerifyTokenAgent, agentHandler.UpdateAvatar)
+	v1.Put("/:id/agent/update", middleware.JwtVerifyTokenAdmin, agentHandler.UpdateAgentByAdmin)
 }

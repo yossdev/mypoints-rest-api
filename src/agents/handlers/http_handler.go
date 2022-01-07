@@ -16,6 +16,7 @@ type AgentHandlers interface {
 	GetAgent(c *fiber.Ctx) error
 	UpdateAgent(c *fiber.Ctx) error
 	UpdateAvatar(c *fiber.Ctx) error
+	UpdateAgentByAdmin(c *fiber.Ctx) error
 }
 
 type agentHandlers struct {
@@ -69,7 +70,7 @@ func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 // @Produce json
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
-// @Router /:id/agent [post]
+// @Router /:adminId/agent [post]
 func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
 	if err := c.BodyParser(payload); err != nil {
@@ -169,6 +170,29 @@ func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	}
 
 	res, err := h.AgentService.UpdateAvatar(uuid.MustParse(id), payload.ToDomain())
+	if err != nil || res == 0 {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	return web.JsonResponse(c, fiber.StatusOK, web.Success, dto.FromDomainAU(res))
+}
+
+// UpdateAgentByAdmin put handler.
+// @Description update agent data by admin with agent id.
+// @Summary update agent data
+// @Tags Agent
+// @Accept json
+// @Produce json
+// @Param updateAccount body dto.UpdateAgentByAdmin true "body request"
+// @Success 200 {object} dto.AccountUpdated
+// @Router /:adminId/agent/update [put]
+func (h *agentHandlers) UpdateAgentByAdmin(c *fiber.Ctx) error {
+	payload := new(dto.UpdateAgentByAdmin)
+	if err := c.BodyParser(payload); err != nil {
+		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
+	}
+
+	res, err := h.AgentService.UpdateAgentByAdmin(payload.ToDomain())
 	if err != nil || res == 0 {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}

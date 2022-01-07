@@ -73,3 +73,13 @@ func (p *agentPsqlRepository) UpdatePoints(id uuid.UUID, points int32) (int64, e
 	res := p.DB.DB().Model(&agent).Where("id = ?", id).Update("points", gorm.Expr("points + ?", points))
 	return res.RowsAffected, res.Error
 }
+
+func (p *agentPsqlRepository) UpdateAgentByAdmin(payload entities.Domain) (int64, error) {
+	ignore := "password"
+	if payload.Password != "" {
+		ignore = ""
+	}
+
+	res := p.DB.DB().Model(&Agent{}).Omit(ignore).Where("id = ?", payload.ID).Updates(map[string]interface{}{"password": payload.Password, "active": payload.Active})
+	return res.RowsAffected, res.Error
+}
