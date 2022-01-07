@@ -54,9 +54,6 @@ func (p *adminPsqlRepository) UpdateAdmin(payload entities.Domain) (int64, error
 }
 
 func (p *adminPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, error) {
-	admin := Admin{}
-	admin.Img = payload.Img
-
-	res := p.DB.DB().Model(&admin).Where("id = ?", payload.ID).Updates(admin)
+	res := p.DB.DB().Model(&Admin{}).Where("id = ?", payload.ID).Update("img", payload.Img)
 	return res.RowsAffected, res.Error
 }
