@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
@@ -127,6 +128,8 @@ func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
 // CallbackXendit post handler called by xendit after admin paid the invoice
 func (h *transactionHandlers) CallbackXendit(c *fiber.Ctx) error {
 	token := c.GetRespHeader("X-Callback-Token")
+
+	fmt.Println(token)
 
 	payload := new(dto.InvoiceCallback)
 	if err := c.BodyParser(payload); err != nil {
