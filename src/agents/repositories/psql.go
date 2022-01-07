@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/yossdev/mypoints-rest-api/infrastuctures/db"
 	"github.com/yossdev/mypoints-rest-api/src/agents/entities"
+	"gorm.io/gorm"
 )
 
 type agentPsqlRepository struct {
@@ -16,67 +17,59 @@ func NewAgentPsqlRepository(p db.PsqlDB) entities.PsqlRepository {
 	}
 }
 
-func (p *agentPsqlRepository) SignInWithEmail(email string) (*entities.Domain, error) {
+func (p *agentPsqlRepository) SignInWithEmail(email string) (entities.Domain, error) {
 	agent := Agent{}
 
 	res := p.DB.DB().Where("email = ?", email).First(&agent)
 	if res.Error != nil {
-		return agent.toDomain(), res.Error
+		return entities.Domain{}, res.Error
 	}
 
-	return agent.toDomain(), nil
+	return agent.ToDomain(), nil
 }
 
-func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (*entities.Domain, error) {
+func (p *agentPsqlRepository) GetAgent(id uuid.UUID) (entities.Domain, error) {
 	agent := Agent{}
+
+	// Preload all relations
+	//if err := p.DB.DB().Preload(clause.Associations).First(&agent, "id = ?", id).Error; err != nil {
+	//	return agent.ToDomain(), err
+	//}
+
 	if err := p.DB.DB().First(&agent, "id = ?", id).Error; err != nil {
-		return nil, err
+		return entities.Domain{}, err
 	}
 
-	return agent.toDomain(), nil
+	return agent.ToDomain(), nil
 }
 
 func (p *agentPsqlRepository) CreateAgent(payload *entities.Domain) (int64, error) {
-	agent := Agent{
-		AdminID:  payload.AdminID,
-		Name:     payload.Name,
-		Email:    payload.Email,
-		Password: payload.Password,
-		Img:      payload.Img,
-		Status:   payload.Status,
-	}
-	res := p.DB.DB().Create(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
+	agent := Agent{}
+	createAccount(payload, &agent)
 
-	return res.RowsAffected, nil
+	res := p.DB.DB().Create(&agent)
+	return res.RowsAffected, res.Error
 }
 
-func (p *agentPsqlRepository) UpdateAgent(payload *entities.Domain) (int64, error) {
+func (p *agentPsqlRepository) UpdateAgent(payload entities.Domain) (int64, error) {
 	agent := Agent{}
-	p.DB.DB().First(&agent, "id = ?", payload.ID)
-
 	updateAccount(payload, &agent)
 
-	res := p.DB.DB().Save(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
-
-	return res.RowsAffected, nil
+	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	return res.RowsAffected, res.Error
 }
 
-func (p *agentPsqlRepository) UpdateAvatar(payload *entities.Domain) (int64, error) {
+func (p *agentPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, error) {
 	agent := Agent{}
-	p.DB.DB().First(&agent, "id = ?", payload.ID)
-
 	agent.Img = payload.Img
 
-	res := p.DB.DB().Save(&agent)
-	if res.Error != nil {
-		return 0, res.Error
-	}
+	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	return res.RowsAffected, res.Error
+}
 
-	return res.RowsAffected, nil
+func (p *agentPsqlRepository) UpdatePoints(id uuid.UUID, points int32) (int64, error) {
+	agent := Agent{}
+
+	res := p.DB.DB().Model(&agent).Where("id = ?", id).Update("points", gorm.Expr("points + ?", points))
+	return res.RowsAffected, res.Error
 }

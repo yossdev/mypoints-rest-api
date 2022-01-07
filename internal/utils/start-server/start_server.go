@@ -1,4 +1,4 @@
-package startserver
+package start_server
 
 import (
 	"github.com/gofiber/fiber/v2"
