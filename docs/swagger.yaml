@@ -7,11 +7,71 @@ definitions:
       refresh_token:
         type: string
     type: object
-  dto.Profile:
+  dto.ClaimsReq:
+    properties:
+      agent_id:
+        type: string
+      nota_img:
+        type: string
+      points:
+        type: integer
+      product_id:
+        type: integer
+      title:
+        type: string
+    required:
+    - agent_id
+    - nota_img
+    - points
+    - product_id
+    - title
+    type: object
+  dto.NewProduct:
     properties:
       admin_id:
         type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+    required:
+    - admin_id
+    - points
+    - title
+    type: object
+  dto.NewReward:
+    properties:
+      admin_id:
+        type: string
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - admin_id
+    - points
+    - title
+    - value
+    type: object
+  dto.ProductRes:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.Profile:
+    properties:
+      active:
+        type: boolean
+      admin_id:
+        type: string
       created_at:
+        description: Transactions []_transaction.Domain `json:"transactions"`
         type: string
       email:
         type: string
@@ -23,10 +83,74 @@ definitions:
         type: string
       points:
         type: integer
-      status:
-        type: boolean
       updated_at:
         type: string
+    type: object
+  dto.RedeemReq:
+    properties:
+      agent_id:
+        type: string
+      points:
+        type: integer
+      redeem_desc:
+        type: string
+      reward_id:
+        type: integer
+      title:
+        type: string
+    required:
+    - agent_id
+    - points
+    - redeem_desc
+    - reward_id
+    - title
+    type: object
+  dto.RewardRes:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.TransactionRes:
+    properties:
+      rows_affected:
+        type: integer
+    type: object
+  dto.UpdateClaimsReq:
+    properties:
+      id:
+        type: string
+      status:
+        type: string
+    required:
+    - id
+    - status
+    type: object
+  dto.UpdateProduct:
+    properties:
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+    required:
+    - points
+    - title
+    type: object
+  dto.UpdateReward:
+    properties:
+      img:
+        type: string
+      points:
+        type: integer
+      title:
+        type: string
+      value:
+        type: integer
+    required:
+    - points
+    - title
+    - value
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated:
     properties:
@@ -58,6 +182,10 @@ definitions:
         type: string
       password:
         type: string
+    required:
+    - email
+    - name
+    - password
     type: object
   github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAccount:
     properties:
@@ -100,6 +228,8 @@ definitions:
     type: object
   github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq:
     properties:
+      active:
+        type: boolean
       admin_id:
         type: string
       email:
@@ -110,8 +240,6 @@ definitions:
         type: string
       password:
         type: string
-      status:
-        type: boolean
     required:
     - admin_id
     - email
@@ -137,7 +265,7 @@ definitions:
     required:
     - img
     type: object
-host: localhost:8080
+host: server.mypoints.site
 info:
   contact:
     email: zenhanprogram@gmail.com
@@ -172,6 +300,72 @@ paths:
       summary: admins can create agent account with this api
       tags:
       - Agent
+  /:id/transactions/claims:
+    post:
+      consumes:
+      - application/json
+      description: create claims transaction by agents.
+      parameters:
+      - description: body request
+        in: body
+        name: newClaims
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ClaimsReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: agent can create claims transaction
+      tags:
+      - Transaction
+  /:id/transactions/redeem:
+    post:
+      consumes:
+      - application/json
+      description: create redeem transaction by agents.
+      parameters:
+      - description: body request
+        in: body
+        name: newRedeem
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RedeemReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: agent can create redeem transaction
+      tags:
+      - Transaction
+  /admin/:id/transactions/claims/:transactionId:
+    put:
+      consumes:
+      - application/json
+      description: update claims transaction status by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: updateClaims
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateClaimsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.TransactionRes'
+      summary: admins can update claims transaction from agent
+      tags:
+      - Transaction
   /admin/login:
     post:
       consumes:
@@ -282,6 +476,64 @@ paths:
       summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agent
+  /product/:id:
+    post:
+      consumes:
+      - application/json
+      description: create product by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewProduct'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: admins can create product
+      tags:
+      - Product
+  /product/:id/:productId:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete product data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: soft delete product data
+      tags:
+      - Product
+    put:
+      consumes:
+      - application/json
+      description: update product data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateProduct
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateProduct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ProductRes'
+      summary: update product data
+      tags:
+      - Product
   /profile/:id:
     get:
       consumes:
@@ -340,6 +592,64 @@ paths:
       summary: update agent photo profile
       tags:
       - Agent
+  /reward/:id:
+    post:
+      consumes:
+      - application/json
+      description: create reward by admins.
+      parameters:
+      - description: body request
+        in: body
+        name: newReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.NewReward'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: admins can create reward
+      tags:
+      - Reward
+  /reward/:id/:rewardId:
+    delete:
+      consumes:
+      - application/json
+      description: soft delete reward data by id.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: soft delete reward data
+      tags:
+      - Reward
+    put:
+      consumes:
+      - application/json
+      description: update reward data by id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateReward
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateReward'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RewardRes'
+      summary: update reward data
+      tags:
+      - Reward
 securityDefinitions:
   ApiKeyAuth:
     in: header

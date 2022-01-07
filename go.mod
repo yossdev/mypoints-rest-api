@@ -10,6 +10,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/spf13/viper v1.10.0
 	github.com/swaggo/swag v1.7.6
+	github.com/xendit/xendit-go v1.0.1
 	go.mongodb.org/mongo-driver v1.8.1
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
 	gorm.io/driver/postgres v1.2.3
