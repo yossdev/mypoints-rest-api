@@ -7,7 +7,7 @@ var (
 	ProductCreated             = "product created"
 	RewardCreated              = "reward created"
 	RedeemTransactionCompleted = "redeem transaction settled"
-	RedeemTransactionCreated   = "claims transaction created"
+	RedeemTransactionCreated   = "redeem transaction created"
 	Success                    = "success"
 	Welcome                    = "welcome"
 )
