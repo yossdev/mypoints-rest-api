@@ -60,10 +60,7 @@ func (p *agentPsqlRepository) UpdateAgent(payload entities.Domain) (int64, error
 }
 
 func (p *agentPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, error) {
-	agent := Agent{}
-	agent.Img = payload.Img
-
-	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	res := p.DB.DB().Model(&Agent{}).Where("id = ?", payload.ID).Update("img", payload.Img)
 	return res.RowsAffected, res.Error
 }
 

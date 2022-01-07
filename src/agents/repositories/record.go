@@ -44,9 +44,7 @@ func createAccount(p *entities.Domain, rec *Agent) {
 	rec.Name = p.Name
 	rec.Email = p.Email
 	rec.Password = p.Password
-	if p.Img != "" {
-		rec.Img = p.Img
-	}
+	rec.Img = p.Img
 	rec.Active = p.Active
 }
 
