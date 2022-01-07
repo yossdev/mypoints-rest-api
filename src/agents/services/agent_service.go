@@ -77,3 +77,11 @@ func (s *agentService) UpdateAvatar(id uuid.UUID, payload entities.Domain) (int6
 
 	return res, err
 }
+
+func (s *agentService) UpdateAgentByAdmin(payload entities.Domain) (int64, error) {
+	if payload.Password != "" {
+		payload.Password, _ = helpers.Hash(payload.Password)
+	}
+
+	return s.agentPsqlRepository.UpdateAgentByAdmin(payload)
+}

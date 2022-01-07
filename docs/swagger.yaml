@@ -115,6 +115,17 @@ definitions:
       rows_affected:
         type: integer
     type: object
+  dto.UpdateAgentByAdmin:
+    properties:
+      active:
+        type: boolean
+      id:
+        type: string
+      password:
+        type: string
+    required:
+    - id
+    type: object
   dto.UpdateClaimsReq:
     properties:
       id:
@@ -278,7 +289,7 @@ info:
   title: MyPoints API
   version: "1.0"
 paths:
-  /:id/agent:
+  /:adminId/agent:
     post:
       consumes:
       - application/json
@@ -298,6 +309,28 @@ paths:
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated'
       summary: admins can create agent account with this api
+      tags:
+      - Agent
+  /:adminId/agent/update:
+    put:
+      consumes:
+      - application/json
+      description: update agent data by admin with agent id.
+      parameters:
+      - description: body request
+        in: body
+        name: updateAccount
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAgentByAdmin'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
+      summary: update agent data
       tags:
       - Agent
   /:id/transactions/claims:

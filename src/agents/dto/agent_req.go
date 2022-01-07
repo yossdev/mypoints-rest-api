@@ -60,3 +60,17 @@ func (req *UpdateAvatar) ToDomain() entities.Domain {
 		Img: req.Img,
 	}
 }
+
+type UpdateAgentByAdmin struct {
+	ID       uuid.UUID `json:"id" validate:"required,uuid"`
+	Password string    `json:"password"`
+	Active   bool      `json:"active"`
+}
+
+func (req *UpdateAgentByAdmin) ToDomain() entities.Domain {
+	return entities.Domain{
+		ID:       req.ID,
+		Password: req.Password,
+		Active:   req.Active,
+	}
+}
