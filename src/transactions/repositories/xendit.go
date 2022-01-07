@@ -45,7 +45,7 @@ func CreateInvoice(body BodyReq) (*xendit.Invoice, *xendit.Error) {
 
 	data := invoice.CreateParams{
 		ExternalID:  "INV-" + timestamp,
-		Amount:      body.Value,
+		Amount:      body.Value + fees[0].Value,
 		PayerEmail:  body.Email,
 		Description: body.Desc,
 		Customer:    cust,
