@@ -3,7 +3,7 @@
 APP_NAME = mypoints-rest-api
 BUILD_DIR = ./build
 
-start: clean swag
+start: clean swag test
 	air
 
 clean:
@@ -14,11 +14,10 @@ clean:
 swag:
 	swag init -g app.go
 
-# code below cannot be run at the moment TODO: need to look this up
 security:
 	gosec -quiet ./...
 
-test: security
+test:
 	go test -v -timeout 30s -coverprofile=cover.out -cover ./...
 	go tool cover -func=cover.out
 

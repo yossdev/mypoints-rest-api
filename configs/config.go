@@ -3,16 +3,12 @@ package configs
 import (
 	"encoding/base64"
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/spf13/viper"
 )
 
-var (
-	config appConfigStruct
-	doOnce sync.Once
-)
+var config appConfigStruct
 
 type appConfigStruct struct {
 	// Server settings
@@ -37,18 +33,16 @@ type appConfigStruct struct {
 	JwtRefreshExpired time.Duration // in second
 }
 
-func init() {
-	doOnce.Do(func() {
-		viper.SetConfigFile(".env")
-		viper.AutomaticEnv()
+func Init() {
+	viper.SetConfigFile(".env")
+	viper.AutomaticEnv()
 
-		err := viper.ReadInConfig()
-		if err != nil {
-			panic(fmt.Errorf("Fatal error config file: %w \n", err))
-		}
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(fmt.Errorf("Fatal error config file: %w \n", err))
+	}
 
-		config = load()
-	})
+	config = load()
 }
 
 func load() appConfigStruct {

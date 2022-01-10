@@ -1,12 +1,16 @@
 package helpers
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"golang.org/x/crypto/bcrypt"
+)
 
-func Hash(password string) (string, error) {
+// Hash func change to var for testing purposes
+var Hash = func(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	return string(bytes), err
 }
 
-func ValidateHash(secret, hash string) error {
+// ValidateHash func change to var for testing purposes
+var ValidateHash = func(secret, hash string) error {
 	return bcrypt.CompareHashAndPassword([]byte(secret), []byte(hash))
 }
