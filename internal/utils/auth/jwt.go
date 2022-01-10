@@ -11,7 +11,8 @@ type Token struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-func Sign(claims jwt.MapClaims) Token {
+// Sign func change to var for testing purposes
+var Sign = func(claims jwt.MapClaims) Token {
 	timeNow := time.Now()
 	tokenExpired := timeNow.Add(configs.Get().JwtTokenExpired).Unix()
 

@@ -37,6 +37,9 @@ func main() {
 	config := configs.FiberConfig()
 	app := fiber.New(config)
 
+	// Init config from environment variables
+	configs.Init()
+
 	psqlDB := db.NewPsqlClient()
 	dbMigrate(psqlDB.DB())
 
