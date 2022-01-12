@@ -7,17 +7,8 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 [MyPointsPPT]()
 
-## APIs Doc
+## APIs Documentation
 [MyPoints REST APIs](https://server.mypoints.site/api/v1/swagger/index.html)
-
-## Features
-
-- [x] Sign-in admin & agent
-- [x] Sign-up admin & agent
-- [x] Get agent profile
-- [x] Update Account & Avatar for admin & agent
-- [ ] Claim points for product sold
-- [ ] Redeem points for a reward
 
 ## API Server tech-stack:
 
