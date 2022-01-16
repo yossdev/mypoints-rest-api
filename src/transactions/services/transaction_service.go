@@ -35,6 +35,7 @@ func (s *transactionService) Claims(payload entities.Domain) (int64, error) {
 }
 
 func (s *transactionService) ClaimsStatus(id uuid.UUID, status string) (int64, error) {
+	// get by agent id
 	t, e := s.transactionPsqlRepository.GetTransaction(id.String())
 	if e != nil {
 		return 0, e
@@ -89,7 +90,7 @@ func (s *transactionService) Redeem(payload entities.Domain) (int64, error) {
 	if _, err := s.agentPsqlRepository.UpdatePoints(payload.AgentID, -int32(rewardPoints)); err != nil {
 		return 0, err
 	}
-	
+
 	return res, nil
 }
 
@@ -98,13 +99,16 @@ func (s *transactionService) CallbackXendit(token string, payload entities.Invoi
 		return web.InvalidToken
 	}
 
-	transaction, e := s.transactionPsqlRepository.GetTransaction(payload.ID)
+	// get by reward id
+	t, e := s.transactionPsqlRepository.GetTransaction(payload.ID)
 	if e != nil {
 		return e
 	}
 
-	if transaction.Status == "Settled" {
+	if t.Status == "Settled" {
 		return web.AlreadySettled
+	} else if t.Status == "Expired" {
+		return web.TransactionExpired
 	}
 
 	var status string
@@ -113,14 +117,11 @@ func (s *transactionService) CallbackXendit(token string, payload entities.Invoi
 	} else {
 		status = "Expired"
 	}
-	t, _ := s.transactionPsqlRepository.UpdateRedeemStatus(payload.ID, status)
 
-	if payload.Status != "PAID" {
+	if payload.Status == "EXPIRED" {
 		_, err := s.agentPsqlRepository.UpdatePoints(t.AgentID, int32(t.Points))
-		if err != nil {
-			return err
-		}
+		return err
 	}
 
-	return nil
+	return s.transactionPsqlRepository.UpdateRedeemStatus(payload.ID, status)
 }
