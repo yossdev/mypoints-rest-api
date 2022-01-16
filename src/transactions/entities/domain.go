@@ -53,5 +53,5 @@ type PsqlRepository interface {
 	CreateClaims(payload Domain) (int64, error)
 	UpdateClaimsStatus(id uuid.UUID, status string) (int64, error)
 	CreateRedeem(payload Domain) (int64, error)
-	UpdateRedeemStatus(id, status string) (Domain, error)
+	UpdateRedeemStatus(id, status string) error
 }
