@@ -45,7 +45,7 @@ type Service interface {
 	Claims(payload Domain) (int64, error)
 	ClaimsStatus(id uuid.UUID, status string) (int64, error)
 	Redeem(payload Domain) (int64, error)
-	CallbackXendit(token string, payload InvoiceCallback) error
+	CallbackXendit(payload InvoiceCallback) error
 }
 
 type PsqlRepository interface {

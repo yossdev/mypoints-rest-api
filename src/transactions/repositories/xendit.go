@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type BodyReq struct {
+type InvoiceBodyReq struct {
 	Name  string
 	Email string
 	Value float64
@@ -17,7 +17,7 @@ type BodyReq struct {
 	Desc  string // description from agent
 }
 
-func CreateInvoice(body BodyReq) (*xendit.Invoice, *xendit.Error) {
+var CreateInvoice = func(body InvoiceBodyReq) (*xendit.Invoice, *xendit.Error) {
 	secret := viper.GetString("MYPOINTSPG")
 	xendit.Opt.SecretKey = secret
 

@@ -115,7 +115,7 @@ func TestAdminService_SignUp(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("CreateAdmin", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("CreateAdmin", mock.AnythingOfType("*entities.Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			Name:     "admin1",
@@ -138,7 +138,7 @@ func TestAdminService_SignUp(t *testing.T) {
 		var mockRes interface{} = int64(0)
 		var expected interface{} = int64(0)
 
-		psqlRepository.On("CreateAdmin", mock.Anything).Return(mockRes, assert.AnError).Once()
+		psqlRepository.On("CreateAdmin", mock.AnythingOfType("*entities.Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			Name:     "admin1",
@@ -165,7 +165,7 @@ func TestAdminService_UpdateAdmin(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAdmin", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAdmin", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			Name:     "admin1",
@@ -184,7 +184,7 @@ func TestAdminService_UpdateAdmin(t *testing.T) {
 		var mockRes interface{} = int64(0)
 		var expected interface{} = int64(0)
 
-		psqlRepository.On("UpdateAdmin", mock.Anything).Return(mockRes, assert.AnError).Once()
+		psqlRepository.On("UpdateAdmin", mock.AnythingOfType("Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			Name:  "admin1",
@@ -206,7 +206,7 @@ func TestAdminService_UpdateAvatar(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAvatar", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAvatar", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			Img: "https://myavatar.com/avatar",

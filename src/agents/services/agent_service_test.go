@@ -144,7 +144,7 @@ func TestAgentService_SignUp(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("CreateAgent", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("CreateAgent", mock.AnythingOfType("*entities.Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			AdminID:  uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -168,7 +168,7 @@ func TestAgentService_SignUp(t *testing.T) {
 		var mockRes interface{} = int64(0)
 		var expected interface{} = int64(0)
 
-		psqlRepository.On("CreateAgent", mock.Anything).Return(mockRes, assert.AnError).Once()
+		psqlRepository.On("CreateAgent", mock.AnythingOfType("*entities.Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			AdminID:  uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -219,7 +219,7 @@ func TestAgentService_UpdateAgent(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAgent", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAgent", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			Name:     "agent1",
@@ -238,7 +238,7 @@ func TestAgentService_UpdateAgent(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAgent", mock.Anything).Return(mockRes, assert.AnError).Once()
+		psqlRepository.On("UpdateAgent", mock.AnythingOfType("Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			Name:     "agent1",
@@ -261,7 +261,7 @@ func TestAgentService_UpdateAvatar(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAvatar", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAvatar", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			Img: "https://myavatar.com/avatar",
@@ -284,7 +284,7 @@ func TestAgentService_UpdateAgentByAdmin(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAgentByAdmin", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAgentByAdmin", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			ID:       uuid.MustParse("03663093-440a-4fd9-8430-6dd19cb7f5ca"),
@@ -306,7 +306,7 @@ func TestAgentService_UpdateAgentByAdmin(t *testing.T) {
 		var mockRes interface{} = int64(1)
 		var expected interface{} = int64(1)
 
-		psqlRepository.On("UpdateAgentByAdmin", mock.Anything).Return(mockRes, nil).Once()
+		psqlRepository.On("UpdateAgentByAdmin", mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			ID:       uuid.MustParse("03663093-440a-4fd9-8430-6dd19cb7f5ca"),
