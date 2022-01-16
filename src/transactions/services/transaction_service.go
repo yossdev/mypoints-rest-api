@@ -2,7 +2,6 @@ package services
 
 import (
 	"github.com/google/uuid"
-	"github.com/spf13/viper"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	_admin "github.com/yossdev/mypoints-rest-api/src/admins/entities"
 	_agent "github.com/yossdev/mypoints-rest-api/src/agents/entities"
@@ -64,7 +63,7 @@ func (s *transactionService) Redeem(payload entities.Domain) (int64, error) {
 		return 0, web.NotEnoughPoints
 	}
 
-	body := _xendit.BodyReq{
+	body := _xendit.InvoiceBodyReq{
 		Name:  admin.Name,
 		Email: admin.Email,
 		Value: float64(reward.Value),
@@ -82,23 +81,24 @@ func (s *transactionService) Redeem(payload entities.Domain) (int64, error) {
 	payload.RedeemInvoiceID = invoice.ID
 	payload.RedeemInvoiceURL = invoice.InvoiceURL
 
-	res, err := s.transactionPsqlRepository.CreateRedeem(payload)
+	// placeholder for both repo below it
+	var res int64
+	var err error
+
+	res, err = s.transactionPsqlRepository.CreateRedeem(payload)
 	if err != nil {
 		return 0, err
 	}
 
-	if _, err := s.agentPsqlRepository.UpdatePoints(payload.AgentID, -int32(rewardPoints)); err != nil {
+	res, err = s.agentPsqlRepository.UpdatePoints(payload.AgentID, -int32(rewardPoints))
+	if err != nil {
 		return 0, err
 	}
 
-	return res, nil
+	return res, err
 }
 
-func (s *transactionService) CallbackXendit(token string, payload entities.InvoiceCallback) error {
-	if token != viper.GetString("X_Callback_Token") {
-		return web.InvalidToken
-	}
-
+func (s *transactionService) CallbackXendit(payload entities.InvoiceCallback) error {
 	// get by reward id
 	t, e := s.transactionPsqlRepository.GetTransaction(payload.ID)
 	if e != nil {
@@ -119,8 +119,9 @@ func (s *transactionService) CallbackXendit(token string, payload entities.Invoi
 	}
 
 	if payload.Status == "EXPIRED" {
-		_, err := s.agentPsqlRepository.UpdatePoints(t.AgentID, int32(t.Points))
-		return err
+		if _, err := s.agentPsqlRepository.UpdatePoints(t.AgentID, int32(t.Points)); err != nil {
+			return err
+		}
 	}
 
 	return s.transactionPsqlRepository.UpdateRedeemStatus(payload.ID, status)
