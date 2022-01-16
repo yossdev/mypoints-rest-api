@@ -19,3 +19,8 @@ var (
 	NotFound           = errors.New("data not found")
 	TransactionExpired = errors.New("transaction expired")
 )
+
+type ErrorResp struct {
+	Message string   `json:"message"`
+	Errors  []string `json:"errors,omitempty"`
+}

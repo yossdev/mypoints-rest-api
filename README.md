@@ -5,19 +5,10 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## PTT Project
 
-[MyPointsPPT]()
+[MyPointsPPT](https://docs.google.com/presentation/d/1CknmZ4wCH17ST1ViROIu_vEyyxy4VZTl32VclzEOhjM/edit?usp=sharing)
 
-## APIs Doc
+## APIs Documentation
 [MyPoints REST APIs](https://server.mypoints.site/api/v1/swagger/index.html)
-
-## Features
-
-- [x] Sign-in admin & agent
-- [x] Sign-up admin & agent
-- [x] Get agent profile
-- [x] Update Account & Avatar for admin & agent
-- [ ] Claim points for product sold
-- [ ] Redeem points for a reward
 
 ## API Server tech-stack:
 

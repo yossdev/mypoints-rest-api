@@ -16,4 +16,5 @@ cert/
 # misc
 gen/
 .idea
+cover.html
 Todo.txt

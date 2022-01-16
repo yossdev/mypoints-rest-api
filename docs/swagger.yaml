@@ -26,6 +26,17 @@ definitions:
     - product_id
     - title
     type: object
+  dto.InvoiceCallback:
+    properties:
+      amount:
+        type: integer
+      id:
+        type: string
+      merchant_name:
+        type: string
+      status:
+        type: string
+    type: object
   dto.NewProduct:
     properties:
       admin_id:
@@ -276,6 +287,15 @@ definitions:
     required:
     - img
     type: object
+  web.ErrorResp:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      message:
+        type: string
+    type: object
 host: server.mypoints.site
 info:
   contact:
@@ -308,6 +328,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: admins can create agent account with this api
       tags:
       - Agent
@@ -330,6 +354,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update agent data
       tags:
       - Agent
@@ -352,6 +380,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/dto.TransactionRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: agent can create claims transaction
       tags:
       - Transaction
@@ -374,6 +406,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/dto.TransactionRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: agent can create redeem transaction
       tags:
       - Transaction
@@ -396,6 +432,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.TransactionRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: admins can update claims transaction from agent
       tags:
       - Transaction
@@ -418,6 +458,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/auth.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: check admins by given email return jwt token if successfully signIn
       tags:
       - Admin
@@ -440,6 +484,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update admin data
       tags:
       - Admin
@@ -462,6 +510,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update admin photo profile
       tags:
       - Admin
@@ -484,6 +536,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: admins can create from register page
       tags:
       - Admin
@@ -506,6 +562,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/auth.Token'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agent
@@ -528,6 +588,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/dto.ProductRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: admins can create product
       tags:
       - Product
@@ -543,6 +607,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.ProductRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: soft delete product data
       tags:
       - Product
@@ -564,6 +632,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.ProductRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update product data
       tags:
       - Product
@@ -579,6 +651,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.Profile'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: get agent data
       tags:
       - Agent
@@ -600,6 +676,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update agent data
       tags:
       - Agent
@@ -622,9 +702,35 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update agent photo profile
       tags:
       - Agent
+  /redeem/callback:
+    post:
+      consumes:
+      - application/json
+      description: callback for invoice xendit
+      parameters:
+      - description: body request
+        in: body
+        name: invoiceCallback
+        required: true
+        schema:
+          $ref: '#/definitions/dto.InvoiceCallback'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: callback endpoint
+      tags:
+      - Transaction
   /reward/:id:
     post:
       consumes:
@@ -644,6 +750,10 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/dto.RewardRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: admins can create reward
       tags:
       - Reward
@@ -659,6 +769,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.RewardRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: soft delete reward data
       tags:
       - Reward
@@ -680,6 +794,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/dto.RewardRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: update reward data
       tags:
       - Reward

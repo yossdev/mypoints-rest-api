@@ -38,6 +38,7 @@ func NewHttpHandler(s entities.Service) AgentHandlers {
 // @Produce json
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
+// @Failure 400 {object} web.ErrorResp
 // @Router /login [post]
 func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
@@ -70,6 +71,7 @@ func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 // @Produce json
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
+// @Failure 400 {object} web.ErrorResp
 // @Router /:adminId/agent [post]
 func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
@@ -100,6 +102,7 @@ func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.Profile
+// @Failure 400 {object} web.ErrorResp
 // @Router /profile/:id [get]
 func (h *agentHandlers) GetAgent(c *fiber.Ctx) error {
 	id := c.Params("id")
@@ -119,6 +122,7 @@ func (h *agentHandlers) GetAgent(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
+// @Failure 400 {object} web.ErrorResp
 // @Router /profile/:id [put]
 func (h *agentHandlers) UpdateAgent(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
@@ -152,6 +156,7 @@ func (h *agentHandlers) UpdateAgent(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
+// @Failure 400 {object} web.ErrorResp
 // @Router /profile/avatar/:id [put]
 func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
@@ -185,6 +190,7 @@ func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateAccount body dto.UpdateAgentByAdmin true "body request"
 // @Success 200 {object} dto.AccountUpdated
+// @Failure 400 {object} web.ErrorResp
 // @Router /:adminId/agent/update [put]
 func (h *agentHandlers) UpdateAgentByAdmin(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAgentByAdmin)

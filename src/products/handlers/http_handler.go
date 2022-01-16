@@ -34,6 +34,7 @@ func NewHttpHandler(s entities.Service) ProductHandlers {
 // @Produce json
 // @Param newProduct body dto.NewProduct true "body request"
 // @Success 201 {object} dto.ProductRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /product/:id [post]
 func (h *productHandlers) CreateProduct(c *fiber.Ctx) error {
 	payload := new(dto.NewProduct)
@@ -65,6 +66,7 @@ func (h *productHandlers) CreateProduct(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateProduct body dto.UpdateProduct true "body request"
 // @Success 200 {object} dto.ProductRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /product/:id/:productId [put]
 func (h *productHandlers) UpdateProduct(c *fiber.Ctx) error {
 	params := c.Params("productId")
@@ -101,6 +103,7 @@ func (h *productHandlers) UpdateProduct(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.ProductRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /product/:id/:productId [delete]
 func (h *productHandlers) DeleteProduct(c *fiber.Ctx) error {
 	params := c.Params("productId")
