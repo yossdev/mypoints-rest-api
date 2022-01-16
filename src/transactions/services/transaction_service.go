@@ -119,8 +119,9 @@ func (s *transactionService) CallbackXendit(token string, payload entities.Invoi
 	}
 
 	if payload.Status == "EXPIRED" {
-		_, err := s.agentPsqlRepository.UpdatePoints(t.AgentID, int32(t.Points))
-		return err
+		if _, err := s.agentPsqlRepository.UpdatePoints(t.AgentID, int32(t.Points)); err != nil {
+			return err
+		}
 	}
 
 	return s.transactionPsqlRepository.UpdateRedeemStatus(payload.ID, status)
