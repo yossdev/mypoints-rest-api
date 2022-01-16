@@ -61,6 +61,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -94,6 +100,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -129,6 +141,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/dto.TransactionRes"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -162,6 +180,12 @@ var doc = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -197,6 +221,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/dto.TransactionRes"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -230,6 +260,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/auth.Token"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -265,6 +301,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -298,6 +340,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -333,6 +381,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -366,6 +420,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/auth.Token"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -401,6 +461,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/dto.ProductRes"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -435,6 +501,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/dto.ProductRes"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             },
@@ -455,6 +527,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.ProductRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -478,6 +556,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.Profile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -510,6 +594,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -545,6 +635,46 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/redeem/callback": {
+            "post": {
+                "description": "callback for invoice xendit",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "callback endpoint",
+                "parameters": [
+                    {
+                        "description": "body request",
+                        "name": "invoiceCallback",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.InvoiceCallback"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -578,6 +708,12 @@ var doc = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/dto.RewardRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -613,6 +749,12 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/dto.RewardRes"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             },
@@ -633,6 +775,12 @@ var doc = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/dto.RewardRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
                         }
                     }
                 }
@@ -674,6 +822,23 @@ var doc = `{
                     "type": "integer"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "dto.InvoiceCallback": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "merchant_name": {
+                    "type": "string"
+                },
+                "status": {
                     "type": "string"
                 }
             }
@@ -1049,6 +1214,20 @@ var doc = `{
             ],
             "properties": {
                 "img": {
+                    "type": "string"
+                }
+            }
+        },
+        "web.ErrorResp": {
+            "type": "object",
+            "properties": {
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "message": {
                     "type": "string"
                 }
             }

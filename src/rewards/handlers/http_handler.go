@@ -34,6 +34,7 @@ func NewHttpHandler(s entities.Service) RewardHandlers {
 // @Produce json
 // @Param newReward body dto.NewReward true "body request"
 // @Success 201 {object} dto.RewardRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /reward/:id [post]
 func (h *rewardHandlers) CreateReward(c *fiber.Ctx) error {
 	payload := new(dto.NewReward)
@@ -65,6 +66,7 @@ func (h *rewardHandlers) CreateReward(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateReward body dto.UpdateReward true "body request"
 // @Success 200 {object} dto.RewardRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /reward/:id/:rewardId [put]
 func (h *rewardHandlers) UpdateReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
@@ -101,6 +103,7 @@ func (h *rewardHandlers) UpdateReward(c *fiber.Ctx) error {
 // @Accept json
 // @Produce json
 // @Success 200 {object} dto.RewardRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /reward/:id/:rewardId [delete]
 func (h *rewardHandlers) DeleteReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")

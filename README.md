@@ -5,7 +5,7 @@ Backend application for MyPoints WebApp - Final Project Alterra Academy (MBKM)
 
 ## PTT Project
 
-[MyPointsPPT]()
+[MyPointsPPT](https://docs.google.com/presentation/d/1CknmZ4wCH17ST1ViROIu_vEyyxy4VZTl32VclzEOhjM/edit?usp=sharing)
 
 ## APIs Documentation
 [MyPoints REST APIs](https://server.mypoints.site/api/v1/swagger/index.html)

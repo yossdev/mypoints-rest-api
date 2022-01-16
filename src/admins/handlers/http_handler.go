@@ -36,6 +36,7 @@ func NewHttpHandler(s entities.Service) AdminHandlers {
 // @Produce json
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
+// @Failure 400 {object} web.ErrorResp
 // @Router /admin/login [post]
 func (h *adminHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
@@ -68,6 +69,7 @@ func (h *adminHandlers) SignIn(c *fiber.Ctx) error {
 // @Produce json
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
+// @Failure 400 {object} web.ErrorResp
 // @Router /admin/signup [post]
 func (h *adminHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
@@ -99,6 +101,7 @@ func (h *adminHandlers) SignUp(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
+// @Failure 400 {object} web.ErrorResp
 // @Router /admin/profile/:id [put]
 func (h *adminHandlers) UpdateAdmin(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
@@ -132,6 +135,7 @@ func (h *adminHandlers) UpdateAdmin(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
+// @Failure 400 {object} web.ErrorResp
 // @Router /admin/profile/avatar/:id [put]
 func (h *adminHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
