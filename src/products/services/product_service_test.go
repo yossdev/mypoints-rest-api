@@ -6,13 +6,11 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/yossdev/mypoints-rest-api/src/products/entities"
 	"github.com/yossdev/mypoints-rest-api/src/products/entities/mocks"
-	"gorm.io/gorm"
 	"testing"
-	"time"
 )
 
 var (
-	product        *entities.Domain
+	//product        *entities.Domain
 	usecase        entities.Service
 	psqlRepository mocks.PsqlRepository
 )
@@ -20,17 +18,17 @@ var (
 func TestMain(m *testing.M) {
 	usecase = NewProductService(&psqlRepository)
 
-	product = &entities.Domain{
-		ID:           1,
-		AdminID:      uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
-		Title:        "Indomie/doz",
-		Points:       100,
-		Img:          "https://image.com/test-img.jpg",
-		Transactions: nil,
-		CreatedAt:    time.Now(),
-		UpdatedAt:    time.Now(),
-		DeletedAt:    gorm.DeletedAt{},
-	}
+	//product = &entities.Domain{
+	//	ID:           1,
+	//	AdminID:      uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
+	//	Title:        "Indomie/doz",
+	//	Points:       100,
+	//	Img:          "https://image.com/test-img.jpg",
+	//	Transactions: nil,
+	//	CreatedAt:    time.Now(),
+	//	UpdatedAt:    time.Now(),
+	//	DeletedAt:    gorm.DeletedAt{},
+	//}
 
 	m.Run()
 }
@@ -41,7 +39,7 @@ func TestProductService_CreateProduct(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Create",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, nil).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			AdminID: uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -61,7 +59,7 @@ func TestProductService_CreateProduct(t *testing.T) {
 		var expected interface{} = int64(0)
 
 		psqlRepository.On("Create",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, assert.AnError).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			AdminID: uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -83,7 +81,7 @@ func TestProductService_UpdateProduct(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Update",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes).Once()
 
 		const productId uint32 = 1
 		payload := entities.Domain{
@@ -102,7 +100,7 @@ func TestProductService_UpdateProduct(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Update",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes).Once()
 
 		const productId uint32 = 2
 		payload := entities.Domain{

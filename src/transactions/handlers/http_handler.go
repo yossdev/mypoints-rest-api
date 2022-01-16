@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/spf13/viper"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/transactions/dto"
@@ -133,7 +134,11 @@ func (h *transactionHandlers) CallbackXendit(c *fiber.Ctx) error {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	if err := h.TransactionService.CallbackXendit(token, payload.ToDomain()); err != nil {
+	if token != viper.GetString("X_Callback_Token") {
+		return web.JsonErrorResponse(c, fiber.StatusNotAcceptable, web.InvalidToken, web.InvalidToken)
+	}
+
+	if err := h.TransactionService.CallbackXendit(payload.ToDomain()); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 

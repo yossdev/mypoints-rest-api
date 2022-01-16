@@ -6,13 +6,11 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/yossdev/mypoints-rest-api/src/rewards/entities"
 	"github.com/yossdev/mypoints-rest-api/src/rewards/entities/mocks"
-	"gorm.io/gorm"
 	"testing"
-	"time"
 )
 
 var (
-	reward         *entities.Domain
+	//reward         *entities.Domain
 	usecase        entities.Service
 	psqlRepository mocks.PsqlRepository
 )
@@ -20,18 +18,18 @@ var (
 func TestMain(m *testing.M) {
 	usecase = NewRewardService(&psqlRepository)
 
-	reward = &entities.Domain{
-		ID:           1,
-		AdminID:      uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
-		Title:        "E-Wallet BCA 100k",
-		Value:        100000,
-		Points:       10000,
-		Img:          "https://image.com/reward-test-img.jpg",
-		Transactions: nil,
-		CreatedAt:    time.Time{},
-		UpdatedAt:    time.Time{},
-		DeletedAt:    gorm.DeletedAt{},
-	}
+	//reward = &entities.Domain{
+	//	ID:           1,
+	//	AdminID:      uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
+	//	Title:        "E-Wallet BCA 100k",
+	//	Value:        100000,
+	//	Points:       10000,
+	//	Img:          "https://image.com/reward-test-img.jpg",
+	//	Transactions: nil,
+	//	CreatedAt:    time.Time{},
+	//	UpdatedAt:    time.Time{},
+	//	DeletedAt:    gorm.DeletedAt{},
+	//}
 
 	m.Run()
 }
@@ -42,7 +40,7 @@ func TestRewardService_CreateReward(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Create",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, nil).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		payload := entities.Domain{
 			AdminID: uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -63,7 +61,7 @@ func TestRewardService_CreateReward(t *testing.T) {
 		var expected interface{} = int64(0)
 
 		psqlRepository.On("Create",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, assert.AnError).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, assert.AnError).Once()
 
 		payload := entities.Domain{
 			AdminID: uuid.MustParse("290fda4e-bb02-4ff5-9fd0-70f473ece15d"),
@@ -86,7 +84,7 @@ func TestRewardService_UpdateReward(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Update",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, nil).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, nil).Once()
 
 		const rewardId uint32 = 1
 		payload := entities.Domain{
@@ -107,7 +105,7 @@ func TestRewardService_UpdateReward(t *testing.T) {
 		var expected interface{} = int64(1)
 
 		psqlRepository.On("Update",
-			mock.AnythingOfType("entities.Domain")).Return(mockRes, assert.AnError).Once()
+			mock.AnythingOfType("Domain")).Return(mockRes, assert.AnError).Once()
 
 		const rewardId uint32 = 1
 		payload := entities.Domain{
