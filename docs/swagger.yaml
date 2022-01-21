@@ -413,7 +413,7 @@ paths:
       summary: agent can create redeem transaction
       tags:
       - Transaction
-  /admin/:id/transactions/claims/:transactionId:
+  /admin/:id/transactions/claims:
     put:
       consumes:
       - application/json

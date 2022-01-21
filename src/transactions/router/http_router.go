@@ -42,5 +42,5 @@ func (r *HttpRouter) GetRoute() {
 	agent.Post("/redeem", middleware.JwtVerifyTokenAgent, transactionHandler.Redeem)
 
 	// Admin API only for admin
-	admin.Put("/claims/:transactionId", middleware.JwtVerifyTokenAdmin, transactionHandler.UpdateClaims)
+	admin.Put("/claims", middleware.JwtVerifyTokenAdmin, transactionHandler.UpdateClaims)
 }

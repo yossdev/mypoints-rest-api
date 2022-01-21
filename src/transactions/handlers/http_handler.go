@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/google/uuid"
 	"github.com/spf13/viper"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
@@ -71,10 +70,9 @@ func (h *transactionHandlers) Claims(c *fiber.Ctx) error {
 // @Param updateClaims body dto.UpdateClaimsReq true "body request"
 // @Success 200 {object} dto.TransactionRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /admin/:id/transactions/claims/:transactionId [put]
+// @Router /admin/:id/transactions/claims [put]
 func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 	payload := new(dto.UpdateClaimsReq)
-	payload.ID = uuid.MustParse(c.Params("transactionId"))
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
