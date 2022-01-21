@@ -60,10 +60,7 @@ func (p *agentPsqlRepository) UpdateAgent(payload entities.Domain) (int64, error
 }
 
 func (p *agentPsqlRepository) UpdateAvatar(payload entities.Domain) (int64, error) {
-	agent := Agent{}
-	agent.Img = payload.Img
-
-	res := p.DB.DB().Model(&agent).Where("id = ?", payload.ID).Updates(agent)
+	res := p.DB.DB().Model(&Agent{}).Where("id = ?", payload.ID).Update("img", payload.Img)
 	return res.RowsAffected, res.Error
 }
 
@@ -71,5 +68,15 @@ func (p *agentPsqlRepository) UpdatePoints(id uuid.UUID, points int32) (int64, e
 	agent := Agent{}
 
 	res := p.DB.DB().Model(&agent).Where("id = ?", id).Update("points", gorm.Expr("points + ?", points))
+	return res.RowsAffected, res.Error
+}
+
+func (p *agentPsqlRepository) UpdateAgentByAdmin(payload entities.Domain) (int64, error) {
+	ignore := "password"
+	if payload.Password != "" {
+		ignore = ""
+	}
+
+	res := p.DB.DB().Model(&Agent{}).Omit(ignore).Where("id = ?", payload.ID).Updates(map[string]interface{}{"password": payload.Password, "active": payload.Active})
 	return res.RowsAffected, res.Error
 }

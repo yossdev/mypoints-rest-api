@@ -27,6 +27,7 @@ type Service interface {
 	GetAgent(id uuid.UUID) (Domain, error)
 	UpdateAgent(id uuid.UUID, payload Domain) (int64, error)
 	UpdateAvatar(id uuid.UUID, payload Domain) (int64, error)
+	UpdateAgentByAdmin(payload Domain) (int64, error)
 }
 
 type PsqlRepository interface {
@@ -36,4 +37,5 @@ type PsqlRepository interface {
 	UpdateAgent(payload Domain) (int64, error)
 	UpdateAvatar(payload Domain) (int64, error)
 	UpdatePoints(id uuid.UUID, points int32) (int64, error)
+	UpdateAgentByAdmin(payload Domain) (int64, error)
 }

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"
+	"github.com/spf13/viper"
 	"github.com/yossdev/mypoints-rest-api/internal/utils/helpers"
 	"github.com/yossdev/mypoints-rest-api/internal/web"
 	"github.com/yossdev/mypoints-rest-api/src/transactions/dto"
@@ -37,6 +37,7 @@ func NewHttpHandler(s entities.Service) TransactionHandlers {
 // @Produce json
 // @Param newClaims body dto.ClaimsReq true "body request"
 // @Success 201 {object} dto.TransactionRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /:id/transactions/claims [post]
 func (h *transactionHandlers) Claims(c *fiber.Ctx) error {
 	payload := new(dto.ClaimsReq)
@@ -69,6 +70,7 @@ func (h *transactionHandlers) Claims(c *fiber.Ctx) error {
 // @Produce json
 // @Param updateClaims body dto.UpdateClaimsReq true "body request"
 // @Success 200 {object} dto.TransactionRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /admin/:id/transactions/claims/:transactionId [put]
 func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 	payload := new(dto.UpdateClaimsReq)
@@ -102,6 +104,7 @@ func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 // @Produce json
 // @Param newRedeem body dto.RedeemReq true "body request"
 // @Success 201 {object} dto.TransactionRes
+// @Failure 400 {object} web.ErrorResp
 // @Router /:id/transactions/redeem [post]
 func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
 	payload := new(dto.RedeemReq)
@@ -126,17 +129,28 @@ func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
 }
 
 // CallbackXendit post handler called by xendit after admin paid the invoice
+// @Description callback for invoice xendit
+// @Summary callback endpoint
+// @Tags Transaction
+// @Scheme https
+// @Accept json
+// @Produce json
+// @Param invoiceCallback body dto.InvoiceCallback true "body request"
+// @Success 200 {string} string web.RedeemTransactionCompleted
+// @Router /redeem/callback [post]
 func (h *transactionHandlers) CallbackXendit(c *fiber.Ctx) error {
 	token := c.Get("x-callback-token")
-
-	fmt.Println(token)
 
 	payload := new(dto.InvoiceCallback)
 	if err := c.BodyParser(payload); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 
-	if err := h.TransactionService.CallbackXendit(token, payload.ToDomain()); err != nil {
+	if token != viper.GetString("X_Callback_Token") {
+		return web.JsonErrorResponse(c, fiber.StatusNotAcceptable, web.InvalidToken, web.InvalidToken)
+	}
+
+	if err := h.TransactionService.CallbackXendit(payload.ToDomain()); err != nil {
 		return web.JsonErrorResponse(c, fiber.StatusBadRequest, web.BadRequest, err)
 	}
 

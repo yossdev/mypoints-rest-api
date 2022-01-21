@@ -44,18 +44,14 @@ func createAccount(p *entities.Domain, rec *Agent) {
 	rec.Name = p.Name
 	rec.Email = p.Email
 	rec.Password = p.Password
-	if p.Img != "" {
-		rec.Img = p.Img
-	}
+	rec.Img = p.Img
 	rec.Active = p.Active
 }
 
 func updateAccount(p entities.Domain, rec *Agent) {
 	rec.Name = p.Name
 	rec.Email = p.Email
-	if p.Password != "" {
-		rec.Password = p.Password
-	}
+	rec.Password = p.Password
 }
 
 func transactionSlice(t []_t.Transaction) []_transaction.Domain {

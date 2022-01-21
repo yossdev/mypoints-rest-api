@@ -18,7 +18,7 @@ type SignUpReq struct {
 	Name     string `json:"name" validate:"required"`
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`
-	Img      string `json:"img"`
+	Img      string `json:"img" validate:"omitempty,url"`
 }
 
 func (req *SignUpReq) ToDomain() *entities.Domain {
@@ -45,7 +45,7 @@ func (req *UpdateAccount) ToDomain() entities.Domain {
 }
 
 type UpdateAvatar struct {
-	Img string `json:"img" validate:"required"`
+	Img string `json:"img" validate:"required,url"`
 }
 
 func (req *UpdateAvatar) ToDomain() entities.Domain {

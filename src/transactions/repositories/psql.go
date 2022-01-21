@@ -56,9 +56,9 @@ func (p *transactionPsqlRepository) CreateRedeem(payload entities.Domain) (int64
 	return res.RowsAffected, res.Error
 }
 
-func (p *transactionPsqlRepository) UpdateRedeemStatus(id, status string) (entities.Domain, error) {
+func (p *transactionPsqlRepository) UpdateRedeemStatus(id, status string) error {
 	redeem := Transaction{Status: status}
 	err := p.DB.DB().Model(&redeem).Where("redeem_invoice_id = ?", id).Updates(redeem)
 
-	return redeem.ToDomain(), err.Error
+	return err.Error
 }
