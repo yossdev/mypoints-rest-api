@@ -191,7 +191,7 @@ var doc = `{
                 }
             }
         },
-        "/admin/:id/transactions/claims/:transactionId": {
+        "/admin/:id/transactions/claims": {
             "put": {
                 "description": "update claims transaction status by admins.",
                 "consumes": [

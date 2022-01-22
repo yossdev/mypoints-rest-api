@@ -65,4 +65,4 @@ Clean Architecture - Uncle Bob
 ![golang clean architecture](https://github.com/yossdev/mypoints-rest-api/blob/main/docs/img/clean-arch.png)
 
 ## ERD
-![ERD](https://github.com/yossdev/mypoints-rest-api/blob/main/docs/img/erd.jpg)
+![ERD](https://github.com/yossdev/mypoints-rest-api/blob/main/docs/img/erd.png)
