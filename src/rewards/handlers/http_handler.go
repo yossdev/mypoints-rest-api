@@ -32,10 +32,14 @@ func NewHttpHandler(s entities.Service) RewardHandlers {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
 // @Param newReward body dto.NewReward true "body request"
 // @Success 201 {object} dto.RewardRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /reward/:id [post]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 424 {object} web.ErrorResp
+// @Router /reward/{id} [post]
+// @Security ApiKeyAuth
 func (h *rewardHandlers) CreateReward(c *fiber.Ctx) error {
 	payload := new(dto.NewReward)
 	if err := c.BodyParser(payload); err != nil {
@@ -64,10 +68,15 @@ func (h *rewardHandlers) CreateReward(c *fiber.Ctx) error {
 // @Tags Reward
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
+// @Param rewardId path int true "ID of Reward"
 // @Param updateReward body dto.UpdateReward true "body request"
 // @Success 200 {object} dto.RewardRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /reward/:id/:rewardId [put]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 422 {object} web.ErrorResp
+// @Router /reward/{id}/{rewardId} [put]
+// @Security ApiKeyAuth
 func (h *rewardHandlers) UpdateReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)
@@ -102,9 +111,14 @@ func (h *rewardHandlers) UpdateReward(c *fiber.Ctx) error {
 // @Tags Reward
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
+// @Param rewardId path int true "ID of Reward"
 // @Success 200 {object} dto.RewardRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /reward/:id/:rewardId [delete]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 422 {object} web.ErrorResp
+// @Router /reward/{id}/{rewardId} [delete]
+// @Security ApiKeyAuth
 func (h *rewardHandlers) DeleteReward(c *fiber.Ctx) error {
 	params := c.Params("rewardId")
 	rewardId, convErr := helpers.StringToUint32(params)

@@ -31,206 +31,6 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/:adminId/agent": {
-            "post": {
-                "description": "create agent account by admins.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Agent"
-                ],
-                "summary": "admins can create agent account with this api",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "signUp",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorResp"
-                        }
-                    }
-                }
-            }
-        },
-        "/:adminId/agent/update": {
-            "put": {
-                "description": "update agent data by admin with agent id.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Agent"
-                ],
-                "summary": "update agent data",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "updateAccount",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateAgentByAdmin"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorResp"
-                        }
-                    }
-                }
-            }
-        },
-        "/:id/transactions/claims": {
-            "post": {
-                "description": "create claims transaction by agents.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "agent can create claims transaction",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "newClaims",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.ClaimsReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/dto.TransactionRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorResp"
-                        }
-                    }
-                }
-            }
-        },
-        "/:id/transactions/redeem": {
-            "post": {
-                "description": "create redeem transaction by agents.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "agent can create redeem transaction",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "newRedeem",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.RedeemReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/dto.TransactionRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorResp"
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/:id/transactions/claims": {
-            "put": {
-                "description": "update claims transaction status by admins.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Transaction"
-                ],
-                "summary": "admins can update claims transaction from agent",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "updateClaims",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/dto.UpdateClaimsReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/dto.TransactionRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/web.ErrorResp"
-                        }
-                    }
-                }
-            }
-        },
         "/admin/login": {
             "post": {
                 "description": "check admins by checking given email and password.",
@@ -267,12 +67,81 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
         },
-        "/admin/profile/:id": {
+        "/admin/profile/avatar/{id}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update admin photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "update admin photo profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/profile/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "update admin data by id.",
                 "consumes": [
                     "application/json"
@@ -285,6 +154,13 @@ var doc = `{
                 ],
                 "summary": "update admin data",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin to update",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "updateAccount",
@@ -307,43 +183,9 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
-                    }
-                }
-            }
-        },
-        "/admin/profile/avatar/:id": {
-            "put": {
-                "description": "update admin photo profile by id.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Admin"
-                ],
-                "summary": "update admin photo profile",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "updateAvatar",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.UpdateAvatar"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountUpdated"
-                        }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
@@ -387,6 +229,70 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/{id}/transactions/claims": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update claims transaction status by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "admins can update claims transaction from agent",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "updateClaims",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateClaimsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
@@ -427,12 +333,23 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
         },
-        "/product/:id": {
+        "/product/{id}": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "create product by admins.",
                 "consumes": [
                     "application/json"
@@ -445,6 +362,13 @@ var doc = `{
                 ],
                 "summary": "admins can create product",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "newProduct",
@@ -467,12 +391,29 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "424": {
+                        "description": "Failed Dependency",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
         },
-        "/product/:id/:productId": {
+        "/product/{id}/{productId}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "update product data by id.",
                 "consumes": [
                     "application/json"
@@ -485,6 +426,20 @@ var doc = `{
                 ],
                 "summary": "update product data",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID of Product",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "updateProduct",
@@ -507,10 +462,27 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "soft delete product data by id.",
                 "consumes": [
                     "application/json"
@@ -522,6 +494,22 @@ var doc = `{
                     "Product"
                 ],
                 "summary": "soft delete product data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID of Product",
+                        "name": "productId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -534,12 +522,87 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
         },
-        "/profile/:id": {
+        "/profile/avatar/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update agent photo profile by id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent photo profile",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Agent",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "updateAvatar",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/{id}": {
             "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "Get agent data by id.",
                 "consumes": [
                     "application/json"
@@ -551,6 +614,15 @@ var doc = `{
                     "Agent"
                 ],
                 "summary": "get agent data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Agent",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -563,10 +635,27 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             },
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "update agent data by id.",
                 "consumes": [
                     "application/json"
@@ -579,6 +668,13 @@ var doc = `{
                 ],
                 "summary": "update agent data",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Agent",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "updateAccount",
@@ -601,43 +697,9 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
-                    }
-                }
-            }
-        },
-        "/profile/avatar/:id": {
-            "put": {
-                "description": "update agent photo profile by id.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Agent"
-                ],
-                "summary": "update agent photo profile",
-                "parameters": [
-                    {
-                        "description": "body request",
-                        "name": "updateAvatar",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.UpdateAvatar"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
-                        }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
@@ -679,8 +741,13 @@ var doc = `{
                 }
             }
         },
-        "/reward/:id": {
+        "/reward/{id}": {
             "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "create reward by admins.",
                 "consumes": [
                     "application/json"
@@ -693,6 +760,13 @@ var doc = `{
                 ],
                 "summary": "admins can create reward",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "newReward",
@@ -715,12 +789,29 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "424": {
+                        "description": "Failed Dependency",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             }
         },
-        "/reward/:id/:rewardId": {
+        "/reward/{id}/{rewardId}": {
             "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "update reward data by id.",
                 "consumes": [
                     "application/json"
@@ -733,6 +824,20 @@ var doc = `{
                 ],
                 "summary": "update reward data",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID of Reward",
+                        "name": "rewardId",
+                        "in": "path",
+                        "required": true
+                    },
                     {
                         "description": "body request",
                         "name": "updateReward",
@@ -755,10 +860,27 @@ var doc = `{
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
                     }
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
                 "description": "soft delete reward data by id.",
                 "consumes": [
                     "application/json"
@@ -770,6 +892,22 @@ var doc = `{
                     "Reward"
                 ],
                 "summary": "soft delete reward data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "ID of Reward",
+                        "name": "rewardId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -779,6 +917,268 @@ var doc = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/{adminId}/agent": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "create agent account by admins.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "admins can create agent account with this api",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "adminId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "signUp",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.SignUpReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountCreated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/{adminId}/agent/update": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "update agent data by admin with agent id.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Agent"
+                ],
+                "summary": "update agent data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Admin",
+                        "name": "adminId",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "updateAccount",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateAgentByAdmin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/github.com_yossdev_mypoints-rest-api_src_agents_dto.AccountUpdated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/{id}/transactions/claims": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "create claims transaction by agents.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "agent can create claims transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Agent",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "newClaims",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ClaimsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "424": {
+                        "description": "Failed Dependency",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/{id}/transactions/redeem": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "create redeem transaction by agents.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Transaction"
+                ],
+                "summary": "agent can create redeem transaction",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "ID of Agent",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "body request",
+                        "name": "newRedeem",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.RedeemReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/dto.TransactionRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/web.ErrorResp"
+                        }
+                    },
+                    "424": {
+                        "description": "Failed Dependency",
                         "schema": {
                             "$ref": "#/definitions/web.ErrorResp"
                         }
@@ -1264,7 +1664,7 @@ var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
 	Host:        "server.mypoints.site",
 	BasePath:    "/api/v1",
-	Schemes:     []string{},
+	Schemes:     []string{"https"},
 	Title:       "MyPoints API",
 	Description: "This is an auto-generated API Docs.",
 }

@@ -39,6 +39,7 @@ func NewHttpHandler(s entities.Service) AgentHandlers {
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
 // @Failure 400 {object} web.ErrorResp
+// @Failure 401 {object} web.ErrorResp
 // @Router /login [post]
 func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
@@ -69,10 +70,14 @@ func (h *agentHandlers) SignIn(c *fiber.Ctx) error {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param adminId path string true "ID of Admin"
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
 // @Failure 400 {object} web.ErrorResp
-// @Router /:adminId/agent [post]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 409 {object} web.ErrorResp
+// @Router /{adminId}/agent [post]
+// @Security ApiKeyAuth
 func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
 	if err := c.BodyParser(payload); err != nil {
@@ -101,9 +106,13 @@ func (h *agentHandlers) SignUp(c *fiber.Ctx) error {
 // @Tags Agent
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Agent"
 // @Success 200 {object} dto.Profile
 // @Failure 400 {object} web.ErrorResp
-// @Router /profile/:id [get]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 403 {object} web.ErrorResp
+// @Router /profile/{id} [get]
+// @Security ApiKeyAuth
 func (h *agentHandlers) GetAgent(c *fiber.Ctx) error {
 	id := c.Params("id")
 	agent, err := h.AgentService.GetAgent(uuid.MustParse(id))
@@ -120,10 +129,13 @@ func (h *agentHandlers) GetAgent(c *fiber.Ctx) error {
 // @Tags Agent
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Agent"
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Failure 400 {object} web.ErrorResp
-// @Router /profile/:id [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /profile/{id} [put]
+// @Security ApiKeyAuth
 func (h *agentHandlers) UpdateAgent(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
 	id := c.Params("id")
@@ -154,10 +166,13 @@ func (h *agentHandlers) UpdateAgent(c *fiber.Ctx) error {
 // @Tags Agent
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Agent"
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Failure 400 {object} web.ErrorResp
-// @Router /profile/avatar/:id [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /profile/avatar/{id} [put]
+// @Security ApiKeyAuth
 func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
 	id := c.Params("id")
@@ -188,10 +203,13 @@ func (h *agentHandlers) UpdateAvatar(c *fiber.Ctx) error {
 // @Tags Agent
 // @Accept json
 // @Produce json
+// @Param adminId path string true "ID of Admin"
 // @Param updateAccount body dto.UpdateAgentByAdmin true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Failure 400 {object} web.ErrorResp
-// @Router /:adminId/agent/update [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /{adminId}/agent/update [put]
+// @Security ApiKeyAuth
 func (h *agentHandlers) UpdateAgentByAdmin(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAgentByAdmin)
 	if err := c.BodyParser(payload); err != nil {
