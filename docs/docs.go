@@ -869,12 +869,16 @@ var doc = `{
             "type": "object",
             "required": [
                 "admin_id",
+                "category",
                 "points",
                 "title",
                 "value"
             ],
             "properties": {
                 "admin_id": {
+                    "type": "string"
+                },
+                "category": {
                     "type": "string"
                 },
                 "img": {
@@ -1028,11 +1032,15 @@ var doc = `{
         "dto.UpdateReward": {
             "type": "object",
             "required": [
+                "category",
                 "points",
                 "title",
                 "value"
             ],
             "properties": {
+                "category": {
+                    "type": "string"
+                },
                 "img": {
                     "type": "string"
                 },

@@ -66,6 +66,7 @@ func dbMigrate(db *gorm.DB) {
 		&_agent.Agent{},
 		&_transaction.TransactionType{},
 		&_transaction.TransactionStatus{},
+		&_reward.RewardCategory{},
 		&_product.Product{},
 		&_reward.Reward{},
 		&_transaction.Transaction{},
