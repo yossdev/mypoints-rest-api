@@ -32,10 +32,14 @@ func NewHttpHandler(s entities.Service) ProductHandlers {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
 // @Param newProduct body dto.NewProduct true "body request"
 // @Success 201 {object} dto.ProductRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /product/:id [post]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 424 {object} web.ErrorResp
+// @Router /product/{id} [post]
+// @Security ApiKeyAuth
 func (h *productHandlers) CreateProduct(c *fiber.Ctx) error {
 	payload := new(dto.NewProduct)
 	if err := c.BodyParser(payload); err != nil {
@@ -64,10 +68,15 @@ func (h *productHandlers) CreateProduct(c *fiber.Ctx) error {
 // @Tags Product
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
+// @Param productId path int true "ID of Product"
 // @Param updateProduct body dto.UpdateProduct true "body request"
 // @Success 200 {object} dto.ProductRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /product/:id/:productId [put]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 422 {object} web.ErrorResp
+// @Router /product/{id}/{productId} [put]
+// @Security ApiKeyAuth
 func (h *productHandlers) UpdateProduct(c *fiber.Ctx) error {
 	params := c.Params("productId")
 	productId, convErr := helpers.StringToUint32(params)
@@ -102,9 +111,14 @@ func (h *productHandlers) UpdateProduct(c *fiber.Ctx) error {
 // @Tags Product
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
+// @Param productId path int true "ID of Product"
 // @Success 200 {object} dto.ProductRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /product/:id/:productId [delete]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 422 {object} web.ErrorResp
+// @Router /product/{id}/{productId} [delete]
+// @Security ApiKeyAuth
 func (h *productHandlers) DeleteProduct(c *fiber.Ctx) error {
 	params := c.Params("productId")
 	productId, convErr := helpers.StringToUint32(params)

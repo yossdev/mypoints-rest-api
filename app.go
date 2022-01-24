@@ -29,10 +29,13 @@ import (
 // @license.url https://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host server.mypoints.site
+
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
+
 // @BasePath /api/v1
+// @schemes https
 func main() {
 	config := configs.FiberConfig()
 	app := fiber.New(config)

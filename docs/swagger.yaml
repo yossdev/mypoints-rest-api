@@ -315,12 +315,17 @@ info:
   title: MyPoints API
   version: "1.0"
 paths:
-  /:adminId/agent:
+  /{adminId}/agent:
     post:
       consumes:
       - application/json
       description: create agent account by admins.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: adminId
+        required: true
+        type: string
       - description: body request
         in: body
         name: signUp
@@ -338,15 +343,30 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: admins can create agent account with this api
       tags:
       - Agent
-  /:adminId/agent/update:
+  /{adminId}/agent/update:
     put:
       consumes:
       - application/json
       description: update agent data by admin with agent id.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: adminId
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateAccount
@@ -364,15 +384,26 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update agent data
       tags:
       - Agent
-  /:id/transactions/claims:
+  /{id}/transactions/claims:
     post:
       consumes:
       - application/json
       description: create claims transaction by agents.
       parameters:
+      - description: ID of Agent
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: newClaims
@@ -390,15 +421,30 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: agent can create claims transaction
       tags:
       - Transaction
-  /:id/transactions/redeem:
+  /{id}/transactions/redeem:
     post:
       consumes:
       - application/json
       description: create redeem transaction by agents.
       parameters:
+      - description: ID of Agent
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: newRedeem
@@ -416,15 +462,30 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: agent can create redeem transaction
       tags:
       - Transaction
-  /admin/:id/transactions/claims:
+  /admin/{id}/transactions/claims:
     put:
       consumes:
       - application/json
       description: update claims transaction status by admins.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateClaims
@@ -442,6 +503,12 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: admins can update claims transaction from agent
       tags:
       - Transaction
@@ -468,15 +535,24 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: check admins by given email return jwt token if successfully signIn
       tags:
       - Admin
-  /admin/profile/:id:
+  /admin/profile/{id}:
     put:
       consumes:
       - application/json
       description: update admin data by id.
       parameters:
+      - description: ID of Admin to update
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateAccount
@@ -494,15 +570,26 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update admin data
       tags:
       - Admin
-  /admin/profile/avatar/:id:
+  /admin/profile/avatar/{id}:
     put:
       consumes:
       - application/json
       description: update admin photo profile by id.
       parameters:
+      - description: ID of Admin to update
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateAvatar
@@ -520,6 +607,12 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update admin photo profile
       tags:
       - Admin
@@ -544,6 +637,10 @@ paths:
             $ref: '#/definitions/github.com_yossdev_mypoints-rest-api_src_admins_dto.AccountCreated'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "409":
+          description: Conflict
           schema:
             $ref: '#/definitions/web.ErrorResp'
       summary: admins can create from register page
@@ -572,15 +669,24 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
       summary: check agent by given email return jwt token if successfully signIn
       tags:
       - Agent
-  /product/:id:
+  /product/{id}:
     post:
       consumes:
       - application/json
       description: create product by admins.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: newProduct
@@ -598,14 +704,35 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: admins can create product
       tags:
       - Product
-  /product/:id/:productId:
+  /product/{id}/{productId}:
     delete:
       consumes:
       - application/json
       description: soft delete product data by id.
+      parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ID of Product
+        in: path
+        name: productId
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -617,6 +744,16 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: soft delete product data
       tags:
       - Product
@@ -625,6 +762,16 @@ paths:
       - application/json
       description: update product data by id.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ID of Product
+        in: path
+        name: productId
+        required: true
+        type: integer
       - description: body request
         in: body
         name: updateProduct
@@ -642,14 +789,30 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update product data
       tags:
       - Product
-  /profile/:id:
+  /profile/{id}:
     get:
       consumes:
       - application/json
       description: Get agent data by id.
+      parameters:
+      - description: ID of Agent
+        in: path
+        name: id
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -661,6 +824,16 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: get agent data
       tags:
       - Agent
@@ -669,6 +842,11 @@ paths:
       - application/json
       description: update agent data by id.
       parameters:
+      - description: ID of Agent
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateAccount
@@ -686,15 +864,26 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update agent data
       tags:
       - Agent
-  /profile/avatar/:id:
+  /profile/avatar/{id}:
     put:
       consumes:
       - application/json
       description: update agent photo profile by id.
       parameters:
+      - description: ID of Agent
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: updateAvatar
@@ -712,6 +901,12 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update agent photo profile
       tags:
       - Agent
@@ -737,12 +932,17 @@ paths:
       summary: callback endpoint
       tags:
       - Transaction
-  /reward/:id:
+  /reward/{id}:
     post:
       consumes:
       - application/json
       description: create reward by admins.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
       - description: body request
         in: body
         name: newReward
@@ -760,14 +960,35 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "424":
+          description: Failed Dependency
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: admins can create reward
       tags:
       - Reward
-  /reward/:id/:rewardId:
+  /reward/{id}/{rewardId}:
     delete:
       consumes:
       - application/json
       description: soft delete reward data by id.
+      parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ID of Reward
+        in: path
+        name: rewardId
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
@@ -779,6 +1000,16 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: soft delete reward data
       tags:
       - Reward
@@ -787,6 +1018,16 @@ paths:
       - application/json
       description: update reward data by id.
       parameters:
+      - description: ID of Admin
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: ID of Reward
+        in: path
+        name: rewardId
+        required: true
+        type: integer
       - description: body request
         in: body
         name: updateReward
@@ -804,9 +1045,21 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/web.ErrorResp'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/web.ErrorResp'
+      security:
+      - ApiKeyAuth: []
       summary: update reward data
       tags:
       - Reward
+schemes:
+- https
 securityDefinitions:
   ApiKeyAuth:
     in: header

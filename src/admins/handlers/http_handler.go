@@ -37,6 +37,7 @@ func NewHttpHandler(s entities.Service) AdminHandlers {
 // @Param signIn body dto.SignInReq true "body request"
 // @Success 200 {object} auth.Token
 // @Failure 400 {object} web.ErrorResp
+// @Failure 401 {object} web.ErrorResp
 // @Router /admin/login [post]
 func (h *adminHandlers) SignIn(c *fiber.Ctx) error {
 	payload := new(dto.SignInReq)
@@ -70,6 +71,7 @@ func (h *adminHandlers) SignIn(c *fiber.Ctx) error {
 // @Param signUp body dto.SignUpReq true "body request"
 // @Success 201 {object} dto.AccountCreated
 // @Failure 400 {object} web.ErrorResp
+// @Failure 409 {object} web.ErrorResp
 // @Router /admin/signup [post]
 func (h *adminHandlers) SignUp(c *fiber.Ctx) error {
 	payload := new(dto.SignUpReq)
@@ -99,10 +101,13 @@ func (h *adminHandlers) SignUp(c *fiber.Ctx) error {
 // @Tags Admin
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin to update"
 // @Param updateAccount body dto.UpdateAccount true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Failure 400 {object} web.ErrorResp
-// @Router /admin/profile/:id [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /admin/profile/{id} [put]
+// @Security ApiKeyAuth
 func (h *adminHandlers) UpdateAdmin(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAccount)
 	id := c.Params("id")
@@ -133,10 +138,13 @@ func (h *adminHandlers) UpdateAdmin(c *fiber.Ctx) error {
 // @Tags Admin
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin to update"
 // @Param updateAvatar body dto.UpdateAvatar true "body request"
 // @Success 200 {object} dto.AccountUpdated
 // @Failure 400 {object} web.ErrorResp
-// @Router /admin/profile/avatar/:id [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /admin/profile/avatar/{id} [put]
+// @Security ApiKeyAuth
 func (h *adminHandlers) UpdateAvatar(c *fiber.Ctx) error {
 	payload := new(dto.UpdateAvatar)
 	id := c.Params("id")

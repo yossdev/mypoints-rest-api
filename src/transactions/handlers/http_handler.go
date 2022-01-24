@@ -34,10 +34,14 @@ func NewHttpHandler(s entities.Service) TransactionHandlers {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Agent"
 // @Param newClaims body dto.ClaimsReq true "body request"
 // @Success 201 {object} dto.TransactionRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /:id/transactions/claims [post]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 424 {object} web.ErrorResp
+// @Router /{id}/transactions/claims [post]
+// @Security ApiKeyAuth
 func (h *transactionHandlers) Claims(c *fiber.Ctx) error {
 	payload := new(dto.ClaimsReq)
 	if err := c.BodyParser(payload); err != nil {
@@ -67,10 +71,13 @@ func (h *transactionHandlers) Claims(c *fiber.Ctx) error {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Admin"
 // @Param updateClaims body dto.UpdateClaimsReq true "body request"
 // @Success 200 {object} dto.TransactionRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /admin/:id/transactions/claims [put]
+// @Failure 401 {object} web.ErrorResp
+// @Router /admin/{id}/transactions/claims [put]
+// @Security ApiKeyAuth
 func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 	payload := new(dto.UpdateClaimsReq)
 	if err := c.BodyParser(payload); err != nil {
@@ -100,10 +107,14 @@ func (h *transactionHandlers) UpdateClaims(c *fiber.Ctx) error {
 // @Scheme https
 // @Accept json
 // @Produce json
+// @Param id path string true "ID of Agent"
 // @Param newRedeem body dto.RedeemReq true "body request"
 // @Success 201 {object} dto.TransactionRes
 // @Failure 400 {object} web.ErrorResp
-// @Router /:id/transactions/redeem [post]
+// @Failure 401 {object} web.ErrorResp
+// @Failure 424 {object} web.ErrorResp
+// @Router /{id}/transactions/redeem [post]
+// @Security ApiKeyAuth
 func (h *transactionHandlers) Redeem(c *fiber.Ctx) error {
 	payload := new(dto.RedeemReq)
 	if err := c.BodyParser(payload); err != nil {
