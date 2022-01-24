@@ -14,6 +14,7 @@ type Domain struct {
 	Value        uint64
 	Points       uint32
 	Img          string
+	Category     string
 	Transactions []_transaction.Domain
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
